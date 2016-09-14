@@ -1,11 +1,13 @@
 #!/bin/bash
 #
 
-cd /srv/docker/dchpd
+cd /srv/docker/dchpd &>/dev/null
 
-sudo docker run -d --restart=always --net=host -v "$PWD":/data --name mydhcpd poppypop/dhcpd "$@"
+# --log-opt tag="{{.ImageName}}/{{.Name}}"
+
+docker run -d --restart=always --net=host -v "$PWD":/data --log-driver=fluentd --log-opt fluentd-address=127.0.0.1:24224 --name mydhcpd poppypop/dhcpd "$@"
 
 # for debug use :
-#sudo docker run -ti --rm --net=host -v "$PWD":/data --name mydhcpd poppypop/dhcpd "$@"
+#docker run -ti --rm --net=host -v /srv/docker/dchpd:/data --log-driver=fluentd --log-opt fluentd-address=127.0.0.1:24224 --name mydhcpd poppypop/dhcpd "$@"
 
-cd -
+cd - &>/dev/null
