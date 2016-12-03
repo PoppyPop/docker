@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+    # PHPFpm
+    php-fpm:
+        restart: always
+        image: poppypop/php-fpm
+        volumes:
+        - /srv/docker/web/data:/srv/http
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224"
+                fluentd-async-connect: "true"
+        #ports:
+        #- 9000:9000
+    # Webstack NGINX
+    nginx:
+        restart: always
+        image: nginx:alpine 
+        links:
+        - php-fpm:phpfpm
+        volumes:
+        - /srv/docker/web/nginx:/etc/nginx/conf.d:ro
+        - /srv/docker/web/data:/usr/share/nginx/html:ro
+        ports:
+        - 8080:80
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224" 
+                fluentd-async-connect: "true"  
+    # Webstack VARNISH
+    #varnish:
+    #    image: jacksoncage/varnish
+    #    links:
+    #    - nginx:nginx
+    #    volumes:
+    #    - conf/default.vcl:/etc/varnish/default.vcl
+    #    volumes_from:
+    #    - nginx:ro
+    #    ports:
+    #    - 80:80
