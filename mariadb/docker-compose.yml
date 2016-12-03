@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+    # mariadb
+    mariadb:
+        restart: always
+        image: mariadb
+        volumes:
+            - /srv/docker/mariadb/data:/var/lib/mysql
+            - /srv/docker/mariadb/config:/etc/mysql/conf.d
+        ports:
+            - 3306:3306
