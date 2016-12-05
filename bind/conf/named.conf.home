@@ -1,0 +1,101 @@
+include "/etc/bind/ddns_update.key";
+include "/etc/bind/rndc.key";
+
+acl internals {
+	192.168.0.0/24;
+	127.0.0.1;
+	};
+acl dnsservers {
+	192.168.0.238;
+	192.168.0.237;
+	192.168.0.236;
+	192.168.0.235;
+	};
+
+controls {
+	inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { rndc-key; };
+	};
+	
+trusted-keys {
+	dlv.isc.org. 257 3 5 "BEAAAAPHMu/5onzrEE7z1egmhg/WPO0+juoZrW3euWEn4MxDCE1+lLy2brhQv5rN32RKtMzX6Mj70jdzeND4XknW58dnJNPCxn8+jAGl2FZLK8t+1uq4W+nnA3qO2+DL+k6BD4mewMLbIYFwe0PG73Te9fZ2kJb56dhgMde5ymX4BI/oQ+cAK50/xvJv00Frf8kw6ucMTwFlgPe+jnGxPPEmHAte/URkY62ZfkLoBAADLHQ9IrS2tryAe7mbBZVcOwIeU/Rw/mRx/vwwMCTgNboMQKtUdvNXDrYJDSHZws3xiRXF1Rf+al9UmZfSav/4NWLKjHzpT59k/VStTDN0YUuWrBNh";
+	};
+
+zone "moot" {
+	type master;
+    // masters { 192.168.0.236; };
+        
+	file "/etc/bind/db.moot";
+	allow-transfer {
+		internals;
+		};
+	allow-update {
+		key DDNS_UPDATE;
+		};
+	allow-query {
+		internals;
+		};
+	/*allow-update-forwarding {
+		dnsservers;
+		};
+	allow-notify { 
+	    dnsservers; 
+	    };*/
+	notify yes;
+	};
+	
+zone "0.168.192.in-addr.arpa" {
+	type master;
+    //masters { 192.168.0.236; };
+    
+	file "/etc/bind/rev.192.168.0";
+	allow-transfer {
+		internals;
+		};
+	allow-update {
+		key DDNS_UPDATE;
+		};
+	allow-query {
+		internals;
+		};
+	/*allow-update-forwarding {
+		dnsservers;
+		};
+	allow-notify { 
+	    dnsservers; 
+	    };*/
+	notify yes;
+	};
+
+zone "home.bookamiam.fr" {
+	type master;
+    // masters { 192.168.0.236; };
+        
+	file "/etc/bind/db.home.bookamiam.fr";
+	allow-transfer {
+		internals;
+		};
+	allow-update {
+		key DDNS_UPDATE;
+		};
+	allow-query {
+		internals;
+		};
+	notify yes;
+	};
+
+zone "graphs.bookamiam.fr" {
+	type master;
+    // masters { 192.168.0.236; };
+        
+	file "/etc/bind/db.graphs.bookamiam.fr";
+	allow-transfer {
+		internals;
+		};
+	allow-update {
+		key DDNS_UPDATE;
+		};
+	allow-query {
+		internals;
+		};
+	notify yes;
+	};

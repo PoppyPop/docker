@@ -1,0 +1,34 @@
+$ORIGIN .
+$TTL 604800	; 1 week
+0.168.192.in-addr.arpa	IN SOA	ns1.moot. root.moot. (
+				1410318734 ; serial
+				604800     ; refresh (1 week)
+				86400      ; retry (1 day)
+				2419200    ; expire (4 weeks)
+				604800     ; minimum (1 week)
+				)
+			NS	ns1.moot.
+			NS	ns2.moot.
+$ORIGIN 0.168.192.in-addr.arpa.
+$TTL 3600	; 1 hour
+101			PTR	MBPPoppy.moot.
+122			PTR	android-c6402257ce0e1370.moot.
+$TTL 604800	; 1 week
+235			PTR	yugo.moot.
+$TTL 3600	; 1 hour
+237			PTR	video3.moot.
+$TTL 604800	; 1 week
+238			PTR	pi1.moot.
+239			PTR	sw1.moot.
+$TTL 3600	; 1 hour
+240			PTR	domo1.moot.
+250			PTR	pico.moot.
+$TTL 604800	; 1 week
+254			PTR	routeur.moot.
+$TTL 3600	; 1 hour
+34			PTR	0006781E11E6.moot.
+37			PTR	Chromecast.moot.
+43			PTR	ip-192-168-0-43.moot.
+44			PTR	android-e03613ec70f6d262.moot.
+70			PTR	ESP-Garage.moot.
+93			PTR	bravia3ab140fca1b2f266.moot.

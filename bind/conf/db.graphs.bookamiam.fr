@@ -1,0 +1,13 @@
+$ORIGIN graphs.bookamiam.fr.
+$TTL 604800	; 1 week
+@		IN SOA	ns1.moot. root.moot. (
+				1410152332 ; serial
+				604800     ; refresh (1 week)
+				86400      ; retry (1 day)
+				2419200    ; expire (4 weeks)
+				604800     ; minimum (1 week)
+				)
+@			NS	ns1.moot.
+@			NS	ns2.moot.
+@			A	192.168.0.235
+@			A	192.168.0.238
