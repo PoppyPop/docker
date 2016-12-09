@@ -1,5 +1,9 @@
 version: '2'
 
+networks:
+    webbackend:
+        external: true
+        
 services:
     # mariadb
     mariadb:
@@ -10,3 +14,12 @@ services:
             - /srv/docker/mariadb/config:/etc/mysql/conf.d
         ports:
             - 3306:3306
+        networks:
+            webbackend:
+                aliases:
+                    - mariadb
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224" 
+                fluentd-async-connect: "true"

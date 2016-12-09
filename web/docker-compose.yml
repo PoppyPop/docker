@@ -1,30 +1,37 @@
 version: '2'
 
+networks:
+    webbackend:
+        external: true
+
 services:
     # PHPFpm
     php-fpm:
         restart: always
         image: poppypop/php-fpm
         volumes:
-        - /srv/docker/web/data:/srv/http
+            - /srv/docker/web/data:/srv/http
         logging:
             driver: fluentd
             options:
                 fluentd-address: "127.0.0.1:24224"
                 fluentd-async-connect: "true"
-        #ports:
-        #- 9000:9000
+        networks:
+            default:
+                aliases:
+                    - phpfpm
+            webbackend:
     # Webstack NGINX
     nginx:
         restart: always
         image: nginx:alpine 
-        links:
-        - php-fpm:phpfpm
         volumes:
-        - /srv/docker/web/nginx:/etc/nginx/conf.d:ro
-        - /srv/docker/web/data:/usr/share/nginx/html:ro
+            - /srv/docker/web/nginx:/etc/nginx/conf.d:ro
+            - /srv/docker/web/data:/usr/share/nginx/html:ro
         ports:
-        - 8080:80
+            - 8080:80
+        networks:
+            - default
         logging:
             driver: fluentd
             options:
