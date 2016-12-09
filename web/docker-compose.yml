@@ -26,7 +26,8 @@ services:
         restart: always
         image: nginx:alpine 
         volumes:
-            - /srv/docker/web/nginx:/etc/nginx/conf.d:ro
+            - /srv/docker/web/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - /srv/docker/web/nginx/conf.d:/etc/nginx/conf.d:ro
             - /srv/docker/web/data:/usr/share/nginx/html:ro
         ports:
             - 8080:80
@@ -36,7 +37,8 @@ services:
             driver: fluentd
             options:
                 fluentd-address: "127.0.0.1:24224" 
-                fluentd-async-connect: "true"  
+                fluentd-async-connect: "true"
+                tag: nginx.docker.{{.ID}}
     # Webstack VARNISH
     #varnish:
     #    image: jacksoncage/varnish

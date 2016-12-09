@@ -1,7 +1,7 @@
 FROM alpine:latest
   
 RUN apk update --no-cache && apk upgrade --no-cache \
-	 && apk --no-cache --update add bash ruby ruby-json ruby-irb \
+	 && apk --no-cache --update add bash ruby ruby-json ruby-irb ca-certificates \
 	 && apk --no-cache --update add --virtual build-dependencies build-base ruby-dev zlib-dev \
      && rm -rf /var/cache/apk/* && \
   echo 'gem: --no-document' >> /etc/gemrc && \
@@ -12,6 +12,7 @@ RUN apk update --no-cache && apk upgrade --no-cache \
   gem install fluent-plugin-elasticsearch && \
   gem install fluent-plugin-xml-parser && \
   gem install fluent-plugin-tail-multiline-ex && \
+  gem install fluent-plugin-parser && \
   apk del build-dependencies --purge && \
   rm -rf /root/.gem && \ 
   rm -rf /var/cache/apk/*
