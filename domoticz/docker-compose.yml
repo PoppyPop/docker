@@ -8,7 +8,7 @@ services:
         image:  sdesbure/domoticz
         volumes:
             - /etc/localtime:/etc/localtime:ro
-            - /srv/docker/domoticz:/config
+            - /srv/confs/domoticz:/config
         devices:
             - /dev/ttyUSB0
         logging:
@@ -17,4 +17,4 @@ services:
                 fluentd-address: "127.0.0.1:24224"
                 fluentd-async-connect: "true"
         ports:
-            - 8081:8080
+            - 27000:8080

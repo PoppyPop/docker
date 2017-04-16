@@ -5,22 +5,36 @@ services:
     elastic:
         restart: always
         image: elasticsearch
+        environment:
+            - ES_JAVA_OPTS=-Xms8g -Xmx8g
         volumes:
-            - /srv/docker/efk/elastic/data:/usr/share/elasticsearch/data
+            - /srv/confs/efk/elastic:/usr/share/elasticsearch/config
+            - /srv/datas/efk/elastic:/usr/share/elasticsearch/data
+            - /srv/backs/efk/elastic:/backup
         ports:
             - 9200:9200
             - 9300:9300
+        logging:
+            driver: json-file
+            options:
+                max-size: "50m"
+                max-file: "7"
     fluent:
         restart: always
         image: poppypop/fluentd
         volumes:
-            - /srv/docker/efk/fluentd:/etc/fluent
+            - /srv/confs/efk/fluentd:/etc/fluent
         ports:
             - 24224:24224
         depends_on:
             - elastic
         links:  
             - elastic:elasticsearch
+        logging:
+            driver: json-file
+            options:
+                max-size: "50m"
+                max-file: "7"
     kibana:
         restart: always
         image: kibana
@@ -30,4 +44,8 @@ services:
             - elastic
         links:  
             - elastic:elasticsearch
-    
+        logging:
+            driver: json-file
+            options:
+                max-size: "50m"
+                max-file: "7"

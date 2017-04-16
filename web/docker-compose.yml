@@ -10,7 +10,7 @@ services:
         restart: always
         image: poppypop/php-fpm
         volumes:
-            - /srv/docker/web/data:/srv/http
+            - /srv/datas/web:/srv/http
         logging:
             driver: fluentd
             options:
@@ -26,9 +26,9 @@ services:
         restart: always
         image: nginx:alpine 
         volumes:
-            - /srv/docker/web/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-            - /srv/docker/web/nginx/conf.d:/etc/nginx/conf.d:ro
-            - /srv/docker/web/data:/usr/share/nginx/html:ro
+            - /srv/confs/web/nginx.conf:/etc/nginx/nginx.conf:ro
+            - /srv/confs/web/conf.d:/etc/nginx/conf.d:ro
+            - /srv/datas/web:/usr/share/nginx/html:ro
         ports:
             - 8080:80
         networks:

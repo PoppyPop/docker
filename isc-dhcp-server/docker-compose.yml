@@ -7,7 +7,7 @@ services:
         image: poppypop/dhcpd
         network_mode: "host"
         volumes:
-            - /srv/docker/dchpd:/data
+            - /srv/confs/dhcpd:/data
         logging:
             driver: fluentd
             options:
