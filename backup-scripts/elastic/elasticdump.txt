@@ -1,0 +1,11 @@
+npm install elasticdump -g
+
+elasticdump \
+  --input=http://localhost:9200/hc2datas \
+  --output=/srv/hc2datas.json \
+  --type=data
+  
+elasticdump \
+  --output=http://localhost:9200/hc2datas \
+  --input=/srv/hc2datas.json \
+  --type=data
