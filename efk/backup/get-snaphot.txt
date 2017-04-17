@@ -1,5 +1,0 @@
-# Start backup
-PUT http://192.168.0.235:9200/_snapshot/backup/2017-04-16
-
-# list all 
-GET http://192.168.0.235:9200/_snapshot/backup/_all
