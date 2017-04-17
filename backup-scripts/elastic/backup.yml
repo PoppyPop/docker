@@ -1,0 +1,38 @@
+---
+# Remember, leave a key empty if there is no value.  None will be a string,
+# not a Python "NoneType"
+#
+# Also remember that all examples have 'disable_action' set to True.  If you
+# want to use this action as a template, be sure to set this to False after
+# copying it.
+actions:
+  1:
+    action: delete_snapshots
+    description: >-
+      Delete snapshots from the repository older than 10 days
+      (based on creation_date), for 'curator-' prefixed snapshots.
+    options:
+      repository: backup
+      disable_action: False
+      ignore_empty_list: True
+    filters:
+    - filtertype: pattern
+      kind: prefix
+      value: curator-
+      exclude:
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 10
+  2:
+    action: snapshot
+    description: >-
+      Create backup of all indexes
+    options:
+      repository: backup
+      # Leaving name blank will result in the default 'curator-%Y%m%d%H%M%S'
+      name:
+      disable_action: False
+    filters:
+    - filtertype: none
