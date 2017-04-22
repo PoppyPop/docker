@@ -1,4 +1,4 @@
 #!/bin/bash
 #
 
-docker build -t poppypop/dhcpd "$@" $(dirname $0)
+docker build -t poppypop/dhcpd -rm=true .
