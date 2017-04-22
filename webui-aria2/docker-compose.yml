@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+    webui-aria2:
+        restart: always
+        image: poppypop/webui-aria2
+        volumes:
+            - /srv/webui-aria2/Downloads:/data
+        ports:
+            - 6800:6800
+            - 9100:8080
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224"
+                fluentd-async-connect: "true"
+    
