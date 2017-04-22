@@ -1,4 +1,4 @@
 #!/bin/bash
 #
 
-docker build -t poppypop/dhcpd -rm=true .
+docker build -t poppypop/dhcpd --rm .

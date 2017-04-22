@@ -1,4 +1,4 @@
 #!/bin/bash
 #
 
-docker build -t poppypop/fluentd:alpine -rm=true .
+docker build -t poppypop/fluentd:alpine --rm .
