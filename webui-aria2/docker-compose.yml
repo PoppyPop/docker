@@ -1,5 +1,5 @@
 aria2:
-    image: poppypop/aria2-alpine
+    image: poppypop/aria2:alpine
     environment:
       - SPLIT=8
       - CONNECTIONS_PER_SERVER=8
