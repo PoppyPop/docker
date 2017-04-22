@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+    # elastic
+    kea:
+        restart: always
+        image: poppypop/kea
+        network_mode: "host"
+        volumes:
+            - /srv/confs/kea:/etc/kea
+            - /srv/datas/kea:/var/lib/kea
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224"
+                fluentd-async-connect: "true"
+    
