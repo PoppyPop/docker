@@ -1,51 +1,103 @@
 version: '2'
-
 services:
-    # elastic
-    elastic:
-        restart: always
-        image: elasticsearch
-        environment:
-            - ES_JAVA_OPTS=-Xms8g -Xmx8g
-        volumes:
-            - /srv/confs/efk/elastic:/usr/share/elasticsearch/config
-            - /srv/datas/efk/elastic:/usr/share/elasticsearch/data
-            - /srv/backs/efk/elastic:/backup
-        ports:
-            - 9200:9200
-            - 9300:9300
-        logging:
-            driver: json-file
-            options:
-                max-size: "50m"
-                max-file: "7"
-    fluent:
-        restart: always
-        image: poppypop/fluentd
-        volumes:
-            - /srv/confs/efk/fluentd:/etc/fluent
-        ports:
-            - 24224:24224
-        depends_on:
-            - elastic
-        links:  
-            - elastic:elasticsearch
-        logging:
-            driver: json-file
-            options:
-                max-size: "50m"
-                max-file: "7"
-    kibana:
-        restart: always
-        image: kibana
-        ports:
-            - 5601:5601 
-        depends_on:
-            - elastic
-        links:  
-            - elastic:elasticsearch
-        logging:
-            driver: json-file
-            options:
-                max-size: "50m"
-                max-file: "7"
+  elastic1:
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+    environment:
+      - cluster.name=docker-cluster
+      - path.repo="/backup"
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms5120m -Xmx5120m"
+      - "discovery.zen.minimum_master_nodes=2"
+      - node.name=elastic1
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 6g
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - /srv/datas/efk/elastic1:/usr/share/elasticsearch/data
+      - /srv/backs/efk/elastic1:/backup
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
+  elastic2:
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+    environment:
+      - cluster.name=docker-cluster
+      - path.repo="/backup"
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms5120m -Xmx5120m"
+      - "discovery.zen.ping.unicast.hosts=elastic1"
+      - node.name=elastic2
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 6g
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - /srv/datas/efk/elastic2:/usr/share/elasticsearch/data
+      - /srv/backs/efk/elastic2:/backup
+    networks:
+      - esnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
+  fluent:
+    restart: always
+    image: poppypop/fluentd:alpine
+    ports:
+      - 24224:24224
+    depends_on:
+      - elastic1
+      - elastic2
+    networks:
+      - esnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
+  kibana:
+    restart: always
+    image: docker.elastic.co/kibana/kibana:5.3.1
+    environment:
+      - ELASTICSEARCH_URL=http://elastic1:9200
+    ports:
+      - 5601:5601 
+    depends_on:
+      - elastic1
+      - elastic2
+    networks:
+      - esnet
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
+networks:
+  esnet:
+    driver: bridge
