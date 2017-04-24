@@ -10,7 +10,7 @@ services:
         volumes:
             - /srv/confs/efk/elastic:/usr/share/elasticsearch/config
             - /srv/datas/efk/elastic:/usr/share/elasticsearch/data
-            - /srv/backs/efk/elastic:/backup
+            - /srv/datas/efk/backs-elastic:/backup
         ports:
             - 9200:9200
             - 9300:9300
