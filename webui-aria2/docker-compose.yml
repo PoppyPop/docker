@@ -6,9 +6,10 @@ aria2:
       - CONCURRENT_DOWNLOADS=5
       - RPC_SECRET=reMgE94K5cSiE926
     volumes:
-        - /srv/webui-aria2/Downloads:/downloads
+        - /srv/aria2/Downloads:/downloads
     ports:
         - "6800:6800"
+    user: 1001
 
 httpd:
     image: busybox
