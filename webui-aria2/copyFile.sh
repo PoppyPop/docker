@@ -4,7 +4,7 @@
 LOCKFILE="./copyFile.lock"
 LOCALDIR="./Ended/"
 DLDIR="./Downloads/"
-MNTDIR="/mnt/pico-atrier"
+MNTDIR="/tmp/pico-atrier"
 REMOTEIP="192.168.0.250"
 REMOTEDIR="volume1/ATrier"
 

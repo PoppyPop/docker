@@ -46,7 +46,7 @@ def CheckForRar( path, level ):
                     
                     punar = subprocess.Popen(['unar', '-q', '-o', extractPath, os.path.join(path, compressedfiles[0])], stdout=subprocess.PIPE);
                     unarout, unarerr = punar.communicate();
-                    if "Successfully extracted to" in unarout:
+                    if punar.returncode == 0:
                         
                         print "Moving files";
                         
@@ -64,6 +64,8 @@ def CheckForRar( path, level ):
                         
                         raise SystemExit(0);
                     else:
+                    	print "Error";
+                    	os.rmdir(extractPath);
                         print unarout;
                         
         print "----"  
