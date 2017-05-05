@@ -6,7 +6,7 @@ services:
         restart: always
         image: elasticsearch
         environment:
-            - ES_JAVA_OPTS=-Xms8g -Xmx8g
+            - ES_JAVA_OPTS=-Xms1g -Xmx1g
         volumes:
             - /srv/confs/efk/elastic:/usr/share/elasticsearch/config
             - /srv/datas/efk/elastic:/usr/share/elasticsearch/data
