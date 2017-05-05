@@ -1,4 +1,4 @@
 #!/bin/bash
 #
 
-docker build -t poppypop/php-fpm --rm .
+sudo docker build -t poppypop/php-fpm --rm .

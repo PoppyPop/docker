@@ -7,11 +7,10 @@ networks:
 services:
     # mariadb
     mariadb:
-        restart: always
         image: mariadb
         volumes:
             - /srv/datas/mariadb:/var/lib/mysql
-            - /srv/confs/mariadb:/etc/mysql/conf.d
+            - /srv/confs/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf:ro
         ports:
             - 3306:3306
         networks:
