@@ -7,7 +7,6 @@ networks:
 services:
     # PHPFpm
     php-fpm:
-        restart: always
         image: poppypop/php-fpm
         volumes:
             - /srv/datas/web:/srv/http
@@ -17,13 +16,11 @@ services:
                 fluentd-address: "127.0.0.1:24224"
                 fluentd-async-connect: "true"
         networks:
-            default:
+            webbackend:
                 aliases:
                     - phpfpm
-            webbackend:
     # Webstack NGINX
     nginx:
-        restart: always
         image: nginx:alpine 
         volumes:
             - /srv/confs/web/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -32,7 +29,7 @@ services:
         ports:
             - 8080:80
         networks:
-            - default
+            - webbackend
         logging:
             driver: fluentd
             options:
@@ -45,7 +42,7 @@ services:
     #    links:
     #    - nginx:nginx
     #    volumes:
-    #    - conf/default.vcl:/etc/varnish/default.vcl
+    #    - /srv/confs/web/default.vcl:/etc/varnish/default.vcl
     #    volumes_from:
     #    - nginx:ro
     #    ports:
