@@ -8,14 +8,16 @@ sudo docker build -t poppypop/aria2:alpine --rm .
 cd -
 rm -rf aria2-alpine
 
-git clone https://github.com/ziahamza/webui-aria2.git
+cd /srv/aria2/
 
+sudo rm -rf webui-aria2
+sudo git clone https://github.com/ziahamza/webui-aria2.git
+sudo chown -R download:download /srv/aria2/webui-aria2
 
-cd webui-aria2
-sudo docker build -t poppypop/webui-aria2 --rm .
 cd -
-rm -rf webui-aria2
 
+#cd webui-aria2
+#sudo docker build -t poppypop/webui-aria2 --rm .
+#cd -
+#rm -rf webui-aria2
 
-sudo mkdir /srv/webui-aria2
-sudo mkdir /srv/webui-aria2/Downloads
