@@ -1,0 +1,2 @@
+# log into running container
+sudo docker exec -i -t 99b5ff74ec29 /bin/bash

@@ -3,15 +3,16 @@
 
 # elastic 1
 sudo mkdir -p /srv/datas/efk/elastic1
-sudo mkdir -p /srv/backs/efk/elastic1
+sudo mkdir -p /srv/datas/efk/backs-elastic1
 
 
 # elastic 2
 sudo mkdir -p /srv/datas/efk/elastic2
-sudo mkdir -p /srv/backs/efk/elastic2
+sudo mkdir -p /srv/datas/efk/backs-elastic2
 
 # conf
 sudo mkdir -p /srv/confs/efk/
+sudo mkdir -p /srv/backs/efk
 
 sudo cp -f docker-compose.yml /srv/confs/efk/
 
