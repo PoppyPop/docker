@@ -6,7 +6,7 @@ services:
       - cluster.name=docker-cluster
       - path.repo="/backup"
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms5120m -Xmx5120m"
+      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
       - "discovery.zen.minimum_master_nodes=2"
       - node.name=elastic1
     ulimits:
@@ -38,7 +38,7 @@ services:
       - cluster.name=docker-cluster
       - path.repo="/backup"
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms5120m -Xmx5120m"
+      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
       - "discovery.zen.ping.unicast.hosts=elastic1"
       - node.name=elastic2
     ulimits:
