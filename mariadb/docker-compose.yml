@@ -8,6 +8,8 @@ services:
     # mariadb
     mariadb:
         image: mariadb
+#        environment: # First start
+#            - MYSQL_ROOT_PASSWORD=pass # First start
         volumes:
             - /srv/datas/mariadb:/var/lib/mysql
             - /srv/confs/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf:ro

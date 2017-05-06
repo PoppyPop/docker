@@ -15,8 +15,8 @@ if [ ! -d "$backupdir" ]; then
 fi
 
 # First: Remove old backups
-find $backupdir/ -type f -mtime +30 -delete
+rm -rf $backupdir/elastic.tar.gz
 
 # Add New Backup
-tar -zcf $backupdir/$now.tar.gz -C $backupsrc .
+tar -zcf $backupdir/elastic.tar.gz -C $backupsrc .
 
