@@ -10,7 +10,7 @@ services:
          - RPC_SECRET=reMgE94K5cSiE926
          - COMPLETE_HOOK=/downloads/complete.sh
        volumes:
-           - /srv/aria2/Downloads:/downloads
+           - /downloads/aria2/Downloads:/downloads
        ports:
            - "6800:6800"
        user: "1001"
@@ -18,7 +18,7 @@ services:
    httpd:
        image: busybox
        volumes:
-           - /srv/aria2/webui-aria2:/usr/html
+           - /downloads/aria2/webui-aria2:/usr/html
        ports:
            - "9100:8080"
        command: /bin/busybox httpd -f -p 8080 -h /usr/html
