@@ -42,3 +42,4 @@ video3			A	192.168.0.237
 			TXT	"00ffe9d3709fe47fe06b552cd10a8cf9fd"
 $TTL 604800	; 1 week
 yugo			A	192.168.0.235
+nessie			A	192.168.0.234
