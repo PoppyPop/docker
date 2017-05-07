@@ -18,3 +18,4 @@ sudo mandb
 cd ..
 
 rm -rf rclone-*-linux-amd64
+rm rclone-current-linux-amd64.zip
