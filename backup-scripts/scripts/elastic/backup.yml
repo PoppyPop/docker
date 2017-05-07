@@ -9,7 +9,7 @@ actions:
   1:
     action: delete_indices
     description: >-
-      Delete indices older than 45 days (based on index name), for logstash-
+      Delete indices older than 7 days (based on index name), for logstash-
       prefixed indices. Ignore the error if the filter does not result in an
       actionable list of indices (ignore_empty_list) and exit cleanly.
     options:
@@ -24,11 +24,11 @@ actions:
       direction: older
       timestring: '%Y.%m.%d'
       unit: days
-      unit_count: 45
+      unit_count: 7
   2:
     action: delete_snapshots
     description: >-
-      Delete snapshots from the repository older than 10 days
+      Delete snapshots from the repository older than 7 days
       (based on creation_date), for 'curator-' prefixed snapshots.
     options:
       repository: backup
@@ -43,7 +43,7 @@ actions:
       source: creation_date
       direction: older
       unit: days
-      unit_count: 10
+      unit_count: 7
   3:
     action: snapshot
     description: >-

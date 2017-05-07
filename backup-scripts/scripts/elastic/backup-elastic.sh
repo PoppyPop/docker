@@ -6,8 +6,7 @@ src=${BASH_SOURCE%/*}
 curator --config ${src}/config.yml ${src}/backup.yml
 
 backupdir=/srv/backs/efk
-backupsrc=/srv/datas/efk
-now=`date +"%Y-%m-%d_%H-%M"`
+backupsrc=/srv/datas/efk/backup
 
 # Test Folder
 if [ ! -d "$backupdir" ]; then

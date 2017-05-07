@@ -13,7 +13,7 @@ if [ ! -d "$backupdir" ]; then
 fi
 
 # First: Remove old backups
-find $backupdir/ -type f -mtime +30 -delete
+find $backupdir/ -type f -mtime +7 -delete
 
 # Create the Backup
 # export PATH=$PATH:/path/to/xtrabackup

@@ -11,7 +11,7 @@ if [ ! -d "$backupdir" ]; then
 fi
 
 # First: Remove old backups
-find $backupdir/ -type f -mtime +30 -delete
+find $backupdir/ -type f -mtime +7 -delete
 
 # Add New Backup
 tar -zcf $backupdir/$now.tar.gz -C $backupsrc .

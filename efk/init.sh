@@ -3,12 +3,14 @@
 
 # elastic 1
 sudo mkdir -p /srv/datas/efk/elastic1
-sudo mkdir -p /srv/datas/efk/backs-elastic1
-
 
 # elastic 2
 sudo mkdir -p /srv/datas/efk/elastic2
-sudo mkdir -p /srv/datas/efk/backs-elastic2
+
+# Backup
+sudo mkdir -p /srv/datas/efk/backup
+
+sudo chown -R 1000:1000 /srv/datas/efk/*
 
 # conf
 sudo mkdir -p /srv/confs/efk/
