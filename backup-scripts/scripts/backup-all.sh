@@ -15,7 +15,18 @@ ${src}/elastic/backup-elastic.sh
 echo "Web"
 ${src}/web/backup-web.sh
 
-
 # End : Sync to gdrive
 echo "GSync"
 ${src}/gdrive-sync.sh
+
+# Clean BDD
+echo "Clean Bdd"
+${src}/mariadb/clean-mariadb.sh
+
+# clean Web
+echo "Clean Web"
+${src}/web/clean-web.sh
+
+# clean elastic
+echo "Clean elastic"
+${src}/elastic/clean-elastic.sh

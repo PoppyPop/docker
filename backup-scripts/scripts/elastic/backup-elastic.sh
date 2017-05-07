@@ -19,3 +19,4 @@ rm -rf $backupdir/elastic.tar.gz
 # Add New Backup
 tar -zcf $backupdir/elastic.tar.gz -C $backupsrc .
 
+exit $?

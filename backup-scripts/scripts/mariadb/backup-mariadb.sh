@@ -1,8 +1,12 @@
 #!/bin/bash
 #
 
+src=${BASH_SOURCE%/*}
+
 username=bkpuser
-password=6Vxf6JLD2m4t
+password=$(cat $src/password.key)
+datadir=/srv/datas/mariadb/
+conf=/srv/confs/mariadb/my.cnf
 
 now=`date +"%Y-%m-%d_%H-%M"`
 backupdir=/srv/backs/mariadb
@@ -19,26 +23,26 @@ find $backupdir/ -type f -mtime +7 -delete
 # export PATH=$PATH:/path/to/xtrabackup
 # innobackupex --slave-info --user=$username --password=$password --no-timestamp /path/to/backupdir/db.$now 1>/path/to/backupdir/db.$now.log 2>&1
 xtrabackup \
+    --defaults-file=$conf \
     --host=127.0.0.1 --port=3306 \
     --user=$username --password=$password \
-    --datadir=/srv/datas/mariadb/ \
+    --datadir=$datadir \
     --backup --target_dir=$backupdir/$now 1> $backupdir/$now.log 2>&1
 
 	#--compress \
     #--compress-threads=4 \
 
-success=`grep -c "completed OK" $backupdir/$now.log`
-
 # Prepare the Backup
-if [ "$success" -eq "1" ]
+if [ $? -eq 0 ]
 then
         xtrabackup --prepare --target_dir=$backupdir/$now 1>> $backupdir/$now.log 2>&1
+else
+    echo "Mariadb: Fail"  
+    exit 1  
 fi
 
-success=`grep -c "completed OK" $backupdir/$now.log`
-
 # Prepare the Backup
-if [ "$success" -eq "2" ]
+if [ $? -eq 0 ]
 then
     #tar/compress result 
     tar -zcf $backupdir/$now.tar.gz \
@@ -49,8 +53,6 @@ then
     
     echo "Mariadb: Ok"
 else
-    echo "Mariadb: Fail"    
+    echo "Mariadb: Fail" 
+    exit 1   
 fi
-
-
-
