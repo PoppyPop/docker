@@ -1,0 +1,23 @@
+version: '2'
+        
+services:
+    # transmission
+    transmission:
+        image: linuxserver/transmission
+        environment: 
+            - TZ=Europe/Paris
+            - PGID=1001
+            - PUID=1001
+        volumes:
+            - /downloads/transmission:/downloads
+            - /srv/confs/transmission:/config
+        ports:
+            - 9091:9091
+            - 51413:51413
+            - 51413:51413/udp
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224" 
+                fluentd-async-connect: "true"
+                tag: docker.{{.ID}}
