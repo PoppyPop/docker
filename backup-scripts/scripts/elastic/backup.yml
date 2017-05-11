@@ -54,4 +54,7 @@ actions:
       name:
       disable_action: False
     filters:
-    - filtertype: none
+    - filtertype: pattern
+      kind: prefix
+      value: .monitoring
+      exclude: True
