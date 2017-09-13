@@ -110,10 +110,10 @@ func DecodeClientRequest(reader io.Reader, s *websocket.Conn) error {
 						return errRename
 					}
 
-					TransfertFile(reply.Gid, "/ended/"+fileName)
-					/*if errTr != nil {
+					errTr := TransfertFile(reply.Gid, "/ended/"+fileName)
+					if errTr != nil {
 						return errTr
-					}*/
+					}
 
 					RemoveDl(reply.Gid, s)
 
