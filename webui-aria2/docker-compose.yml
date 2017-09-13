@@ -23,3 +23,12 @@ services:
            - "9100:8080"
        command: /bin/busybox httpd -f -p 8080 -h /usr/html
        user: "1001"
+       
+   go-automated-ended:
+       image: poppypop/go-automated-ended
+       volumes:
+           - /downloads/aria2/Downloads:/downloads 
+           - /downloads/aria2/Ended:/ended 
+           - /downloads/aria2/Extract:/extract 
+           - pico-atrier:/nfs
+       user: "1001"

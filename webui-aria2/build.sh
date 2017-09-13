@@ -3,6 +3,10 @@
 
 git clone https://github.com/PoppyPop/aria2-alpine.git
 
+cd go-automate-ended
+sudo ./build.sh
+cd -
+
 cd aria2-alpine
 sudo docker build -t poppypop/aria2:alpine --rm .
 cd -

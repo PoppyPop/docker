@@ -12,6 +12,9 @@ sudo cp -f autounrar.py /downloads/aria2/
 sudo cp -f copyFile.sh /downloads/aria2/
 sudo cp -f complete.sh /downloads/aria2/Downloads/
 
+# prep go-automated
+sudo go-automate-ended/init.sh
+
 #conf
 sudo mkdir -p /srv/confs/aria2/
 sudo cp -f docker-compose.yml /srv/confs/aria2/
