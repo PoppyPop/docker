@@ -1,5 +1,9 @@
 version: '2'
 
+volumes:
+    pico-atrier:
+        external: true
+
 services:
    aria2:
        image: poppypop/aria2:alpine
