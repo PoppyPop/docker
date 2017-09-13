@@ -74,6 +74,9 @@ func DecodeClientRequest(reader io.Reader, s *websocket.Conn) error {
 	} else if c.Method == "" {
 
 		if rpcIds[c.ID] {
+
+			// We got our response
+			delete(rpcIds, c.ID)
 			// response
 			var reply StatusResponse
 			err := DecodeClientResponse(&buf, &reply)
@@ -81,91 +84,104 @@ func DecodeClientRequest(reader io.Reader, s *websocket.Conn) error {
 				return err
 			}
 
-			log.Printf("[%s] Handling GID", reply.Gid)
-
-			videoExt := map[string]bool{"mkv": true, "avi": true, "mp4": true}
-			audioExt := map[string]bool{"mp3": true, "ogg": true, "flac": true}
-			archiveExt := map[string]bool{"rar": true, "zip": true}
-
-			for _, element := range reply.Files {
-				fileName := filepath.Base(element.Path)
-				ext := strings.TrimPrefix(filepath.Ext(fileName), ".")
-
-				if ext == "nfo" {
-					errRemove := os.Remove(element.Path)
-					if errRemove != nil {
-						return errRemove
-					}
-
-					continue
-				}
-
-				if videoExt[ext] || audioExt[ext] {
-
-					log.Printf("[%s] Moving: %s", reply.Gid, element.Path)
-
-					errRename := MoveFile(element.Path, "/ended/"+fileName)
-
-					if errRename != nil {
-						return errRename
-					}
-
-					errTr := TransfertFile(reply.Gid, "/ended/"+fileName)
-					if errTr != nil {
-						return errTr
-					}
-
-					RemoveDl(reply.Gid, s)
-
-					continue
-				}
-
-				if archiveExt[ext] {
-
-					errMkDirAll := os.MkdirAll("/extract/"+fileName, 0777)
-					if errMkDirAll != nil {
-						return errMkDirAll
-					}
-
-					var errExtract error
-
-					if ext == "rar" {
-						errExtract = archiver.Rar.Open(element.Path, "/extract/"+fileName)
-					} else if ext == "zip" {
-						errExtract = archiver.Zip.Open(element.Path, "/extract/"+fileName)
-					}
-
-					if errExtract != nil {
-						log.Printf("[%s] Error extracting file %s: %s", reply.Gid, element.Path, errExtract)
-						return errExtract
-					}
-
-					errRename := MoveDir("/extract/"+fileName, "/ended/"+fileName)
-					if errRename != nil {
-						return errRename
-					}
-
-					errRemove := os.RemoveAll(element.Path)
-					if errRemove != nil {
-						return errRemove
-					}
-
-					continue
-				}
-			}
-
-			files, _ := ioutil.ReadDir(reply.Dir)
-			if len(files) == 0 {
-				os.RemoveAll(reply.Dir)
-			}
-
-			log.Printf("[%s] Terminated", reply.Gid)
+			go HandleGID(reply, s)
 		}
 
-		delete(rpcIds, c.ID)
 	}
 
 	return nil
+}
+
+// HandleGID ...
+func HandleGID(reply StatusResponse, s *websocket.Conn) {
+
+	log.Printf("[%s] Handling GID", reply.Gid)
+
+	videoExt := map[string]bool{"mkv": true, "avi": true, "mp4": true}
+	audioExt := map[string]bool{"mp3": true, "ogg": true, "flac": true}
+	archiveExt := map[string]bool{"rar": true, "zip": true}
+
+	for _, element := range reply.Files {
+		fileName := filepath.Base(element.Path)
+		ext := strings.TrimPrefix(filepath.Ext(fileName), ".")
+
+		if ext == "nfo" {
+			errRemove := os.Remove(element.Path)
+			if errRemove != nil {
+				log.Printf("[%s] %s", reply.Gid, errRemove)
+				return
+			}
+
+			continue
+		}
+
+		if videoExt[ext] || audioExt[ext] {
+
+			log.Printf("[%s] Moving: %s", reply.Gid, element.Path)
+
+			errRename := MoveFile(element.Path, "/ended/"+fileName)
+
+			if errRename != nil {
+				log.Printf("[%s] %s", reply.Gid, errRename)
+				return
+			}
+
+			errTr := TransfertFile(reply.Gid, "/ended/"+fileName)
+			if errTr != nil {
+				log.Printf("[%s] %s", reply.Gid, errTr)
+				return
+			}
+
+			RemoveDl(reply.Gid, s)
+
+			continue
+		}
+
+		if archiveExt[ext] {
+
+			errMkDirAll := os.MkdirAll("/extract/"+fileName, 0777)
+			if errMkDirAll != nil {
+				log.Printf("[%s] %s", reply.Gid, errMkDirAll)
+				return
+			}
+
+			var errExtract error
+
+			if ext == "rar" {
+				errExtract = archiver.Rar.Open(element.Path, "/extract/"+fileName)
+			} else if ext == "zip" {
+				errExtract = archiver.Zip.Open(element.Path, "/extract/"+fileName)
+			}
+
+			if errExtract != nil {
+				log.Printf("[%s] Error extracting file %s: %s", reply.Gid, element.Path, errExtract)
+				return
+			}
+
+			errRename := MoveDir("/extract/"+fileName, "/ended/"+fileName)
+			if errRename != nil {
+				log.Printf("[%s] %s", reply.Gid, errRename)
+				return
+			}
+
+			errRemove := os.RemoveAll(element.Path)
+			if errRemove != nil {
+				log.Printf("[%s] %s", reply.Gid, errRemove)
+				return
+			}
+
+			continue
+		}
+	}
+
+	files, _ := ioutil.ReadDir(reply.Dir)
+	if len(files) == 0 {
+		os.RemoveAll(reply.Dir)
+	}
+
+	log.Printf("[%s] Terminated", reply.Gid)
+
+	return
 }
 
 // DecodeEvent decode les réponse de type Event
