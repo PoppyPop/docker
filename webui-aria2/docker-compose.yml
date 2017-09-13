@@ -35,4 +35,5 @@ services:
            - /downloads/aria2/Ended:/ended 
            - /downloads/aria2/Extract:/extract 
            - pico-atrier:/nfs
-       user: "1001"
+       user: "1001:65540"
+
