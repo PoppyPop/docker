@@ -34,6 +34,6 @@ services:
            - /downloads/aria2/Downloads:/downloads 
            - /downloads/aria2/Ended:/ended 
            - /downloads/aria2/Extract:/extract 
-           - pico-atrier:/nfs
+           - pico-atrier:/nfs:nocopy
        user: "1001:65540"
 

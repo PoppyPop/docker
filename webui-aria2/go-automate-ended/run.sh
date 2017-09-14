@@ -6,4 +6,4 @@
 
 #docker run -ti --rm -v /downloads/aria2/Downloads:/downloads -v /downloads/aria2/Ended:/ended -v /downloads/aria2/Extract:/extract --name go-automated-ended poppypop/go-automated-ended 
 #--net=host 
-docker run -ti --rm -v /downloads/aria2/Downloads:/downloads -v /downloads/aria2/Ended:/ended -v /downloads/aria2/Extract:/extract -v pico-atrier:/nfs --name go-automated-ended --user "1001:65540" poppypop/go-automated-ended /bin/sh
+docker run -ti --rm -v /downloads/aria2/Downloads:/downloads -v /downloads/aria2/Ended:/ended -v /downloads/aria2/Extract:/extract -v pico-atrier:/nfs:nocopy --name go-automated-ended --user "1001:65540" poppypop/go-automated-ended /bin/sh
