@@ -1,19 +1,25 @@
-FROM golang:1.9-alpine
+FROM golang:1.9-alpine as builder
 
 RUN set -xe \
 	&& apk update --no-cache && apk upgrade --no-cache \
-	&& apk add --update --no-cache git nfs-utils rpcbind \
+	&& apk add --update --no-cache git \
 	&& rm -rf /var/cache/apk/*
+
+WORKDIR /go/src/github.com/PoppyPop/docker/webui-aria2/go-automate-ended
+COPY ./src/ .
+
+RUN go get -d -v ./...   
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-automate-ended .
+
+
+FROM alpine:latest  
+RUN apk --no-cache add ca-certificates
 
 VOLUME /downloads
 VOLUME /ended
 VOLUME /extract
 VOLUME /nfs
 
-WORKDIR /go/src/app
-COPY ./src/ .
-
-RUN go-wrapper download   # "go get -d -v ./..."
-RUN go-wrapper install    # "go install -v ./..."
-
-CMD ["go-wrapper", "run"] # ["app"]
+WORKDIR /app/
+COPY --from=builder /go/src/github.com/PoppyPop/docker/webui-aria2/go-automate-ended/go-automate-ended .
+CMD ["/app/go-automate-ended"] 
