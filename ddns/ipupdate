@@ -1,0 +1,4 @@
+#!/bin/bash
+#
+
+/srv/ddns/update-dns.sh

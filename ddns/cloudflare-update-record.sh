@@ -8,7 +8,7 @@ record_name="..."
 
 # MAYBE CHANGE THESE
 ip=$(curl -s http://ipv4.icanhazip.com)
-ip_file="ip.txt"
+ip_file="cloudflare.ip"
 id_file="cloudflare.ids"
 log_file="cloudflare.log"
 
@@ -46,7 +46,7 @@ if [[ $update == *"\"success\":false"* ]]; then
     message="API UPDATE FAILED. DUMPING RESULTS:\n$update"
     log "$message"
     echo -e "$message"
-    exit 1 
+    exit 1
 else
     message="IP changed to: $ip"
     echo "$ip" > $ip_file
