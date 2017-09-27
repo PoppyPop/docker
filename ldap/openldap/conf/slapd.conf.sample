@@ -1,0 +1,76 @@
+include         /etc/openldap/schema/core.schema
+include         /etc/openldap/schema/cosine.schema
+include         /etc/openldap/schema/inetorgperson.schema
+include         /etc/openldap/schema/nis.schema
+include         /etc/openldap/schema/misc.schema
+
+loglevel        256
+
+sizelimit        -1
+
+pidfile         /var/run/openldap/slapd.pid
+argsfile       /var/run/openldap/slapd.args
+
+database config
+rootdn cn=admin,cn=config
+rootpw {PASSCONFIG}
+access to dn.subtree="cn=config"
+         by * none
+
+moduleload syncprov
+moduleload unique
+moduleload back_mdb
+moduleload back_monitor
+
+overlay syncprov
+syncprov-sessionlog 100
+syncprov-checkpoint 100 10
+
+database    mdb
+suffix      "dc=moot"
+rootdn      "cn=admin,dc=moot"
+rootpw 		{PASSDOMAIN}
+directory   /var/lib/openldap/openldap-data
+maxsize   	1073741824
+
+sortvals member memberUid
+
+# monitor
+monitoring on
+
+# index
+index default eq
+index objectClass,uid,o
+index name,cn,sn,givenName eq,sub
+index uidNumber,gidNumber,entryUUID,entryCSN
+index member,owner,seeAlso
+index mail
+
+# ACL
+access to dn="dc=moot"
+        by dn.exact="cn=admin,dc=moot" write
+        by users read
+        by anonymous auth
+        by * none
+
+access to *
+        by self write
+        by dn.exact="cn=admin,dc=moot" write
+        by users read
+        by anonymous auth
+        by * none
+
+### layers
+overlay syncprov
+syncprov-sessionlog 100
+syncprov-checkpoint 100 10
+
+# uniqueness
+overlay unique
+unique_base "dc=moot"
+unique_attributes uid
+
+### Multimaster-Replication of dc=moot context ###
+
+#Monitor database.
+database monitor
