@@ -11,9 +11,188 @@ objectClass: gosaAcl
 gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:dWlkPWZkLWFkb
  WluLG91PXBlb3BsZSxkYz1tb290
 
+dn: ou=idmap,dc=moot
+objectClass: organizationalUnit
+ou: idmap
+
+dn: ou=groups,dc=moot
+objectClass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=moot
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=aclroles,dc=moot
+objectClass: organizationalUnit
+ou: aclroles
+
+dn: ou=computers,dc=moot
+objectClass: organizationalUnit
+ou: computers
+
+dn: ou=snapshots,dc=moot
+objectClass: organizationalUnit
+ou: snapshots
+
 dn: ou=fusiondirectory,dc=moot
 objectClass: organizationalUnit
 ou: fusiondirectory
+
+dn: sambaDomainName=MOOT,dc=moot
+objectClass: sambaDomain
+objectClass: sambaUnixIdPool
+sambaDomainName: MOOT
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436
+sambaNextRid: 10000
+uidNumber: 10000
+gidNumber: 10000
+
+dn: cn=replicators,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: replicators
+gidNumber: 552
+description: Netbios Domain Supports file replication in a sambaDomainName
+sambaSID: S-1-5-32-552
+sambaGroupType: 4
+displayName: Replicators
+
+dn: cn=domain_users,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_users
+gidNumber: 513
+description: Netbios Domain Users
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436-513
+sambaGroupType: 2
+displayName: Domain Users
+
+dn: cn=domain_admins,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_admins
+gidNumber: 512
+memberUid: root
+description: Netbios Domain Administrators
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436-512
+sambaGroupType: 2
+displayName: Domain Admins
+
+dn: cn=domain_guests,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_guests
+gidNumber: 514
+description: Netbios Domain Guests Users
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436-514
+sambaGroupType: 2
+displayName: Domain Guests
+
+dn: cn=administrators,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: administrators
+gidNumber: 544
+description: Netbios Domain Members can fully administer the computer/sambaDom
+ ainName
+sambaSID: S-1-5-32-544
+sambaGroupType: 4
+displayName: Administrators
+
+dn: cn=print_operators,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: print_operators
+gidNumber: 550
+description: Netbios Domain Print Operators
+sambaSID: S-1-5-32-550
+sambaGroupType: 4
+displayName: Print Operators
+
+dn: cn=backup_operators,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: backup_operators
+gidNumber: 551
+description: Netbios Domain Members can bypass file security to back up files
+sambaSID: S-1-5-32-551
+sambaGroupType: 4
+displayName: Backup Operators
+
+dn: cn=domain_computers,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_computers
+gidNumber: 515
+description: Netbios Domain Computers accounts
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436-515
+sambaGroupType: 2
+displayName: Domain Computers
+
+dn: cn=account_operators,ou=groups,dc=moot
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: account_operators
+gidNumber: 548
+description: Netbios Domain Users to manipulate users accounts
+sambaSID: S-1-5-32-548
+sambaGroupType: 4
+displayName: Account Operators
+
+dn: uid=fd-admin,ou=people,dc=moot
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: System Administrator
+sn: Administrator
+givenName: System
+uid: fd-admin
+userPassword:: e0NSWVBUfSQ2JGQ5Yk5OMHRvdmlXRFdrcEIkbEE5NTRPdHhXTlNpRUllZkFQSXJ
+ 0RVZwTUNVYW5XazRrQm9EeEZLcHdRNW1WcERnNkVIVTljcEJGM3pyZnRTTzRWZUhMa2JzeWRlRldJ
+ QnhEYVo1Vi8=
+
+dn: cn=admin,ou=aclroles,dc=moot
+objectClass: top
+objectClass: gosaRole
+cn: admin
+description: Gives all rights on all objects
+gosaAclTemplate: 0:all;cmdrw
+
+dn: cn=manager,ou=aclroles,dc=moot
+cn: manager
+description: Give all rights on users in the given branch
+objectClass: top
+objectClass: gosaRole
+gosaAclTemplate: 0:user/user;cmdrw,user/posixAccount;cmdrw
+
+dn: cn=editownpwd,ou=aclroles,dc=moot
+cn: editownpwd
+description: Allow users to edit their own password (use only on base)
+objectClass: top
+objectClass: gosaRole
+gosaAclTemplate: 0:user/user;s#userPassword;rw
+
+dn: cn=editowninfos,ou=aclroles,dc=moot
+cn: editowninfos
+description: Allow users to edit their own information (main tab and posix use
+  only on base)
+objectClass: top
+objectClass: gosaRole
+gosaAclTemplate: 0:user/user;srw,user/posixAccount;srw
+
+dn: ou=locks,ou=fusiondirectory,dc=moot
+objectClass: organizationalUnit
+ou: locks
 
 dn: cn=config,ou=fusiondirectory,dc=moot
 fdLanguage: en_US
@@ -70,22 +249,7 @@ fdDashboardNumberOfDigit: 3
 fdDashboardPrefix: PC
 fdDashboardExpiredAccountsDays: 15
 fdGroupRDN: ou=groups
-fdMinId: 100
-fdUidNumberBase: 1100
-fdGidNumberBase: 1100
 fdIdAllocationMethod: traditional
-fdShells: /bin/ash
-fdShells: /bin/bash
-fdShells: /bin/csh
-fdShells: /bin/sh
-fdShells: /bin/ksh
-fdShells: /bin/tcsh
-fdShells: /bin/dash
-fdShells: /bin/zsh
-fdShells: /sbin/nologin
-fdShells: /bin/false
-fdShells: /usr/bin/git-shell
-fdDefaultShell: /bin/ash
 fdOGroupRDN: ou=groups
 fdForceSaslPasswordAsk: FALSE
 fdDnsRDN: ou=dns
@@ -128,250 +292,18 @@ fdPasswordRecoveryMailBody:: SGVsbG8sCgpIZXJlIGlzIHlvdXIgaW5mb3JtYXRpb246IAogL
 fdPasswordRecoveryMail2Subject: [FusionDirectory] Password recovery successful
 fdPasswordRecoveryMail2Body:: SGVsbG8sCgpZb3VyIHBhc3N3b3JkIGhhcyBiZWVuIGNoYW5n
  ZWQuCllvdXIgbG9naW4gaXMgc3RpbGwgJXMu
-
-dn: ou=aclroles,dc=moot
-objectClass: organizationalUnit
-ou: aclroles
-
-dn: cn=admin,ou=aclroles,dc=moot
-objectClass: top
-objectClass: gosaRole
-cn: admin
-description: Gives all rights on all objects
-gosaAclTemplate: 0:all;cmdrw
-
-dn: ou=people,dc=moot
-objectClass: organizationalUnit
-ou: people
-
-dn: uid=fd-admin,ou=people,dc=moot
-objectClass: inetOrgPerson
-objectClass: organizationalPerson
-objectClass: person
-cn: System Administrator
-sn: Administrator
-givenName: System
-uid: fd-admin
-userPassword:: e0NSWVBUfSQ2JGQ5Yk5OMHRvdmlXRFdrcEIkbEE5NTRPdHhXTlNpRUllZkFQSXJ
- 0RVZwTUNVYW5XazRrQm9EeEZLcHdRNW1WcERnNkVIVTljcEJGM3pyZnRTTzRWZUhMa2JzeWRlRldJ
- QnhEYVo1Vi8=
-
-dn: cn=manager,ou=aclroles,dc=moot
-cn: manager
-description: Give all rights on users in the given branch
-objectClass: top
-objectClass: gosaRole
-gosaAclTemplate: 0:user/user;cmdrw,user/posixAccount;cmdrw
-
-dn: cn=editowninfos,ou=aclroles,dc=moot
-cn: editowninfos
-description: Allow users to edit their own information (main tab and posix use
-  only on base)
-objectClass: top
-objectClass: gosaRole
-gosaAclTemplate: 0:user/user;srw,user/posixAccount;srw
-
-dn: cn=editownpwd,ou=aclroles,dc=moot
-cn: editownpwd
-description: Allow users to edit their own password (use only on base)
-objectClass: top
-objectClass: gosaRole
-gosaAclTemplate: 0:user/user;s#userPassword;rw
+fdMinId: 10000
+fdUidNumberBase: 11000
+fdGidNumberBase: 11000
+fdShells: /bin/bash
+fdShells: /bin/sh
+fdShells: /sbin/nologin
+fdShells: /bin/false
+fdShells: /usr/bin/git-shell
+fdDefaultShell: /bin/bash
 
 dn: ou=recovery,ou=fusiondirectory,dc=moot
 objectClass: organizationalUnit
 ou: recovery
-
-dn: ou=locks,ou=fusiondirectory,dc=moot
-objectClass: organizationalUnit
-ou: locks
-
-dn: ou=snapshots,dc=moot
-objectClass: organizationalUnit
-ou: snapshots
-
-dn: ou=groups,dc=moot
-objectClass: organizationalUnit
-ou: groups
-
-dn: ou=computers,dc=moot
-objectClass: organizationalUnit
-ou: computers
-
-dn: ou=idmap,dc=moot
-objectClass: organizationalUnit
-ou: idmap
-
-dn: sambaDomainName=MOOT,dc=moot
-objectClass: sambaDomain
-objectClass: sambaUnixIdPool
-sambaDomainName: MOOT
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436
-sambaNextRid: 10000
-uidNumber: 10000
-gidNumber: 10000
-
-dn: uid=root,ou=people,dc=moot
-objectClass: top
-objectClass: person
-objectClass: organizationalPerson
-objectClass: inetOrgPerson
-objectClass: sambaSamAccount
-objectClass: posixAccount
-objectClass: shadowAccount
-uid: root
-cn: root
-sn: root
-gidNumber: 0
-uidNumber: 0
-homeDirectory: /home/root
-sambaLogonTime: 0
-sambaLogoffTime: 2147483647
-sambaKickoffTime: 2147483647
-sambaPwdCanChange: 0
-sambaHomePath: \\\root
-sambaProfilePath: \\\profiles\root
-sambaPrimaryGroupSID: S-1-5-21-1090165706-3691719236-1884811436-512
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-500
-loginShell: /bin/false
-gecos: Netbios Domain Administrator
-sambaAcctFlags: [U]
-sambaPwdMustChange: 1511291751
-sambaLMPassword: D480EA9533C500D4AAD3B435B51404EE
-sambaPwdLastSet: 1507403751
-sambaNTPassword: 329153F560EB329C0E1DEEA55E88A1E9
-userPassword:: e1NTSEF9dGhaZGdDQmJtZ2EvU01JY1ozLzhZTVdGM214NFpWUnM=
-shadowLastChange: 17446
-shadowMax: 45
-
-dn: uid=nobody,ou=people,dc=moot
-objectClass: top
-objectClass: person
-objectClass: organizationalPerson
-objectClass: inetOrgPerson
-objectClass: sambaSamAccount
-objectClass: posixAccount
-objectClass: shadowAccount
-cn: nobody
-sn: nobody
-gidNumber: 514
-uid: nobody
-uidNumber: 65534
-homeDirectory: /nonexistent
-sambaPwdLastSet: 0
-sambaLogonTime: 0
-sambaLogoffTime: 2147483647
-sambaKickoffTime: 2147483647
-sambaPwdCanChange: 0
-sambaPwdMustChange: 2147483647
-sambaHomePath: \\\nobody
-sambaProfilePath: \\\profiles\nobody
-sambaPrimaryGroupSID: S-1-5-21-1090165706-3691719236-1884811436-514
-sambaLMPassword: NO PASSWORDXXXXXXXXXXXXXXXXXXXXX
-sambaNTPassword: NO PASSWORDXXXXXXXXXXXXXXXXXXXXX
-sambaAcctFlags: [NUD        ]
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-501
-loginShell: /bin/false
-
-dn: cn=Domain Admins,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Domain Admins
-gidNumber: 512
-memberUid: root
-description: Netbios Domain Administrators
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-512
-sambaGroupType: 2
-displayName: Domain Admins
-
-dn: cn=Domain Users,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Domain Users
-gidNumber: 513
-description: Netbios Domain Users
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-513
-sambaGroupType: 2
-displayName: Domain Users
-
-dn: cn=Domain Guests,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Domain Guests
-gidNumber: 514
-description: Netbios Domain Guests Users
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-514
-sambaGroupType: 2
-displayName: Domain Guests
-
-dn: cn=Domain Computers,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Domain Computers
-gidNumber: 515
-description: Netbios Domain Computers accounts
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-515
-sambaGroupType: 2
-displayName: Domain Computers
-
-dn: cn=Administrators,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Administrators
-gidNumber: 544
-description: Netbios Domain Members can fully administer the computer/sambaDom
- ainName
-sambaSID: S-1-5-32-544
-sambaGroupType: 4
-displayName: Administrators
-
-dn: cn=Account Operators,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Account Operators
-gidNumber: 548
-description: Netbios Domain Users to manipulate users accounts
-sambaSID: S-1-5-32-548
-sambaGroupType: 4
-displayName: Account Operators
-
-dn: cn=Print Operators,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Print Operators
-gidNumber: 550
-description: Netbios Domain Print Operators
-sambaSID: S-1-5-32-550
-sambaGroupType: 4
-displayName: Print Operators
-
-dn: cn=Backup Operators,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Backup Operators
-gidNumber: 551
-description: Netbios Domain Members can bypass file security to back up files
-sambaSID: S-1-5-32-551
-sambaGroupType: 4
-displayName: Backup Operators
-
-dn: cn=Replicators,ou=groups,dc=moot
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: Replicators
-gidNumber: 552
-description: Netbios Domain Supports file replication in a sambaDomainName
-sambaSID: S-1-5-32-552
-sambaGroupType: 4
-displayName: Replicators
 
 
