@@ -29,6 +29,8 @@ RUN apt-get install -y perl perl-modules fusiondirectory \
     fusiondirectory-plugin-webservice \
     fusiondirectory-webservice-shell \
 	php-mbstring
+
+COPY fd-template.conf /var/cache/fusiondirectory/template/fusiondirectory.conf
 	
 EXPOSE 80 443
 
