@@ -18,3 +18,6 @@ EASYRSA_PKI=pki/offline ./easyrsa import-req pki/sign/reqs/ca.req sub
 EASYRSA_PKI=pki/offline ./easyrsa sign-req ca sub
 # Transport sub-CA cert to sub PKI:
 cp pki/offline/issued/sub.crt pki/sign/ca.crt
+
+mkdir -p pki/publish/
+cp pki/sign/ca.crt pki/publish/ca.crt

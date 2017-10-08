@@ -10,6 +10,8 @@ ENV EASYRSA_REQ_OU         "Moot"
 RUN set -xe \
 	&& apk update --no-cache && apk upgrade --no-cache \
 	&& apk add --update --no-cache easy-rsa \
+	&& mkdir -p /usr/share/easy-rsa/pki/publish/server \
+	&& mkdir -p /usr/share/easy-rsa/pki/publish/client \
 	&& rm -rf /var/cache/apk/*
 	
 # RUN set -xe cd /usr/share/easy-rsa/ && ./easyrsa init-pki && ./easyrsa build-ca subca nopass
