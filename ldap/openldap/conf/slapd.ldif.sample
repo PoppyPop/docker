@@ -24,7 +24,6 @@ olcPidFile: /var/lib/openldap/run/slapd.pid
 olcLogLevel: 256
 olcSizeLimit: -1
 
-
 #
 # Load dynamic backend modules:
 #
@@ -75,6 +74,10 @@ olcAccess: to *
 # rootdn can always read and write EVERYTHING!
 #
 
+dn: olcDatabase=config,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: config
+olcRootDN: cn=admin,dc=moot
 
 #######################################################################
 # LMDB database definitions
@@ -106,3 +109,4 @@ olcSpSessionlog: 100
 
 dn: olcDatabase={2}monitor,cn=config
 objectClass: olcDatabaseConfig
+
