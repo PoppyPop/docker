@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+    # openldap
+    openldap:
+        image: poppypop/ldap
+        volumes:
+            - /srv/datas/ldap/openldap:/var/lib/openldap
+        ports:
+            - 389:389
+            - 636:636
+        logging:
+            driver: fluentd
+            options:
+                fluentd-address: "127.0.0.1:24224"
+                fluentd-async-connect: "true"
+                tag: docker.{{.ID}}
+    

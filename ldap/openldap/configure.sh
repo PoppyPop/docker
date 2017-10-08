@@ -4,7 +4,9 @@
 if [ ! -f conf/slapd.ldif ] 
 then
 	PASSCONFIG=$(openssl rand -base64 12)
+	#PASSCONFIG=secret
 	PASSCRYPT=$(mkpasswd -m SHA-512 ${PASSCONFIG})
+	#PASSCRYPT=$(slappasswd -h '{CRYPT}' -s ${PASSCONFIG} -c "$6$%.12s")
 	
 	cp conf/slapd.ldif.sample conf/slapd.ldif
 	sed -i "s|{PASSCONFIG}|{CRYPT}${PASSCRYPT}|g" conf/slapd.ldif

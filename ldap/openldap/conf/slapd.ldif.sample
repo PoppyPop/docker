@@ -99,6 +99,17 @@ olcRootPW: {PASSCONFIG}
 olcDbDirectory: /var/lib/openldap/openldap-data
 # Indices to maintain
 olcDbIndex: objectClass eq
+olcDbIndex: uidNumber,gidNumber eq
+olcDbIndex: loginShell eq
+olcDbIndex: uid,cn eq,sub
+olcDbIndex: memberUid eq,sub
+olcDbIndex: member,uniqueMember eq
+olcDbIndex: sambaSID eq
+olcDbIndex: sambaPrimaryGroupSID eq
+olcDbIndex: sambaGroupType eq
+olcDbIndex: sambaSIDList eq
+olcDbIndex: sambaDomainName eq
+olcDbIndex: default sub,eq
 
 dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
 objectClass: olcOverlayConfig
@@ -109,4 +120,3 @@ olcSpSessionlog: 100
 
 dn: olcDatabase={2}monitor,cn=config
 objectClass: olcDatabaseConfig
-
