@@ -23,6 +23,9 @@ olcPidFile: /var/lib/openldap/run/slapd.pid
 #olcSecurity: ssf=1 update_ssf=112 simple_bind=64
 olcLogLevel: 256
 olcSizeLimit: -1
+olcTLSCACertificateFile: /etc/ssl/private/ca.crt
+olcTLSCertificateFile: /etc/ssl/private/server.crt
+olcTLSCertificateKeyFile: /etc/ssl/private/server.key
 
 #
 # Load dynamic backend modules:

@@ -44,4 +44,4 @@ VOLUME /var/lib/openldap
 
 EXPOSE 389 636
 
-CMD ["slapd", "-d", "256", "-h", "ldap:/// ldapi:///", "-F", "/etc/openldap/slapd.d"]
+CMD ["slapd", "-d", "256", "-h", "ldap:/// ldaps:///", "-F", "/etc/openldap/slapd.d"]
