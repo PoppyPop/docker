@@ -2,6 +2,10 @@
 #
 
 # Sign
+# --subject-alt-name="DNS:www.example.net,DNS:secure.example.net,IP:192.168.0.235"
+# test $2 to $n
+# for i in "$@"
+
 EASYRSA_PKI=pki/sign ./easyrsa build-server-full $1 nopass
 
 #Publish
