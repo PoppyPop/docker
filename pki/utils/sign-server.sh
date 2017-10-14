@@ -1,12 +1,16 @@
 #!/bin/sh
 #
 
-# Sign
-# --subject-alt-name="DNS:www.example.net,DNS:secure.example.net,IP:192.168.0.235"
-# test $2 to $n
-# for i in "$@"
+# get ip
+DOMAINIP=`getent hosts pico.moot | awk '{ print $1 }'`
+ADDITIONALPARAM=""
 
-EASYRSA_PKI=pki/sign ./easyrsa build-server-full $1 nopass
+if [ $DOMAINIP ] then
+	# --subject-alt-name="DNS:www.example.net,DNS:secure.example.net,IP:192.168.0.235"
+	ADDITIONALPARAM="--subject-alt-name=\"IP:192.168.0.235\""
+fi
+
+EASYRSA_PKI=pki/sign ./easyrsa build-server-full $ADDITIONALPARAM $1 nopass
 
 #Publish
 mkdir -p pki/publish/server/$1
