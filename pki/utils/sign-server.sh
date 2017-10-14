@@ -2,15 +2,16 @@
 #
 
 # get ip
-DOMAINIP=`getent hosts pico.moot | awk '{ print $1 }'`
+DOMAINIP=`getent hosts $1 | awk '{ print $1 }'`
 ADDITIONALPARAM=""
 
-if [ $DOMAINIP ] then
+if [[ ! -z $DOMAINIP ]]
+then
 	# --subject-alt-name="DNS:www.example.net,DNS:secure.example.net,IP:192.168.0.235"
-	ADDITIONALPARAM="--subject-alt-name=\"IP:192.168.0.235\""
+	ADDITIONALPARAM="--subject-alt-name=\"IP:$DOMAINIP\""
 fi
 
-EASYRSA_PKI=pki/sign ./easyrsa build-server-full $ADDITIONALPARAM $1 nopass
+EASYRSA_PKI=pki/sign ./easyrsa $ADDITIONALPARAM build-server-full $1 nopass
 
 #Publish
 mkdir -p pki/publish/server/$1
