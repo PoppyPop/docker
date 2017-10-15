@@ -44,4 +44,7 @@ VOLUME /var/lib/openldap
 
 EXPOSE 389 636
 
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
+
 CMD ["slapd", "-d", "256", "-h", "ldap:/// ldaps:///", "-F", "/etc/openldap/slapd.d"]
