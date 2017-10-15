@@ -1,0 +1,80 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=Moot CA
+        Validity
+            Not Before: Oct  8 16:40:18 2017 GMT
+            Not After : Oct  6 16:40:18 2027 GMT
+        Subject: CN=Moot Sign
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:b0:67:b1:e8:b9:bf:8a:51:3b:0d:8e:54:9e:fd:
+                    d5:d9:ab:4f:f1:53:2c:ae:03:c1:dd:17:74:93:3a:
+                    a0:d1:a9:45:27:02:75:c9:05:f9:dd:eb:40:cd:ed:
+                    62:69:ac:6f:bf:cc:33:26:06:1f:f2:90:88:8d:11:
+                    29:7a:7a:6f:2d:a9:17:b8:29:07:87:0d:0a:90:31:
+                    3c:c2:2b:e7:bf:23:f8:6d:18:38:e3:a4:a2:ff:52:
+                    19:32:0d:b3:05:dd:70:86:46:5f:be:c9:27:3e:d5:
+                    20:b8:a6:cb:d0:df:0c:39:f6:45:2a:96:a8:d6:a3:
+                    e5:52:f8:ec:25:ca:57:df:cd:be:c9:52:9f:e2:37:
+                    1e:76:ee:a3:1e:7c:1c:1e:2d:72:a9:e6:ae:e8:7a:
+                    37:f3:9b:9e:d3:c5:67:fe:81:f3:d6:a0:5a:b4:a4:
+                    57:81:99:96:28:3c:67:d7:35:e3:66:0f:7f:a4:f3:
+                    b5:dd:7e:3b:39:c4:1a:84:0c:14:d5:8a:30:b1:08:
+                    f9:4f:40:8d:4c:13:82:8d:17:77:a4:30:05:3c:30:
+                    2e:07:c7:a9:9d:f4:ee:23:22:33:67:d0:2c:5a:6b:
+                    d8:6b:e4:e3:91:b4:f8:3e:89:3c:c5:e1:5b:6c:20:
+                    19:47:08:7c:54:21:5c:39:1f:d4:0c:17:e4:7b:10:
+                    f6:25
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:TRUE
+            X509v3 Subject Key Identifier: 
+                25:A3:E0:FA:FC:6F:89:B6:55:81:FE:0E:3F:58:05:60:28:66:7B:24
+            X509v3 Authority Key Identifier: 
+                keyid:40:A8:89:B3:84:1F:07:46:6D:29:EA:5C:AC:C0:58:91:9E:1C:AD:57
+                DirName:/CN=Moot CA
+                serial:E7:8E:52:D2:26:9E:CD:AE
+
+            X509v3 Key Usage: 
+                Certificate Sign, CRL Sign
+    Signature Algorithm: sha256WithRSAEncryption
+         85:44:b4:88:3a:25:26:4f:43:21:ad:b5:ae:d1:19:2f:97:11:
+         0c:b8:0a:12:35:b1:59:11:a6:01:e1:55:74:fd:43:29:8f:84:
+         25:ff:a5:33:42:09:8e:cd:15:5f:db:70:21:06:a5:64:a1:a9:
+         67:6c:99:d3:a4:f7:06:e2:bf:80:a7:e9:0b:70:e9:95:3a:d4:
+         ce:c3:b2:77:63:bc:12:6e:33:4c:9f:ef:94:3f:2c:c1:ac:a5:
+         76:5d:17:fb:cb:9f:48:cc:88:4d:42:6b:83:1b:2f:bd:19:2a:
+         55:06:2e:b9:51:0a:3e:8d:e4:81:1e:97:b3:73:2f:53:21:0e:
+         bc:8a:94:66:38:57:d6:f1:b8:3e:5f:63:64:25:bc:6f:41:87:
+         d5:d0:6e:4e:27:fa:41:ea:6d:4c:c9:1f:37:27:f9:f9:54:78:
+         ab:39:bd:9c:66:13:43:ed:c5:0d:dd:94:f9:85:f7:cd:b6:f5:
+         2e:1e:95:1f:2c:26:15:7e:dc:35:6a:80:44:8b:6d:46:db:9d:
+         e2:c7:d1:14:69:d0:af:86:8b:47:af:69:5b:f9:36:cd:e4:0f:
+         fd:09:23:33:73:77:44:84:6d:20:41:0c:cf:8d:64:b9:13:be:
+         b9:04:df:95:9e:c6:2f:89:4c:28:cd:f6:6a:94:d5:41:da:55:
+         17:c4:21:8d
+-----BEGIN CERTIFICATE-----
+MIIDIjCCAgqgAwIBAgIBATANBgkqhkiG9w0BAQsFADASMRAwDgYDVQQDDAdNb290
+IENBMB4XDTE3MTAwODE2NDAxOFoXDTI3MTAwNjE2NDAxOFowFDESMBAGA1UEAwwJ
+TW9vdCBTaWduMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsGex6Lm/
+ilE7DY5Unv3V2atP8VMsrgPB3Rd0kzqg0alFJwJ1yQX53etAze1iaaxvv8wzJgYf
+8pCIjREpenpvLakXuCkHhw0KkDE8wivnvyP4bRg446Si/1IZMg2zBd1whkZfvskn
+PtUguKbL0N8MOfZFKpao1qPlUvjsJcpX382+yVKf4jcedu6jHnwcHi1yqeau6Ho3
+85ue08Vn/oHz1qBatKRXgZmWKDxn1zXjZg9/pPO13X47OcQahAwU1YowsQj5T0CN
+TBOCjRd3pDAFPDAuB8epnfTuIyIzZ9AsWmvYa+TjkbT4Pok8xeFbbCAZRwh8VCFc
+OR/UDBfkexD2JQIDAQABo4GAMH4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4EFgQUJaPg
++vxvibZVgf4OP1gFYChmeyQwQgYDVR0jBDswOYAUQKiJs4QfB0ZtKepcrMBYkZ4c
+rVehFqQUMBIxEDAOBgNVBAMMB01vb3QgQ0GCCQDnjlLSJp7NrjALBgNVHQ8EBAMC
+AQYwDQYJKoZIhvcNAQELBQADggEBAIVEtIg6JSZPQyGtta7RGS+XEQy4ChI1sVkR
+pgHhVXT9QymPhCX/pTNCCY7NFV/bcCEGpWShqWdsmdOk9wbiv4Cn6Qtw6ZU61M7D
+sndjvBJuM0yf75Q/LMGspXZdF/vLn0jMiE1Ca4MbL70ZKlUGLrlRCj6N5IEel7Nz
+L1MhDryKlGY4V9bxuD5fY2QlvG9Bh9XQbk4n+kHqbUzJHzcn+flUeKs5vZxmE0Pt
+xQ3dlPmF98229S4elR8sJhV+3DVqgESLbUbbneLH0RRp0K+Gi0evaVv5Ns3kD/0J
+IzNzd0SEbSBBDM+NZLkTvrkE35Wexi+JTCjN9mqU1UHaVRfEIY0=
+-----END CERTIFICATE-----

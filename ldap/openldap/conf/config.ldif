@@ -12,6 +12,7 @@ gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:dWlkPWZkLWFkb
  WluLG91PXBlb3BsZSxkYz1tb290
 
 dn: ou=idmap,dc=moot
+objectClass: gosaDepartment
 objectClass: organizationalUnit
 ou: idmap
 
@@ -28,6 +29,7 @@ objectClass: organizationalUnit
 ou: aclroles
 
 dn: ou=computers,dc=moot
+objectClass: gosaDepartment
 objectClass: organizationalUnit
 ou: computers
 

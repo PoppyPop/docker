@@ -12,10 +12,8 @@ RUN printf "deb http://repos.fusiondirectory.org/fusiondirectory-current/debian-
 
 RUN apt-get update \
     && apt-get upgrade -y \
-	&& apt-get install -y perl perl-modules php-mbstring libarchive-extract-perl
-	
-
-RUN apt-get install -y perl perl-modules fusiondirectory \
+	&& apt-get install -y perl perl-modules php-mbstring libarchive-extract-perl \
+	fusiondirectory \
     fusiondirectory-plugin-dhcp \
 	fusiondirectory-plugin-dns \
 	fusiondirectory-plugin-freeradius \
@@ -27,14 +25,24 @@ RUN apt-get install -y perl perl-modules fusiondirectory \
     fusiondirectory-plugin-systems \
     fusiondirectory-plugin-weblink \
     fusiondirectory-plugin-webservice \
-    fusiondirectory-webservice-shell \
-	php-mbstring
+    fusiondirectory-webservice-shell 
 
 COPY fd-template.conf /var/cache/fusiondirectory/template/fusiondirectory.conf
 	
+ADD ca.crt /usr/local/share/ca-certificates/ca.crt
+RUN update-ca-certificates
+	
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ADD fusiondirectory.conf /etc/fusiondirectory/fusiondirectory.conf
+	
 EXPOSE 80 443
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+#CMD ["/bin/bash"]
+#CMD ["/usr/sbin/apachectl", "-DFOREGROUND"]
 	
 	
 
