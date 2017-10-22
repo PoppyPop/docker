@@ -40,7 +40,7 @@ RUN mkdir tmpschema && cd tmpschema && mkdir fusiond && \
 #Main populate
 RUN /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -l /etc/openldap/config.ldif
 
-VOLUME /var/lib/openldap
+VOLUME /var/lib/openldap/openldap-data
 
 EXPOSE 389 636
 
