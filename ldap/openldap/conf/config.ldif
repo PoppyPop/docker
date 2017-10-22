@@ -8,10 +8,15 @@ objectClass: top
 objectClass: organization
 objectClass: gosaDepartment
 objectClass: gosaAcl
-gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:dWlkPWZkLWFkb
- WluLG91PXBlb3BsZSxkYz1tb290
-gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290:Y249YWRtaW5pc3RyY
- XRvcnMsb3U9Z3JvdXBzLGRjPW1vb3Q=
+gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vb3Q=
+gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vb3Q=
+
+dn: ou=admin,dc=moot
+objectClass: organizationalUnit
+objectClass: top
+objectClass: gosaDepartment
+ou: admin
+description: Admin
 
 dn: ou=dhcp,dc=moot
 objectClass: organizationalUnit
@@ -25,7 +30,15 @@ dn: ou=groups,dc=moot
 objectClass: organizationalUnit
 ou: groups
 
+dn: ou=groups,ou=admin,dc=moot
+objectClass: organizationalUnit
+ou: groups
+
 dn: ou=users,dc=moot
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=users,ou=admin,dc=moot
 objectClass: organizationalUnit
 ou: users
 
@@ -89,7 +102,6 @@ description: Netbios Domain Administrators
 sambaSID: S-1-5-21-1090165706-3691719236-1884811436-512
 sambaGroupType: 2
 displayName: Domain Admins
-memberUid: auth
 memberUid: fd-admin
 
 dn: cn=domain_guests,ou=groups,dc=moot
@@ -114,8 +126,16 @@ description: Netbios Domain Members can fully administer the computer/sambaDom
 sambaGroupType: 4
 displayName: Administrators
 sambaSID: S-1-5-21-1090165706-3691719236-1884811436-544
-memberUid: auth
 memberUid: fd-admin
+
+dn: cn=authenticators,ou=groups,ou=admin,dc=moot
+objectClass: top
+objectClass: groupOfNames
+objectClass: gosaGroupOfNames
+cn: authenticators
+description: Authenticators
+member: uid=auth,ou=users,ou=admin,dc=moot
+gosaGroupObjects: [U]
 
 dn: cn=print_operators,ou=groups,dc=moot
 objectClass: top
@@ -161,7 +181,7 @@ sambaSID: S-1-5-32-548
 sambaGroupType: 4
 displayName: Account Operators
 
-dn: uid=auth,ou=users,dc=moot
+dn: uid=auth,ou=users,ou=admin,dc=moot
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -177,7 +197,7 @@ dn: ou=templates,ou=users,dc=moot
 objectClass: organizationalUnit
 ou: templates
 
-dn: uid=fd-admin,ou=users,dc=moot
+dn: uid=fd-admin,ou=users,ou=admin,dc=moot
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -382,4 +402,3 @@ fusionConfigMd5: e8f6bfd576c93388344ef7a832578060
 dn: ou=recovery,ou=fusiondirectory,dc=moot
 objectClass: organizationalUnit
 ou: recovery
-
