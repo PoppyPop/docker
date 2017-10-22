@@ -10,6 +10,7 @@ services:
             - PUID=1001
         volumes:
             - /downloads/transmission:/downloads
+            - transmission-watch:/watch
             - /srv/confs/transmission:/config
         ports:
             - 9091:9091
@@ -21,3 +22,5 @@ services:
                 fluentd-address: "127.0.0.1:24224" 
                 fluentd-async-connect: "true"
                 tag: docker.{{.ID}}
+volumes:
+    transmission-watch:
