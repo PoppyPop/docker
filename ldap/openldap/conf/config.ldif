@@ -10,9 +10,14 @@ objectClass: gosaDepartment
 objectClass: gosaAcl
 gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:dWlkPWZkLWFkb
  WluLG91PXBlb3BsZSxkYz1tb290
+gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290:Y249YWRtaW5pc3RyY
+ XRvcnMsb3U9Z3JvdXBzLGRjPW1vb3Q=
+
+dn: ou=dhcp,dc=moot
+objectClass: organizationalUnit
+ou: dhcp
 
 dn: ou=idmap,dc=moot
-objectClass: gosaDepartment
 objectClass: organizationalUnit
 ou: idmap
 
@@ -20,18 +25,17 @@ dn: ou=groups,dc=moot
 objectClass: organizationalUnit
 ou: groups
 
-dn: ou=people,dc=moot
+dn: ou=users,dc=moot
 objectClass: organizationalUnit
-ou: people
+ou: users
 
 dn: ou=aclroles,dc=moot
 objectClass: organizationalUnit
 ou: aclroles
 
-dn: ou=computers,dc=moot
-objectClass: gosaDepartment
+dn: ou=systems,dc=moot
 objectClass: organizationalUnit
-ou: computers
+ou: systems
 
 dn: ou=snapshots,dc=moot
 objectClass: organizationalUnit
@@ -49,6 +53,9 @@ sambaSID: S-1-5-21-1090165706-3691719236-1884811436
 sambaNextRid: 10000
 uidNumber: 10000
 gidNumber: 10000
+sambaPwdHistoryLength: 0
+sambaMaxPwdAge: -1
+sambaMinPwdAge: 0
 
 dn: cn=replicators,ou=groups,dc=moot
 objectClass: top
@@ -78,11 +85,12 @@ objectClass: posixGroup
 objectClass: sambaGroupMapping
 cn: domain_admins
 gidNumber: 512
-memberUid: root
 description: Netbios Domain Administrators
 sambaSID: S-1-5-21-1090165706-3691719236-1884811436-512
 sambaGroupType: 2
 displayName: Domain Admins
+memberUid: auth
+memberUid: fd-admin
 
 dn: cn=domain_guests,ou=groups,dc=moot
 objectClass: top
@@ -103,9 +111,11 @@ cn: administrators
 gidNumber: 544
 description: Netbios Domain Members can fully administer the computer/sambaDom
  ainName
-sambaSID: S-1-5-32-544
 sambaGroupType: 4
 displayName: Administrators
+sambaSID: S-1-5-21-1090165706-3691719236-1884811436-544
+memberUid: auth
+memberUid: fd-admin
 
 dn: cn=print_operators,ou=groups,dc=moot
 objectClass: top
@@ -151,7 +161,23 @@ sambaSID: S-1-5-32-548
 sambaGroupType: 4
 displayName: Account Operators
 
-dn: uid=fd-admin,ou=people,dc=moot
+dn: uid=auth,ou=users,dc=moot
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+uid: auth
+userPassword:: e0NSWVBUfSQ2JFFnMjgxenFSZ3Y3SVQvZGskWUxldmJOVVFPRWcvVTFQUXU5UFd
+ BZGVKTzJoWUt2NE5FLzdjM2pBZ2tEM3VUNk9EVnpWTjRZNWk4UG9uTDNlNE01eVlucjN6ajJmNmlx
+ UnpCWUdqLi4=
+cn: Auth Administrator
+sn: Administrator
+givenName: Auth
+
+dn: ou=templates,ou=users,dc=moot
+objectClass: organizationalUnit
+ou: templates
+
+dn: uid=fd-admin,ou=users,dc=moot
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -162,6 +188,55 @@ uid: fd-admin
 userPassword:: e0NSWVBUfSQ2JGQ5Yk5OMHRvdmlXRFdrcEIkbEE5NTRPdHhXTlNpRUllZkFQSXJ
  0RVZwTUNVYW5XazRrQm9EeEZLcHdRNW1WcERnNkVIVTljcEJGM3pyZnRTTzRWZUhMa2JzeWRlRldJ
  QnhEYVo1Vi8=
+
+dn: cn=NewUser,ou=templates,ou=users,dc=moot
+objectClass: fdTemplate
+fdTemplateField: force_ids:FALSE
+fdTemplateField: gidNumber:513
+fdTemplateField: givenName:%askme%
+fdTemplateField: homeDirectory:/home/%uid%
+fdTemplateField: loginShell:/bin/bash
+fdTemplateField: mustchangepassword:FALSE
+fdTemplateField: objectClass:inetOrgPerson
+fdTemplateField: objectClass:organizationalPerson
+fdTemplateField: objectClass:person
+fdTemplateField: objectClass:posixAccount
+fdTemplateField: objectClass:sambaSamAccount
+fdTemplateField: objectClass:shadowAccount
+fdTemplateField: sambaAcctFlags:[U           ]
+fdTemplateField: sambaBadPasswordCount:0
+fdTemplateField: sambaBadPasswordTime:0
+fdTemplateField: sambaDomainName:MOOT
+fdTemplateField: sambaMungedDial:IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
+ CAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIA
+ AgACAAUAAEABoACAABAEMAdAB4AEMAZgBnAFAAcgBlAHMAZQBuAHQANTUxZTBiYjAYAAgAAQBDAHQ
+ AeABDAGYAZwBGAGwAYQBnAHMAMQAwMGUwMDAxMBIACAABAEMAdAB4AFMAaABhAGQAbwB3ADAxMDAw
+ MDAwKgACAAEAQwB0AHgATQBpAG4ARQBuAGMAcgB5AHAAdABpAG8AbgBMAGUAdgBlAGwAMDA=
+fdTemplateField: sambaNTPassword:3A5D835766219E4DDC1E2A9ED9A6FBBB
+fdTemplateField: sambaPwdLastSet:1508663796
+fdTemplateField: sambaSID:S-1-5-21-1090165706-3691719236-1884811436-0
+fdTemplateField: sn:%askme%
+fdTemplateField: uid:%l|sn%
+fdTemplateField: userPassword:%askme%
+cn: NewUser
+
+dn: cn=auth,ou=aclroles,dc=moot
+objectClass: top
+objectClass: gosaRole
+cn: auth
+description: auth systems
+gosaAclTemplate: 0:user/posixAccount;r,user/sambaAccount;rw,user/userRoles;r,u
+ ser/sshAccount;r,user/template;r,user/freeradiusAccount;r,user/user;#cn;r#sn;
+ r#givenName;r#description;r#jpegPhoto;r#l;r#st;r#postalAddress;r#roomNumber;r
+ #telephoneNumber;r#mobile;r#pager;r#facsimileTelephoneNumber;r#labeledURI;r#u
+ id;r#preferredLanguage;r#displayName;r#homePostalAddress;r#homePhone;r#title;
+ r#o;r#ou;r#departmentNumber;r#employeeNumber;r#employeeType;r#manager;r#userL
+ ock;r,sambaDomain/sambaDomain;cmdrw#sambaDomainName;rw#sambaSID;rw#sambaAlgor
+ ithmicRidBase;rw#sambaMinPwdAge;rw#sambaMaxPwdAge;rw#sambaNextRid;rw#sambaNex
+ tGroupRid;rw#sambaNextUserRid;rw#sambaMinPwdLength;rw#sambaPwdHistoryLength;r
+ w#sambaLogonToChgPwd;rw#sambaLockoutDuration;rw#sambaLockoutObservationWindow
+ ;rw#sambaLockoutThreshold;rw#sambaForceLogoff;rw#sambaRefuseMachinePwdChange;
+ rw
 
 dn: cn=admin,ou=aclroles,dc=moot
 objectClass: top
@@ -200,7 +275,6 @@ dn: cn=config,ou=fusiondirectory,dc=moot
 fdLanguage: en_US
 fdTheme: breezy
 fdTimezone: Europe/Paris
-fusionConfigMd5: 3199d8b824c49fd5ed4849ae1a6525a4
 fdLdapSizeLimit: 200
 fdModificationDetectionAttribute: entryCSN
 fdLogging: TRUE
@@ -228,7 +302,7 @@ fdCasContext: /cas
 fdAccountPrimaryAttribute: uid
 fdCnPattern: %givenName% %sn%
 fdStrictNamingRules: TRUE
-fdUserRDN: ou=people
+fdUserRDN: ou=users
 fdAclRoleRDN: ou=aclroles
 fdRestrictRoleMembers: FALSE
 fdSplitPostalAddress: FALSE
@@ -303,9 +377,9 @@ fdShells: /sbin/nologin
 fdShells: /bin/false
 fdShells: /usr/bin/git-shell
 fdDefaultShell: /bin/bash
+fusionConfigMd5: e8f6bfd576c93388344ef7a832578060
 
 dn: ou=recovery,ou=fusiondirectory,dc=moot
 objectClass: organizationalUnit
 ou: recovery
-
 

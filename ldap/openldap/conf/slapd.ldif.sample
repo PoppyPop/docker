@@ -37,6 +37,7 @@ olcModulepath: /usr/lib/openldap
 olcModuleload: syncprov
 olcModuleload: unique
 olcModuleload: back_monitor
+olcModuleload: ppolicy
 
 dn: cn=schema,cn=config
 objectClass: olcSchemaConfig
@@ -65,6 +66,10 @@ olcDatabase: frontend
 #
 olcAccess: to dn.base="" by * read
 olcAccess: to dn.base="cn=Subschema" by * read
+olcAccess: to attrs=userPassword
+  		by self write
+  		by * auth
+  		by group.exact="cn=administrators,ou=groups,dc=moot" write
 olcAccess: to *
        by self write
        by users read
