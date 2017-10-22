@@ -31,14 +31,14 @@ RUN mkdir tmpschema && cd tmpschema && mkdir fusiond && \
   mv /etc/openldap/schema-ldif-includes/80-mail-fd.ldif /etc/openldap/schema-ldif-includes/70-mail-fd.ldif && \
   for f in `ls /etc/openldap/schema-ldif-includes/*.ldif` ; do echo "include: file://$f" >> /etc/openldap/schema.ldif; done && \
   sed -i '/misc.ldif/r /etc/openldap/schema.ldif' /etc/openldap/slapd.ldif && \
-  /usr/sbin/slapadd -F /etc/openldap/slapd.d -n 0 -l /etc/openldap/slapd.ldif  && \
+  /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -n 0 -l /etc/openldap/slapd.ldif  && \
   cd - && \
   rm -rf tmpschema && \
   apk del --no-cache wget perl && \
   rm -rf /var/cache/apk/*
  
 #Main populate
-RUN /usr/sbin/slapadd -F /etc/openldap/slapd.d -l /etc/openldap/config.ldif
+RUN /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -l /etc/openldap/config.ldif
 
 VOLUME /var/lib/openldap
 
