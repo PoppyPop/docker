@@ -1,2 +1,17 @@
 # log into running container
 sudo docker exec -i -t 99b5ff74ec29 /bin/bash
+
+# search container by ID
+docker ps --filter=volume=<name of volume>
+
+# check container Mounts
+docker inspect -f '{{ .Mounts }}' containerid
+
+# Volumes
+docker volume ls
+
+# Volume unused
+docker volume ls -f dangling=true
+
+# docker remove untagged images
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
