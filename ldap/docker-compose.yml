@@ -33,3 +33,7 @@ services:
 volumes:
     openldap-data:
         external: true
+        
+networks:
+    default:
+        com.docker.network.driver.mtu: 9000

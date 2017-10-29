@@ -7,7 +7,7 @@ services:
     ports:
       - "53:53/udp"
       - "53:53/tcp"
-      - "10000:10000/tcp"
+      - "10001:10000/tcp"
     volumes:
       - /srv/confs/bind:/data
     logging:
@@ -16,3 +16,7 @@ services:
         fluentd-address: "127.0.0.1:24224"
         fluentd-async-connect: "true"
         tag: docker.{{.ID}}
+
+networks:
+  default:
+    com.docker.network.driver.mtu: 9000

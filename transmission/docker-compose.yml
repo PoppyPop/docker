@@ -24,3 +24,7 @@ services:
                 tag: docker.{{.ID}}
 volumes:
     transmission-watch:
+    
+networks:
+    default:
+        com.docker.network.driver.mtu: 9000

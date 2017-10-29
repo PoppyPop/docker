@@ -37,3 +37,6 @@ services:
            - pico-atrier:/nfs:nocopy
        user: "1001:65540"
 
+networks:
+   default:
+      com.docker.network.driver.mtu: 9000

@@ -19,3 +19,7 @@ services:
                 tag: docker.{{.ID}}
         ports:
             - 27000:8080
+
+networks:
+  default:
+    com.docker.network.driver.mtu: 9000
