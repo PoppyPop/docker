@@ -1,39 +1,39 @@
 version: '2'
 
 services:
-    # openldap
-    openldap:
-        image: poppypop/ldap
-        volumes:
-            - openldap-data:/var/lib/openldap/openldap-data
-            - /etc/ssl/private:/etc/ssl/private:ro
-        ports:
-            - 389:389
-            - 636:636
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224"
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}
-    fd:
-        image: poppypop/fusiond
-        volumes:
-            - /etc/ssl/private:/etc/ssl/private:ro
-        ports:
-            - 12080:80
-            - 12443:443
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224"
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}    
-                
+  openldap:
+    image: poppypop/ldap
+    volumes:
+      - openldap-data:/var/lib/openldap/openldap-data
+      - /etc/ssl/private:/etc/ssl/private:ro
+    ports:
+      - 389:389
+      - 636:636
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
+  fd:
+    image: poppypop/fusiond
+    volumes:
+      - /etc/ssl/private:/etc/ssl/private:ro
+    ports:
+      - 12080:80
+      - 12443:443
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}    
+
 volumes:
-    openldap-data:
-        external: true
+  openldap-data:
+    external: true
         
 networks:
-    default:
-        com.docker.network.driver.mtu: 9000
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000

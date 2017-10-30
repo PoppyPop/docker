@@ -2,7 +2,6 @@ version: '2'
 
 services:
   bind:
-    restart: always
     image: sameersbn/bind:latest
     ports:
       - "53:53/udp"
@@ -19,4 +18,5 @@ services:
 
 networks:
   default:
-    com.docker.network.driver.mtu: 9000
+    driver_opts:
+      com.docker.network.driver.mtu: 9000

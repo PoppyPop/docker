@@ -97,6 +97,7 @@ services:
 networks:
   esnet:
     driver: bridge
-    com.docker.network.driver.mtu: 9000
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
 
     

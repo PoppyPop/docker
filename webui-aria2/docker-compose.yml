@@ -1,42 +1,43 @@
 version: '2'
 
 volumes:
-    pico-atrier:
-        external: true
+  pico-atrier:
+    external: true
 
 services:
-   aria2:
-       image: poppypop/aria2:alpine
-       environment:
-         - SPLIT=8
-         - CONNECTIONS_PER_SERVER=8
-         - CONCURRENT_DOWNLOADS=5
-         - RPC_SECRET=reMgE94K5cSiE926
-         - COMPLETE_HOOK=/downloads/complete.sh
-       volumes:
-           - /downloads/aria2/Downloads:/downloads
-       ports:
-           - "6800:6800"
-       user: "1001"
-   
-   httpd:
-       image: busybox
-       volumes:
-           - /downloads/aria2/webui-aria2:/usr/html
-       ports:
-           - "9100:8080"
-       command: /bin/busybox httpd -f -p 8080 -h /usr/html
-       user: "1001"
-       
-   go-automated-ended:
-       image: poppypop/go-automated-ended
-       volumes:
-           - /downloads/aria2/Downloads:/downloads 
-           - /downloads/aria2/Ended:/ended 
-           - /downloads/aria2/Extract:/extract 
-           - pico-atrier:/nfs:nocopy
-       user: "1001:65540"
+  aria2:
+    image: poppypop/aria2:alpine
+    environment:
+      - SPLIT=8
+      - CONNECTIONS_PER_SERVER=8
+      - CONCURRENT_DOWNLOADS=5
+      - RPC_SECRET=reMgE94K5cSiE926
+      - COMPLETE_HOOK=/downloads/complete.sh
+    volumes:
+      - /downloads/aria2/Downloads:/downloads
+    ports:
+      - "6800:6800"
+    user: "1001"
+  
+  httpd:
+    image: busybox
+    volumes:
+      - /downloads/aria2/webui-aria2:/usr/html
+    ports:
+      - "9100:8080"
+    command: /bin/busybox httpd -f -p 8080 -h /usr/html
+    user: "1001"
+      
+  go-automated-ended:
+    image: poppypop/go-automated-ended
+    volumes:
+      - /downloads/aria2/Downloads:/downloads 
+      - /downloads/aria2/Ended:/ended 
+      - /downloads/aria2/Extract:/extract 
+      - pico-atrier:/nfs:nocopy
+    user: "1001:65540"
 
 networks:
-   default:
+  default:
+    driver_opts:
       com.docker.network.driver.mtu: 9000
