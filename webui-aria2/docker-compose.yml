@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 volumes:
   pico-atrier:
@@ -11,7 +11,6 @@ services:
       - SPLIT=8
       - CONNECTIONS_PER_SERVER=8
       - CONCURRENT_DOWNLOADS=5
-      - RPC_SECRET=reMgE94K5cSiE926
       - COMPLETE_HOOK=/downloads/complete.sh
     volumes:
       - /downloads/aria2/Downloads:/downloads
@@ -23,8 +22,13 @@ services:
     image: busybox
     volumes:
       - /downloads/aria2/webui-aria2:/usr/html
-    ports:
-      - "9100:8080"
+    environment:
+      - VIRTUAL_HOST=aria.yugo.moot
+      - VIRTUAL_PORT=8080
+    networks:
+      - proxy-net
+    expose:
+      - 8080
     command: /bin/busybox httpd -f -p 8080 -h /usr/html
     user: "1001"
       
@@ -41,3 +45,5 @@ networks:
   default:
     driver_opts:
       com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
