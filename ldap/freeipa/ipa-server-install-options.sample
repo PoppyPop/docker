@@ -1,0 +1,5 @@
+--realm=MOOT
+--domain=moot
+--ds-password={PASSDIR}
+--admin-password={PASSCONFIG}
+--unattended
