@@ -1,0 +1,10 @@
+KIMCHI as normal user fail:
+
+Solution
+
+This problem is caused by sudo looking for directives in a place it cannot find them: sss. Check the /etc/nsswitch.conf file and modify the sudoers entry.
+
+sudoers:        files sss
+The sss should not be there. The sssd-ad package adds itself there, but very few environments store sudoers directives in sss. It’s far more likely your directives are local, so you should have a /etc/nsswitch file entry like the following:
+
+sudoers:        files
