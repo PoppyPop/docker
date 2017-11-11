@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:alpine
+
+  app:  
+    image: poppypop/nextcloud-app
+    volumes:
+      - nextcloud:/var/www/html
+    env_file:
+      - db.env
+    depends_on:
+      - redis
+    networks:
+      - webbackend
+      - default
+
+  web:
+    image: poppypop/nextcloud-web
+    volumes:
+      - nextcloud:/var/www/html:ro
+    environment:
+      - VIRTUAL_HOST=cloud.yugo.moot
+      - VIRTUAL_PORT=80
+#      - LETSENCRYPT_HOST=cloud.yugo.moot
+#      - LETSENCRYPT_EMAIL=cloud@moot
+    depends_on:
+      - app
+    networks:
+      - proxy-net
+      - default
+
+  cron:
+    image: poppypop/nextcloud-app
+    volumes:
+      - nextcloud:/var/www/html
+    user: www-data
+    entrypoint: |
+      bash -c 'bash -s <<EOF
+        trap "break;exit" SIGHUP SIGINT SIGTERM
+
+        while [ ! -f /var/www/html/config/config.php ]; do
+          sleep 1m
+        done
+
+        while true; do
+          php -f /var/www/html/cron.php
+          sleep 15m
+        done
+      EOF'
+    depends_on:
+      - redis
+    networks:
+      - webbackend
+
+volumes:
+  nextcloud:
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
+  webbackend:
+    external: true
