@@ -22,6 +22,8 @@ RUN mkdir tmpschema && cd tmpschema && mkdir fusiond && \
   tar -xzf fusiondirectory-plugins-${FUSIONDIRECTORY_VERSION}.tar.gz -C fusiond/ && \
   wget --no-check-certificate -q -O schema2ldif-${FUSIONDIRECTORY_VERSION}.tar.gz  https://github.com/fusiondirectory/schema2ldif/archive/${FUSIONDIRECTORY_VERSION}.tar.gz && \
   tar -xzf schema2ldif-${FUSIONDIRECTORY_VERSION}.tar.gz -C fusiond/ && \
+  wget --no-check-certificate -q -O kerberos.schema https://raw.githubusercontent.com/krb5/krb5/master/src/plugins/kdb/ldap/libkdb_ldap/kerberos.schema && \
+  /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif kerberos.schema > /etc/openldap/schema-ldif-includes/90-kerberos.ldif && \
   /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif fusiond/fusiondirectory-fusiondirectory-${FUSIONDIRECTORY_VERSION}/contrib/openldap/core-fd.schema > /etc/openldap/schema-ldif-includes/01-core-fd.ldif && \
   /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif fusiond/fusiondirectory-fusiondirectory-${FUSIONDIRECTORY_VERSION}/contrib/openldap/core-fd-conf.schema > /etc/openldap/schema-ldif-includes/03-core-fd-conf.ldif && \
   /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif fusiond/fusiondirectory-fusiondirectory-${FUSIONDIRECTORY_VERSION}/contrib/openldap/template-fd.schema > /etc/openldap/schema-ldif-includes/05-template-fd.ldif && \
