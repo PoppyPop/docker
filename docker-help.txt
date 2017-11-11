@@ -15,3 +15,6 @@ docker volume ls -f dangling=true
 
 # docker remove untagged images
 docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
+
+#remove untagged iamge
+docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
