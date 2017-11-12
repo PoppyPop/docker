@@ -1,0 +1,19 @@
+{
+	"hosts": [
+        "pki.moot.fr"
+  	],
+    "CN": "Moot Certification Authority",
+    "key": {
+        "algo": "rsa",
+        "size": 4096
+    },
+    "names": [
+    	{
+			"C": "FR",
+			"L": "Strasbourg",
+			"O": "Moot.fr",
+			"OU": "Certificate Authority",
+			"ST": "Bas-Rhin"
+    	}
+    ]
+}

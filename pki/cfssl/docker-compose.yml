@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  cfssl:
+    image: poppypop/cfssl
+    command: server
+    volumes:
+      - cfssl-data:/etc/cfssl
+    ports:
+      - "8888:8888" # CFSSL
+      
+  ocsp:
+    image: poppypop/cfssl
+    command: ocsp
+    volumes:
+      - cfssl-data:/etc/cfssl
+    ports:
+      - "8889:8889" # CFSSL
+      
+  cron:
+    image: poppypop/cfssl
+    command: ocspdump
+    volumes:
+      - cfssl-data:/etc/cfssl
+    depends_on:
+      - ocsp
+      
+volumes:
+  cfssl-data:
+    external: true
+        
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+    
+    
