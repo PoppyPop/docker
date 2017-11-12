@@ -35,15 +35,15 @@
     },
     "auth_keys": {
 		"ocsp": {
-		  "key": "000102030405060708",
+		  "key": "{OCSPKEY}",
 		  "type": "standard"
     	},
     	"intermediate": {
-		  "key": "000102030405060708",
+		  "key": "{INTKEY}",
 		  "type": "standard"
     	},
     	"default": {
-		  "key": "000102030405060708",
+		  "key": "{DEFKEY}",
 		  "type": "standard"
     	}
   	}
