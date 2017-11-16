@@ -53,7 +53,7 @@ type mainOpts struct {
 }
 
 type genOpts struct {
-	Domains []string `short:"d" long:"domain" required:"false" description:"The domains/ips to sign"`
+	Domains []string `short:"d" long:"domain" required:"true" description:"The domains/ips to sign"`
 }
 
 type signOpts struct {
