@@ -1,7 +1,7 @@
 package main
 
 import (
-	. "./client"
+	. "github.com/PoppyPop/docker/pki/cfssl/go-client/client"
 )
 
 import (
