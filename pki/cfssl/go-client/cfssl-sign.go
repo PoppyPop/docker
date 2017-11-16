@@ -81,6 +81,11 @@ func main() {
 
 	if p.Active.Name == "generate" {
 
+		if len(opts.Gen.Domains)==0 {
+			p.WriteHelp(os.Stderr)
+			os.Exit(1)
+		}
+		
 		var rq jsonNewCertRequest
 
 		fileName := opts.Gen.Domains[0]
