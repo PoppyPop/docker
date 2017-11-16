@@ -21,8 +21,10 @@ if [ ! -f /etc/cfssl/ca.pem ]; then
 	touch /etc/cfssl/bootstrap
 	
 	cfssl genkey -initca ca.json | cfssljson -bare ca
+	mkdir capub
+	mv ca.crt capub/ca.pem
 	
-	cfssl gencert -ca ca.pem -ca-key ca-key.pem -config="config.json" -profile="intermediate" intermediate.json | cfssljson -bare signing-ca
+	cfssl gencert -ca capub/ca.pem -ca-key ca-key.pem -config="config.json" -profile="intermediate" intermediate.json | cfssljson -bare signing-ca
 	
 	cfssl gencert -ca signing-ca.pem -ca-key signing-ca-key.pem -config="config.json" -profile="ocsp" ocsp.json| cfssljson -bare ocsp-ca
 
@@ -35,6 +37,8 @@ if [ "$@" = "server" ]; then
 	exec cfssl serve -db-config="db-config.json" -ca-key=signing-ca-key.pem -ca=signing-ca.pem -config="config.json" -responder=ocsp-ca.pem -responder-key=ocsp-ca-key.pem -address=0.0.0.0	-port=8888
 elif [ "$@" = "ocsp" ]; then 
 	exec cfssl ocspserve -address=0.0.0.0 -port=8889 -responses=ocspdump.txt
+elif [ "$@" = "httpca" ]; then 
+	exec httpd -h /etc/cfssl/capub -p 8887 -f
 elif [ "$@" = "ocspdump" ]; then 
 	sleep 1m
 	while true; do

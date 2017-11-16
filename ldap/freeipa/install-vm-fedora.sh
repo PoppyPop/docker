@@ -11,7 +11,16 @@ ipa-server-install --realm=MOOT.FR --domain=moot.fr \
 	--ssh-trust-dns --setup-dns --no-host-dns --idstart=10000 --mkhomedir \
 	--hostname nessie.moot.fr --reverse-zone=0.168.192.in-addr.arpa \
 	--no-forwarders \
-	--ip-address=192.168.0.234 --unattended
+	--ip-address=192.168.0.234 --unattended \
+	--external-ca 
+
+ipa-server-install --realm=MOOT.FR --domain=moot.fr \
+	--ds-password=DIAZc6HHE6jDuPkL --admin-password=PLRW7Q03rZGeN7nu \
+	--ssh-trust-dns --setup-dns --no-host-dns --idstart=10000 --mkhomedir \
+	--hostname nessie.moot.fr --reverse-zone=0.168.192.in-addr.arpa \
+	--no-forwarders \
+	--ip-address=192.168.0.234 --unattended \
+    --external-cert-file=/root/ipa.crt --external-cert-file=/root/ca.pem
 
 for x in http https dns freeipa-ldap freeipa-ldaps freeipa-replication ntp; do firewall-cmd --permanent --zone=FedoraServer --add-service=${x} ; done
 

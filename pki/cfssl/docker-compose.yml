@@ -17,6 +17,14 @@ services:
     ports:
       - "8889:8889" # CFSSL
       
+  httpca:
+    image: poppypop/cfssl
+    command: httpca
+    volumes:
+      - cfssl-data:/etc/cfssl
+    ports:
+      - "8887:8887" # CFSSL
+      
   cron:
     image: poppypop/cfssl
     command: ocspdump
