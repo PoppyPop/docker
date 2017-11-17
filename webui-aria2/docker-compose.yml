@@ -22,7 +22,6 @@ services:
       - aria-downloads:/downloads
     ports:
       - "6800:6800"
-    user: "1001"
   
   httpd:
     image: poppypop/aria2-webui
@@ -31,7 +30,6 @@ services:
       - VIRTUAL_PORT=8080
     networks:
       - proxy-net
-    user: "1001"
       
   go-automated-ended:
     image: poppypop/go-automated-ended
@@ -40,7 +38,6 @@ services:
       - aria-ended:/ended 
       - aria-extract:/extract 
       - aria-atrier:/nfs:nocopy
-    user: "1001:65540"
 
 networks:
   default:
