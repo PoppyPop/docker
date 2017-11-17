@@ -1,7 +1,13 @@
 version: '3'
 
 volumes:
-  pico-atrier:
+  aria-downloads:
+    external: true
+  aria-ended:
+    external: true
+  aria-extract:
+    external: true
+  aria-atrier:
     external: true
 
 services:
@@ -13,32 +19,27 @@ services:
       - CONCURRENT_DOWNLOADS=5
       - COMPLETE_HOOK=/downloads/complete.sh
     volumes:
-      - /downloads/aria2/Downloads:/downloads
+      - aria-downloads:/downloads
     ports:
       - "6800:6800"
     user: "1001"
   
   httpd:
-    image: busybox
-    volumes:
-      - /downloads/aria2/webui-aria2:/usr/html
+    image: poppypop/aria2-webui
     environment:
       - VIRTUAL_HOST=aria.yugo.moot
       - VIRTUAL_PORT=8080
     networks:
       - proxy-net
-    expose:
-      - 8080
-    command: /bin/busybox httpd -f -p 8080 -h /usr/html
     user: "1001"
       
   go-automated-ended:
     image: poppypop/go-automated-ended
     volumes:
-      - /downloads/aria2/Downloads:/downloads 
-      - /downloads/aria2/Ended:/ended 
-      - /downloads/aria2/Extract:/extract 
-      - pico-atrier:/nfs:nocopy
+      - aria-downloads:/downloads 
+      - aria-ended:/ended 
+      - aria-extract:/extract 
+      - aria-atrier:/nfs:nocopy
     user: "1001:65540"
 
 networks:
