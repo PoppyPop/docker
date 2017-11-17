@@ -5,16 +5,19 @@ services:
     image: linuxserver/transmission
     environment: 
       - TZ=Europe/Paris
-      - PGID=1001
-      - PUID=1001
+      #- PGID=1001
+      #- PUID=1001
+      - VIRTUAL_HOST=transmission.yugo.moot
+      - VIRTUAL_PORT=9091
     volumes:
-      - /downloads/transmission:/downloads
+      - /datas/downloads/transmission:/downloads
       - transmission-watch:/watch
       - /srv/confs/transmission:/config
     ports:
-      - 9091:9091
       - 51413:51413
       - 51413:51413/udp
+    networks:
+      - proxy-net
     logging:
       driver: fluentd
       options:
@@ -29,3 +32,5 @@ networks:
   default:
     driver_opts:
       com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
