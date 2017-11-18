@@ -19,17 +19,18 @@ fi
 
 if [ ! -f /etc/cfssl/ca.pem ]; then 
 	touch /etc/cfssl/bootstrap
-	
+
 	cfssl genkey -initca ca.json | cfssljson -bare ca
+
 	mkdir capub
-	mv ca.crt capub/ca.pem
-	
-	cfssl gencert -ca capub/ca.pem -ca-key ca-key.pem -config="config.json" -profile="intermediate" intermediate.json | cfssljson -bare signing-ca
-	
+	ln -s ${PWD}/ca.pem ${PWD}/capub/ca.pem
+
+	cfssl gencert -ca ca.pem -ca-key ca-key.pem -config="config.json" -profile="intermediate" intermediate.json | cfssljson -bare signing-ca
+
 	cfssl gencert -ca signing-ca.pem -ca-key signing-ca-key.pem -config="config.json" -profile="ocsp" ocsp.json| cfssljson -bare ocsp-ca
 
 	cfssl ocspdump -db-config db-config.json > ocspdump.txt
-	
+
 	rm /etc/cfssl/bootstrap
 fi
 
