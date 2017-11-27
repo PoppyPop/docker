@@ -69,7 +69,7 @@ olcAccess: to dn.base="cn=Subschema" by * read
 olcAccess: to attrs=userPassword
   		by self write
   		by * auth
-  		by group.exact="cn=administrators,ou=groups,dc=moot" write
+  		by group.exact="cn=administrators,ou=groups,dc=moot,dc=fr" write
 olcAccess: to *
        by self write
        by users read
@@ -85,7 +85,7 @@ olcAccess: to *
 dn: olcDatabase=config,cn=config
 objectClass: olcDatabaseConfig
 olcDatabase: config
-olcRootDN: cn=admin,dc=moot
+olcRootDN: cn=admin,dc=moot,dc=fr
 
 #######################################################################
 # LMDB database definitions
@@ -95,8 +95,8 @@ dn: olcDatabase={1}mdb,cn=config
 objectClass: olcDatabaseConfig
 objectClass: olcMdbConfig
 olcDatabase: mdb
-olcSuffix: dc=moot
-olcRootDN: cn=admin,dc=moot
+olcSuffix: dc=moot,dc=fr
+olcRootDN: cn=admin,dc=moot,dc=fr
 # Cleartext passwords, especially for the rootdn, should
 # be avoided.  See slappasswd(8) and slapd-config(5) for details.
 # Use of strong authentication encouraged.

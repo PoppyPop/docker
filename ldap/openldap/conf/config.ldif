@@ -1,6 +1,7 @@
-dn: dc=moot
+dn: dc=moot,dc=fr
 o: moot
 dc: moot
+dc: fr
 ou: moot
 description: moot
 objectClass: dcObject
@@ -11,54 +12,54 @@ objectClass: gosaAcl
 gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vb3Q=
 gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vb3Q=
 
-dn: ou=admin,dc=moot
+dn: ou=admin,dc=moot,dc=fr
 objectClass: organizationalUnit
 objectClass: top
 objectClass: gosaDepartment
 ou: admin
 description: Admin
 
-dn: ou=dhcp,dc=moot
+dn: ou=dhcp,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: dhcp
 
-dn: ou=idmap,dc=moot
+dn: ou=idmap,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: idmap
 
-dn: ou=groups,dc=moot
+dn: ou=groups,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: groups
 
-dn: ou=groups,ou=admin,dc=moot
+dn: ou=groups,ou=admin,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: groups
 
-dn: ou=users,dc=moot
+dn: ou=users,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: users
 
-dn: ou=users,ou=admin,dc=moot
+dn: ou=users,ou=admin,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: users
 
-dn: ou=aclroles,dc=moot
+dn: ou=aclroles,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: aclroles
 
-dn: ou=systems,dc=moot
+dn: ou=systems,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: systems
 
-dn: ou=snapshots,dc=moot
+dn: ou=snapshots,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: snapshots
 
-dn: ou=fusiondirectory,dc=moot
+dn: ou=fusiondirectory,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: fusiondirectory
 
-dn: sambaDomainName=MOOT,dc=moot
+dn: sambaDomainName=MOOT,dc=moot,dc=fr
 objectClass: sambaDomain
 objectClass: sambaUnixIdPool
 sambaDomainName: MOOT
@@ -70,7 +71,7 @@ sambaPwdHistoryLength: 0
 sambaMaxPwdAge: -1
 sambaMinPwdAge: 0
 
-dn: cn=replicators,ou=groups,dc=moot
+dn: cn=replicators,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -81,7 +82,7 @@ sambaSID: S-1-5-32-552
 sambaGroupType: 4
 displayName: Replicators
 
-dn: cn=domain_users,ou=groups,dc=moot
+dn: cn=domain_users,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -92,7 +93,7 @@ sambaSID: S-1-5-21-1090165706-3691719236-1884811436-513
 sambaGroupType: 2
 displayName: Domain Users
 
-dn: cn=domain_admins,ou=groups,dc=moot
+dn: cn=domain_admins,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -104,7 +105,7 @@ sambaGroupType: 2
 displayName: Domain Admins
 memberUid: fd-admin
 
-dn: cn=domain_guests,ou=groups,dc=moot
+dn: cn=domain_guests,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -115,7 +116,7 @@ sambaSID: S-1-5-21-1090165706-3691719236-1884811436-514
 sambaGroupType: 2
 displayName: Domain Guests
 
-dn: cn=administrators,ou=groups,dc=moot
+dn: cn=administrators,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -128,16 +129,16 @@ displayName: Administrators
 sambaSID: S-1-5-21-1090165706-3691719236-1884811436-544
 memberUid: fd-admin
 
-dn: cn=authenticators,ou=groups,ou=admin,dc=moot
+dn: cn=authenticators,ou=groups,ou=admin,dc=moot,dc=fr
 objectClass: top
 objectClass: groupOfNames
 objectClass: gosaGroupOfNames
 cn: authenticators
 description: Authenticators
-member: uid=auth,ou=users,ou=admin,dc=moot
+member: uid=auth,ou=users,ou=admin,dc=moot,dc=fr
 gosaGroupObjects: [U]
 
-dn: cn=print_operators,ou=groups,dc=moot
+dn: cn=print_operators,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -148,7 +149,7 @@ sambaSID: S-1-5-32-550
 sambaGroupType: 4
 displayName: Print Operators
 
-dn: cn=backup_operators,ou=groups,dc=moot
+dn: cn=backup_operators,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -159,7 +160,7 @@ sambaSID: S-1-5-32-551
 sambaGroupType: 4
 displayName: Backup Operators
 
-dn: cn=domain_computers,ou=groups,dc=moot
+dn: cn=domain_computers,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -170,7 +171,7 @@ sambaSID: S-1-5-21-1090165706-3691719236-1884811436-515
 sambaGroupType: 2
 displayName: Domain Computers
 
-dn: cn=account_operators,ou=groups,dc=moot
+dn: cn=account_operators,ou=groups,dc=moot,dc=fr
 objectClass: top
 objectClass: posixGroup
 objectClass: sambaGroupMapping
@@ -181,7 +182,7 @@ sambaSID: S-1-5-32-548
 sambaGroupType: 4
 displayName: Account Operators
 
-dn: uid=auth,ou=users,ou=admin,dc=moot
+dn: uid=auth,ou=users,ou=admin,dc=moot,dc=fr
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -193,11 +194,11 @@ cn: Auth Administrator
 sn: Administrator
 givenName: Auth
 
-dn: ou=templates,ou=users,dc=moot
+dn: ou=templates,ou=users,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: templates
 
-dn: uid=fd-admin,ou=users,ou=admin,dc=moot
+dn: uid=fd-admin,ou=users,ou=admin,dc=moot,dc=fr
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -209,7 +210,7 @@ userPassword:: e0NSWVBUfSQ2JGQ5Yk5OMHRvdmlXRFdrcEIkbEE5NTRPdHhXTlNpRUllZkFQSXJ
  0RVZwTUNVYW5XazRrQm9EeEZLcHdRNW1WcERnNkVIVTljcEJGM3pyZnRTTzRWZUhMa2JzeWRlRldJ
  QnhEYVo1Vi8=
 
-dn: cn=NewUser,ou=templates,ou=users,dc=moot
+dn: cn=NewUser,ou=templates,ou=users,dc=moot,dc=fr
 objectClass: fdTemplate
 fdTemplateField: force_ids:FALSE
 fdTemplateField: gidNumber:513
@@ -240,7 +241,7 @@ fdTemplateField: uid:%l|sn%
 fdTemplateField: userPassword:%askme%
 cn: NewUser
 
-dn: cn=auth,ou=aclroles,dc=moot
+dn: cn=auth,ou=aclroles,dc=moot,dc=fr
 objectClass: top
 objectClass: gosaRole
 cn: auth
@@ -258,28 +259,28 @@ gosaAclTemplate: 0:user/posixAccount;r,user/sambaAccount;rw,user/userRoles;r,u
  ;rw#sambaLockoutThreshold;rw#sambaForceLogoff;rw#sambaRefuseMachinePwdChange;
  rw
 
-dn: cn=admin,ou=aclroles,dc=moot
+dn: cn=admin,ou=aclroles,dc=moot,dc=fr
 objectClass: top
 objectClass: gosaRole
 cn: admin
 description: Gives all rights on all objects
 gosaAclTemplate: 0:all;cmdrw
 
-dn: cn=manager,ou=aclroles,dc=moot
+dn: cn=manager,ou=aclroles,dc=moot,dc=fr
 cn: manager
 description: Give all rights on users in the given branch
 objectClass: top
 objectClass: gosaRole
 gosaAclTemplate: 0:user/user;cmdrw,user/posixAccount;cmdrw
 
-dn: cn=editownpwd,ou=aclroles,dc=moot
+dn: cn=editownpwd,ou=aclroles,dc=moot,dc=fr
 cn: editownpwd
 description: Allow users to edit their own password (use only on base)
 objectClass: top
 objectClass: gosaRole
 gosaAclTemplate: 0:user/user;s#userPassword;rw
 
-dn: cn=editowninfos,ou=aclroles,dc=moot
+dn: cn=editowninfos,ou=aclroles,dc=moot,dc=fr
 cn: editowninfos
 description: Allow users to edit their own information (main tab and posix use
   only on base)
@@ -287,11 +288,11 @@ objectClass: top
 objectClass: gosaRole
 gosaAclTemplate: 0:user/user;srw,user/posixAccount;srw
 
-dn: ou=locks,ou=fusiondirectory,dc=moot
+dn: ou=locks,ou=fusiondirectory,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: locks
 
-dn: cn=config,ou=fusiondirectory,dc=moot
+dn: cn=config,ou=fusiondirectory,dc=moot,dc=fr
 fdLanguage: en_US
 fdTheme: breezy
 fdTimezone: Europe/Paris
@@ -300,7 +301,7 @@ fdModificationDetectionAttribute: entryCSN
 fdLogging: TRUE
 fdSchemaCheck: TRUE
 fdEnableSnapshots: TRUE
-fdSnapshotBase: ou=snapshots,dc=moot
+fdSnapshotBase: ou=snapshots,dc=moot,dc=fr
 fdPasswordDefaultHash: crypt/sha-512
 fdForcePasswordDefaultHash: FALSE
 fdHandleExpiredAccounts: FALSE
@@ -399,6 +400,6 @@ fdShells: /usr/bin/git-shell
 fdDefaultShell: /bin/bash
 fusionConfigMd5: e8f6bfd576c93388344ef7a832578060
 
-dn: ou=recovery,ou=fusiondirectory,dc=moot
+dn: ou=recovery,ou=fusiondirectory,dc=moot,dc=fr
 objectClass: organizationalUnit
 ou: recovery
