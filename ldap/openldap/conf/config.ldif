@@ -1,7 +1,6 @@
 dn: dc=moot,dc=fr
 o: moot
 dc: moot
-dc: fr
 ou: moot
 description: moot
 objectClass: dcObject
