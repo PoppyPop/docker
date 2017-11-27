@@ -11,6 +11,9 @@ then
 	cp conf/slapd.ldif.sample conf/slapd.ldif
 	sed -i "s|{PASSCONFIG}|{CRYPT}${PASSCRYPT}|g" conf/slapd.ldif
 	
+	cp ../fusiondirectory/fusiondirectory.conf.sample ../fusiondirectory/fusiondirectory.conf
+	sed -i "s|{PASSCONFIG}|${PASSCONFIG}|g" ../fusiondirectory/fusiondirectory.conf
+	
 	echo -e $"=========== INFOS ==========="
 	echo "bind     : cn=admin,dc=moot" 
 	echo "pass     : ${PASSCONFIG}"

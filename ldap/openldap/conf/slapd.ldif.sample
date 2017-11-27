@@ -20,7 +20,7 @@ olcPidFile: /var/lib/openldap/run/slapd.pid
 #       Require integrity protection (prevent hijacking)
 #       Require 112-bit (3DES or better) encryption for updates
 #       Require 64-bit encryption for simple bind
-olcSecurity: tls=128 ssf=128 update_ssf=128 update_tls=128 simple_bind=128
+# olcSecurity: tls=128 ssf=128 update_ssf=128 update_tls=128 simple_bind=128
 olcLogLevel: 256
 olcSizeLimit: -1
 olcTLSCACertificateFile: /etc/ssl/ca.crt

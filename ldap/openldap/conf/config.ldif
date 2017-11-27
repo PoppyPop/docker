@@ -8,8 +8,8 @@ objectClass: top
 objectClass: organization
 objectClass: gosaDepartment
 objectClass: gosaAcl
-gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdA==:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vb3Q=
-gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vb3Q=
+gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdCxkYz1mcg==:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vb3QsZGM9ZnI=
+gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290LGRjPWZy:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vb3QsZGM9ZnI=
 
 dn: ou=admin,dc=moot,dc=fr
 objectClass: organizationalUnit
