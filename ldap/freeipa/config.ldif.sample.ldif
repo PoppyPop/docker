@@ -1,0 +1,20 @@
+dn: cn=config
+changetype: modify
+replace: nsslapd-allow-anonymous-access
+nsslapd-allow-anonymous-access: rootdse
+
+dn: uid=system,cn=users,cn=accounts,dc=moot,dc=fr
+changetype: add
+objectclass: account
+objectclass: simplesecurityobject
+uid: system
+userPassword: secret123
+passwordExpirationTime: 20380119031407Z
+nsIdleTimeout: 0
+
+
+
+dn: uid=system,cn=users,cn=accounts,dc=moot,dc=fr
+changetype: modify
+replace: userPassword
+userPassword: {CRYPT}$6$3.eizt9zhk6/qL$WpvgH2NxfT4tZgd9tIZhLZfXyFcghLGBX6FAY5QMWogf7xErZVeL3f4uEkG0I7CTot7/gP0IZS57WeB.SiDXw0

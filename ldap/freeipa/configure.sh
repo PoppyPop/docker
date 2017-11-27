@@ -1,19 +1,19 @@
 #!/bin/bash
 #
 
-if [ ! -f ipa-server-install-options ] 
+if [ ! -f install-vm-fedora.sh ] 
 then
-	PASSCONFIG=$(openssl rand -base64 12)
-	PASSDIR=$(openssl rand -base64 12)
+	ADMINPASS=$(openssl rand -base64 12)
+	DSPASS=$(openssl rand -base64 12)
 	
 	
-	cp ipa-server-install-options.sample ipa-server-install-options
-	sed -i "s|{PASSCONFIG}|${PASSCONFIG}|g" ipa-server-install-options
-	sed -i "s|{PASSDIR}|${PASSDIR}|g" ipa-server-install-options
+	cp install-vm-fedora.sh.sample install-vm-fedora.sh
+	sed -i "s|{ADMINPASS}|${ADMINPASS}|g" install-vm-fedora.sh
+	sed -i "s|{DSPASS}|${DSPASS}|g" install-vm-fedora.sh
 	
 	echo -e $"=========== IPA ==========="
-	echo "PASSCONFIG  : ${PASSCONFIG}"
-	echo "PASSDIR     : ${PASSDIR}"
+	echo "ADMINPASS  : ${ADMINPASS}"
+	echo "DSPASS     : ${DSPASS}"
 	echo -e $"=========== /IPA ==========="
 else
 	echo "config file already exist" 

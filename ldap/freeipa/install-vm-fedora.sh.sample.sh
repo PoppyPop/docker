@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+ADMINPASS={ADMINPASS}
+
 dnf install @freeipa-server oddjob-mkhomedir libsss_sudo haveged jq
 
 systemctl start haveged
