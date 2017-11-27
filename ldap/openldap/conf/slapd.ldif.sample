@@ -23,8 +23,8 @@ olcPidFile: /var/lib/openldap/run/slapd.pid
 olcSecurity: tls=128 ssf=128 update_ssf=128 update_tls=128 simple_bind=128
 olcLogLevel: 256
 olcSizeLimit: -1
-olcTLSCACertificateFile: /etc/ssl/private/ca.crt
-olcTLSCertificateFile: /etc/ssl/private/server.crt
+olcTLSCACertificateFile: /etc/ssl/ca.crt
+olcTLSCertificateFile: /etc/ssl/server.crt
 olcTLSCertificateKeyFile: /etc/ssl/private/server.key
 
 #
