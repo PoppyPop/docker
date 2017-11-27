@@ -31,6 +31,8 @@ if [ ! -f /etc/cfssl/ca.pem ]; then
 
 	cfssl ocspdump -db-config db-config.json > ocspdump.txt
 
+	chmod a-w ca.pem signing-ca.pem ca-key.pem signing-ca-key.pem
+
 	rm /etc/cfssl/bootstrap
 fi
 
