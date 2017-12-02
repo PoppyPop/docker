@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      - PMA_HOSTS=mariadb
+      - VIRTUAL_HOST=mysql.yugo.moot
+      - VIRTUAL_PORT=80
+    networks:
+      - webbackend
+      - proxy-net
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
+  webbackend:
+    external: true
