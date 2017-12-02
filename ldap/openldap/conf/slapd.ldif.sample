@@ -38,6 +38,8 @@ olcModuleload: syncprov
 olcModuleload: unique
 olcModuleload: back_monitor
 olcModuleload: ppolicy
+olcModuleload: memberof
+olcModuleload: refint
 
 dn: cn=schema,cn=config
 objectClass: olcSchemaConfig
@@ -119,12 +121,32 @@ olcDbIndex: sambaSIDList eq
 olcDbIndex: sambaDomainName eq
 olcDbIndex: default sub,eq
 
-dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+dn: olcOverlay={0}syncprov,olcDatabase={1}mdb,cn=config
 objectClass: olcOverlayConfig
 objectClass: olcSyncProvConfig
-olcOverlay: syncprov
+olcOverlay: {0}syncprov
 olcSpCheckpoint: 100 10
 olcSpSessionlog: 100
 
-dn: olcDatabase={2}monitor,cn=config
+dn: olcOverlay={1}memberof,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcMemberOf
+objectClass: olcOverlayConfig
+objectClass: top
+olcOverlay: {1}memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+
+dn: olcOverlay={2}refint,olcDatabase={1}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcRefintConfig
+objectClass: top
+olcOverlay: {2}refint
+olcRefintAttribute: memberof member manager owner
+
+dn: olcDatabase={3}monitor,cn=config
 objectClass: olcDatabaseConfig
