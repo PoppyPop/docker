@@ -41,10 +41,11 @@ function SetSambaConfFile {
 	if ! echo "
 	[$shareName]
 		writeable = yes
-		only user = yes
+		browseable = yes
 		write list = $right
+		read list = $right
+		valid users = $right
 		path = $sharePath
-		user = $right
 		" > $smbBase/smb.d/$shareName.share
 	then
 		echo -e $"There is an ERROR creating $shareName Samba"
@@ -106,14 +107,15 @@ function SetAcl {
 	if [ "$group" != "" ]; then
 		export IFS=","
 		for acl in $group; do
-		  setfacl -d -R -m g:$acl:rwx $sharePath
+		  setfacl -d -R -m g:$acl:rwX $sharePath
+		  setfacl -R -m g:$acl:rwX $sharePath
 		done
 	fi
 	
 	if [ "$user" != "" ]; then
 		export IFS=","
 		for acl in $user; do
-		  setfacl -R -m u:$acl:rwx $sharePath
+		  setfacl -R -m u:$acl:rwX $sharePath
 		done
 	fi
 }
@@ -145,11 +147,21 @@ if [ "$action" == "" ]; then
 	exit 1;
 fi
 
-while [ "$sharePath" == "" ] || [ ! -d "$sharePath" ];
+while [ "$sharePath" == "" ];
 do
 	echo -e $"Please provide a valid share path. e.g./datas"
 	read sharePath
 done
+
+if [ ! -d "$sharePath" ]; then
+	echo -e $"$sharePath does not exists, do you want to create it ? [Yn]"
+	read createSharePath
+	if [ "$createSharePath" == "" ] || [ "$createSharePath" == "y" ] || [ "$createSharePath" == "Y" ]; then
+		mkdir -p $sharePath
+	else
+		exit 18
+	fi
+fi
 
 while [ "$shareName" == "" ]
 do
