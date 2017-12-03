@@ -3,23 +3,36 @@ version: '3'
 services:
   redis:
     image: redis:alpine
-
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
+        
   app:  
     image: poppypop/nextcloud-app
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud-data:/var/www/html
     env_file:
       - db.env
     depends_on:
       - redis
     networks:
       - webbackend
+      - ldap-backend
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
 
   web:
     image: poppypop/nextcloud-web
     volumes:
-      - nextcloud:/var/www/html:ro
+      - nextcloud-data:/var/www/html:ro
     environment:
       - VIRTUAL_HOST=cloud.yugo.moot
       - VIRTUAL_PORT=80
@@ -30,11 +43,17 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
 
   cron:
     image: poppypop/nextcloud-app
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud-data:/var/www/html
     user: www-data
     entrypoint: |
       bash -c 'bash -s <<EOF
@@ -53,9 +72,16 @@ services:
       - redis
     networks:
       - webbackend
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
 
 volumes:
-  nextcloud:
+  nextcloud-data:
+    external: true
 
 networks:
   default:
@@ -64,4 +90,6 @@ networks:
   proxy-net:
     external: true
   webbackend:
+    external: true
+  ldap-backend:
     external: true
