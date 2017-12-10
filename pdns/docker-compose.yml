@@ -1,0 +1,73 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb
+    #restart: always
+    env_file:
+      - db.env
+    volumes:
+      - pdns-mysql:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+          - mysql
+      
+  adminer:
+    image: adminer
+    #restart: always
+    environment:
+      - VIRTUAL_HOST=dns-mysql.yugo.moot
+      - VIRTUAL_PORT=8080
+    networks:
+      - proxy-net
+      - default
+
+  pdns:
+    image: poppypop/pdns-mysql:alpine
+    #restart: always
+    depends_on:
+      - db
+    ports:
+      - "5301:53"
+      - "5301:53/udp"
+    env_file:
+      - pdns.env
+      
+  pdns-admin-uwsgi:
+    image: poppypop/pdns-admin-uwsgi:alpine
+    volumes:
+      - pdns-admin-upload:/opt/powerdns-admin/upload
+    depends_on:
+      - pdns
+    env_file:
+      - pdns-admin.env
+    networks:
+      - ldap-backend
+      - default
+
+  pdns-admin-static:
+    image: pschiffe/pdns-admin-static
+    depends_on:
+      - pdns-admin-uwsgi
+    environment:
+      - VIRTUAL_HOST=dns.yugo.moot
+      - VIRTUAL_PORT=80
+    networks:
+      - proxy-net
+      - default
+
+volumes:
+  pdns-mysql:
+    external: true
+  pdns-admin-upload:
+    external: true
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
+  ldap-backend:
+    external: true
