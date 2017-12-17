@@ -23,19 +23,52 @@ services:
       - proxy-net
       - default
 
+  pdns-recursor:
+    image: pschiffe/pdns-recursor:alpine
+    ports:
+      - "153:53"
+      - "153:53/udp"
+    environment:
+      - VIRTUAL_HOST=dns-recursor.yugo.moot
+      - VIRTUAL_PORT=8080
+    volumes:
+      - pdns-recursor-datas:/etc/pdns
+    expose:
+      - 8080
+    env_file:
+      - pdns-api.env
+      - pdns-recursor.env
+    networks:
+      - proxy-net
+      - default
+      
   pdns:
-    image: poppypop/pdns-mysql:alpine
+    image: pschiffe/pdns-mysql:alpine
     #restart: always
     depends_on:
       - db
-    ports:
-      - "5301:53"
-      - "5301:53/udp"
+    environment:
+      - VIRTUAL_HOST=dns-api.yugo.moot
+      - VIRTUAL_PORT=8080
+    expose:
+      - 8080
     env_file:
       - pdns.env
+      - pdns-api.env
+    networks:
+      - proxy-net
+      - default
+      
+  pdns-recursor-companion :
+    image: poppypop/docker-pdns-recursor-companion   
+    env_file:
+      - pdns-api.env
+    depends_on:
+      - pdns
+      - pdns-recursor
       
   pdns-admin-uwsgi:
-    image: poppypop/pdns-admin-uwsgi:alpine
+    image: pschiffe/pdns-admin-uwsgi:alpine
     volumes:
       - pdns-admin-upload:/opt/powerdns-admin/upload
     depends_on:
@@ -56,11 +89,15 @@ services:
     networks:
       - proxy-net
       - default
+      
+
 
 volumes:
   pdns-mysql:
     external: true
   pdns-admin-upload:
+    external: true
+  pdns-recursor-datas:
     external: true
 
 networks:
