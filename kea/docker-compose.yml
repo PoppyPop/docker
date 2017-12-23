@@ -1,18 +1,50 @@
-version: '2'
+version: '3'
 
 services:
-    # elastic
-    kea:
-        restart: always
-        image: poppypop/kea
-        network_mode: "host"
-        volumes:
-            - /srv/confs/kea:/etc/kea
-            - /srv/datas/kea:/var/lib/kea
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224"
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}
-    
+  db:
+    image: mariadb
+    #restart: always
+    env_file:
+      - db.env
+    volumes:
+      - kea-mysql:/var/lib/mysql
+    networks:
+      default:
+        aliases:
+          - mysql
+      
+  adminer:
+    image: adminer
+    #restart: always
+    environment:
+      - VIRTUAL_HOST=kea-mysql.yugo.moot
+      - VIRTUAL_PORT=8080
+    networks:
+      - proxy-net
+      - default
+
+  kea:
+    image: poppypop/docker-kea
+    #restart: always
+    privileged: true
+    environment:
+      - FIX_UDP_CHECKSUM=1
+    depends_on:
+      - db
+    env_file:
+      - kea.env
+    volumes:
+      - kea:/etc/kea
+
+
+volumes:
+  kea-mysql:
+  kea:
+    #external: true
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
