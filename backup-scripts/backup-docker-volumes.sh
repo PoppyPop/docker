@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 
+# Fail on error
+set -e
+
 # list volumes with backup tag
 readarray -t RESULT < <( docker volume ls --format "{{.Label \"backup\"}}|{{.Name}}" )
 
@@ -33,9 +36,11 @@ do
 done
 
 echo "============================ BACKUP ============================"
-for i in "${BACKUP[@]}"
-do
-	echo -e "${GREEN}$i${NC}"
-	#docker run -it --rm  -v openldap-data:/volume -v /tmp:/backup alpine \
-    #tar -cjf /backup/openldap-data.tar.bz2 -C /volume ./
-done
+
+parallel ./backup-docker-volume.sh ::: ${BACKUP[@]}
+
+#for i in "${BACKUP[@]}"
+#do
+#	echo -e "${GREEN}$i${NC}"
+#	./backup-docker-volume.sh $i
+#done
