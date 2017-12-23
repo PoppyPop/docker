@@ -9,6 +9,8 @@ sudo cp -f db.env /srv/confs/pdns/
 sudo cp -f pdns-admin.env /srv/confs/pdns/
 sudo cp -f pdns.env /srv/confs/pdns/
 sudo cp -f pdns-api.env /srv/confs/pdns/
+sudo cp -f pdns-recursor.env /srv/confs/pdns/
+
 
 #datas
 docker volume create pdns-mysql --label backup=yes

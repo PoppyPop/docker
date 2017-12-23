@@ -26,8 +26,8 @@ services:
   pdns-recursor:
     image: pschiffe/pdns-recursor:alpine
     ports:
-      - "153:53"
-      - "153:53/udp"
+      - "53:53"
+      - "53:53/udp"
     environment:
       - VIRTUAL_HOST=dns-recursor.yugo.moot
       - VIRTUAL_PORT=8080
