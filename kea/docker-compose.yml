@@ -8,14 +8,11 @@ services:
       - db.env
     volumes:
       - kea-mysql:/var/lib/mysql
-    networks:
-      default:
-        aliases:
-          - mysql
+    ports:
+      - "127.0.0.1:9306:3306"
       
   adminer:
     image: adminer
-    #restart: always
     environment:
       - VIRTUAL_HOST=kea-mysql.yugo.moot
       - VIRTUAL_PORT=8080
@@ -25,22 +22,16 @@ services:
 
   kea:
     image: poppypop/docker-kea
-    #restart: always
-    privileged: true
-    environment:
-      - FIX_UDP_CHECKSUM=1
+    network_mode: "host"
     depends_on:
       - db
     env_file:
       - kea.env
-    volumes:
-      - kea:/etc/kea
 
 
 volumes:
   kea-mysql:
-  kea:
-    #external: true
+    external: true
 
 networks:
   default:
