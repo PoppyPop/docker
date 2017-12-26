@@ -11,10 +11,14 @@ then
 	cp db.env.sample db.env
 	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" db.env
 	
+	cp pdns-api.env.sample pdns-api.env
+	sed -i "s|{APIKEY}|${APIKEY}|g" pdns-api.env
+	sed -i "s|{WEBPASS}|${WEBPASS}|g" pdns-api.env	
+
+	cp pdns-recursor.env.sample pdns-recursor.env
+
 	cp pdns.env.sample pdns.env
 	sed -i "s|{PASSDB}|${DBROOTPASS}|g" pdns.env
-	sed -i "s|{APIKEY}|${APIKEY}|g" pdns.env
-	sed -i "s|{WEBPASS}|${WEBPASS}|g" pdns.env
 	
 	cp pdns-admin.env.sample pdns-admin.env
 	sed -i "s|{PASSDB}|${DBROOTPASS}|g" pdns-admin.env
