@@ -4,38 +4,46 @@
 
 if [ ! -f db.env ] 
 then
+	sudo apt install bind9utils
+	TSIGFILE=$(dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST TSIG)
+	TSIG=$(cat ${TSIGFILE}.key | awk '{print $7$8}')
+
+	rm ${TSIGFILE}.key
+	rm ${TSIGFILE}.private
+
 	DBROOTPASS=$(openssl rand -base64 12)	
 	APIKEY=$(openssl rand -base64 12)
 	WEBPASS=$(openssl rand -base64 12)
 	
-	cp db.env.sample db.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" db.env
+	cp conf-sample/db.env.sample conf/db.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/db.env
 	
-	cp pdns-api.env.sample pdns-api.env
-	sed -i "s|{APIKEY}|${APIKEY}|g" pdns-api.env
-	sed -i "s|{WEBPASS}|${WEBPASS}|g" pdns-api.env	
+	cp conf-sample/pdns-api.env.sample conf/pdns-api.env
+	sed -i "s|{APIKEY}|${APIKEY}|g" conf/pdns-api.env
+	sed -i "s|{WEBPASS}|${WEBPASS}|g" conf/pdns-api.env	
 
-	cp pdns-recursor.env.sample pdns-recursor.env
+	cp conf-sample/pdns-recursor.env.sample conf/pdns-recursor.env
 
-	cp pdns.env.sample pdns.env
-	sed -i "s|{PASSDB}|${DBROOTPASS}|g" pdns.env
+	cp conf-sample/pdns.env.sample conf/pdns.env
+	sed -i "s|{PASSDB}|${DBROOTPASS}|g" conf/pdns.env
 	
-	cp pdns-admin.env.sample pdns-admin.env
-	sed -i "s|{PASSDB}|${DBROOTPASS}|g" pdns-admin.env
-	sed -i "s|{APIKEY}|${APIKEY}|g" pdns-admin.env
+	cp conf-sample/pdns-admin.env.sample conf/pdns-admin.env
+	sed -i "s|{PASSDB}|${DBROOTPASS}|g" conf/pdns-admin.env
+	sed -i "s|{APIKEY}|${APIKEY}|g" conf/pdns-admin.env
 	
 	read -p "LDAP User ? " LDAPUSER
-	sed -i "s|{LDAPUSER}|${LDAPUSER}|g" pdns-admin.env
+	sed -i "s|{LDAPUSER}|${LDAPUSER}|g" conf/pdns-admin.env
 	
 	read -s -p "LDAP Pass ? " LDAPPASS; echo
-	sed -i "s|{LDAPPASS}|${LDAPPASS}|g" pdns-admin.env
+	sed -i "s|{LDAPPASS}|${LDAPPASS}|g" conf/pdns-admin.env
 
-
+	echo "TSIG=${TSIG}" > conf/pdns-tsig.env
 	
 	echo -e $"=========== pdns ==========="
 	echo "base     : ${DBROOTPASS}"
 	echo "api      : ${APIKEY}"
 	echo "pass     : ${WEBPASS}"
+	echo "TSIG     : ${TSIG}"
 	echo -e $"=========== /pdns ==========="
 else
 	echo "config file already exist" 

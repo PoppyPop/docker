@@ -5,7 +5,7 @@ services:
     image: mariadb
     #restart: always
     env_file:
-      - db.env
+      - conf/db.env
     volumes:
       - pdns-mysql:/var/lib/mysql
     networks:
@@ -31,13 +31,11 @@ services:
     environment:
       - VIRTUAL_HOST=dns-recursor.yugo.moot
       - VIRTUAL_PORT=8080
-    volumes:
-      - pdns-recursor-datas:/etc/pdns
     expose:
       - 8080
     env_file:
-      - pdns-api.env
-      - pdns-recursor.env
+      - conf/pdns-api.env
+      - conf/pdns-recursor.env
     networks:
       - proxy-net
       - default
@@ -53,8 +51,8 @@ services:
     expose:
       - 8080
     env_file:
-      - pdns.env
-      - pdns-api.env
+      - conf/pdns.env
+      - conf/pdns-api.env
     networks:
       - proxy-net
       - default
@@ -62,7 +60,7 @@ services:
   pdns-recursor-companion :
     image: poppypop/docker-pdns-recursor-companion   
     env_file:
-      - pdns-api.env
+      - conf/pdns-api.env
     depends_on:
       - pdns
       - pdns-recursor
@@ -74,7 +72,7 @@ services:
     depends_on:
       - pdns
     env_file:
-      - pdns-admin.env
+      - conf/pdns-admin.env
     networks:
       - ldap-backend
       - default
@@ -90,14 +88,10 @@ services:
       - proxy-net
       - default
       
-
-
 volumes:
   pdns-mysql:
     external: true
   pdns-admin-upload:
-    external: true
-  pdns-recursor-datas:
     external: true
 
 networks:
