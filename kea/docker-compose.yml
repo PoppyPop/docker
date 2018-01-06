@@ -27,11 +27,24 @@ services:
       - db
     env_file:
       - kea.env
+    volumes:
+      - kea-socket:/var/run/kea/sockets/
+
+  #kea-control-agent:
+  #  image: poppypop/docker-kea
+  #  command: kea-ctrl-agent
+  #  depends_on:
+  #    - kea
+  #  volumes:
+  #    - kea-socket:/var/run/kea/sockets/
+  #  ports:
+  #    - "8080:8080"
 
 
 volumes:
   kea-mysql:
     external: true
+  kea-socket:
 
 networks:
   default:
