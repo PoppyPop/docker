@@ -2,7 +2,7 @@ version: '3'
 
 services:
   emby:
-    image: pemby/embyserver_netcore:latest
+    image: emby/embyserver_netcore:latest
     environment:
       - VIRTUAL_HOST=emby.yugo.moot
       - VIRTUAL_PORT=8096
