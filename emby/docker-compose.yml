@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  emby:
+    image: pemby/embyserver_netcore:latest
+    environment:
+      - VIRTUAL_HOST=emby.yugo.moot
+      - VIRTUAL_PORT=8096
+      - UID=11001
+      - GID=11002
+      - GIDLIST=513
+    volumes:
+      - emby-datas:/config
+      - "/datas:/datas"
+    devices:
+      - "/dev/dri/renderD128:/dev/dri/renderD128"
+    networks:
+      - proxy-net
+      - default
+    #ports:
+    #  - "8096:8096"
+    #  - "8920:8920"
+
+
+volumes:
+  emby-datas:
+    external: true
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
