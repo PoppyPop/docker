@@ -4,7 +4,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
     && apt-get update \
 	&& apt-get install -y apt-utils \
     && apt-get install -y ca-certificates gnupg2 \
-	&& apt-key adv --keyserver keys.gnupg.net --recv-keys D744D55EACDA69FF \
+	#&& apt-key adv --keyserver pgp.mit.edu --recv-keys D744D55EACDA69FF \
 	&& rm -rf /var/lib/apt/lists/*
 		
 #Add fusiondirectory sources
@@ -12,7 +12,7 @@ RUN printf "deb http://repos.fusiondirectory.org/fusiondirectory-current/debian-
 
 RUN apt-get update \
     && apt-get upgrade -y \
-	&& apt-get install -y perl perl-modules php-mbstring libarchive-extract-perl \
+	&& apt-get install --allow-unauthenticated -y perl perl-modules php-mbstring libarchive-extract-perl \
 	fusiondirectory \
     fusiondirectory-plugin-dhcp \
 	fusiondirectory-plugin-dns \

@@ -4,9 +4,10 @@ ENV FUSIONDIRECTORY_VERSION 1.2
 
 RUN set -xe \
 	&& apk update --no-cache && apk upgrade --no-cache \
-	&& apk add --update --no-cache openldap openldap-back-monitor openldap-clients \
+	&& apk add --update --no-cache openldap openldap-back-mdb openldap-back-monitor openldap-clients openldap-overlay-syncprov openldap-overlay-unique openldap-overlay-ppolicy openldap-overlay-memberof openldap-overlay-refint \
 	&& mkdir /etc/openldap/slapd.d \
 	&& mkdir -p /var/lib/openldap/openldap-data \
+	&& mkdir -p /run/openldap/ \
 	&& rm -rf /var/cache/apk/*
 
 ADD conf/slapd.ldif /etc/openldap/slapd.ldif
@@ -31,8 +32,10 @@ RUN mkdir tmpschema && cd tmpschema && mkdir fusiond && \
   for f in `ls fusiond/fusiondirectory-plugins-fusiondirectory-${FUSIONDIRECTORY_VERSION}/*/contrib/openldap/*.schema | grep -v conf` ; do bn=$(basename $f .schema); /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif $f &> /etc/openldap/schema-ldif-includes/80-$bn.ldif; done && \
   for f in `ls fusiond/fusiondirectory-plugins-fusiondirectory-${FUSIONDIRECTORY_VERSION}/*/contrib/openldap/*.schema | grep conf` ; do bn=$(basename $f .schema); /tmpschema/fusiond/schema2ldif-${FUSIONDIRECTORY_VERSION}/bin/schema2ldif $f &> /etc/openldap/schema-ldif-includes/90-$bn.ldif; done && \
   mv /etc/openldap/schema-ldif-includes/80-mail-fd.ldif /etc/openldap/schema-ldif-includes/70-mail-fd.ldif && \
+  echo "" > /etc/openldap/schema.ldif && \
   for f in `ls /etc/openldap/schema-ldif-includes/*.ldif` ; do echo "include: file://$f" >> /etc/openldap/schema.ldif; done && \
   sed -i '/misc.ldif/r /etc/openldap/schema.ldif' /etc/openldap/slapd.ldif && \
+  echo "slapd.d" && \
   /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -n 0 -l /etc/openldap/slapd.ldif  && \
   cd - && \
   rm -rf tmpschema && \
@@ -40,7 +43,7 @@ RUN mkdir tmpschema && cd tmpschema && mkdir fusiond && \
   rm -rf /var/cache/apk/*
  
 #Main populate
-RUN /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -l /etc/openldap/config.ldif
+RUN echo "config" && /usr/sbin/slapadd -v -F /etc/openldap/slapd.d -l /etc/openldap/config.ldif
 
 VOLUME /var/lib/openldap/openldap-data
 
