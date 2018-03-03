@@ -11,7 +11,7 @@ services:
       - SPLIT=8
       - CONNECTIONS_PER_SERVER=8
       - CONCURRENT_DOWNLOADS=5
-      - DOWNLOAD_DIR=/datas/downloads
+      - DOWNLOAD_DIR=/datas/Downloads
       #- COMPLETE_HOOK=/datas/complete.sh
     volumes:
       -  aria-datas:/datas
