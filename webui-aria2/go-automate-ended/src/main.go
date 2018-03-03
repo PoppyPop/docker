@@ -24,8 +24,9 @@ import (
 	lq "github.com/ahmetb/go-linq"
 	"github.com/gorilla/websocket"
 	"github.com/mholt/archiver"
-	"regexp"
+	"os/exec"
 	"path"
+	"regexp"
 )
 
 // Event Struct of the returning message as definied in aria2 rpc
@@ -135,6 +136,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			var extractFile string
 			var extractFileName string
+			var refFilename string
 			multiPart := false
 
 			r, _ := regexp.Compile(`^(.*)\.part\d+.rar$`)
@@ -144,24 +146,32 @@ func HandleGID(reply StatusResponse, c *Client) {
 			if len(result) > 0 {
 				multiPart = true
 
-				refFilename := result[1]
+				refFilename = result[1]
 				directory := filepath.Dir(element.Path)
 				// Multipart archive
-				dlDirFiles, _ := ioutil.ReadDir(directory)
+				dlDirFiles, errReadDir := ioutil.ReadDir(directory)
+
+				if errReadDir != nil {
+					log.Printf("[%s] %s", reply.Gid, errReadDir)
+					return
+				}
+
 				if len(dlDirFiles) > 1 {
 					otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
 						c := f.(os.FileInfo)
 						return !c.IsDir() &&
-							strings.HasPrefix(c.Name(), refFilename) &&
+							strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
 							strings.TrimPrefix(filepath.Ext(c.Name()), ".") == ext &&
 							(strings.Contains(c.Name(), "part1") ||
 								strings.Contains(c.Name(), "part01") ||
 								strings.Contains(c.Name(), "part001"))
-					}).(os.FileInfo)
+					})
 
-					log.Printf("[%s] %s", reply.Gid, path.Join(directory, otherFile.Name()))
-					extractFile = path.Join(directory, otherFile.Name())
-					extractFileName = filepath.Base(extractFile)
+					if otherFile != nil {
+						log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
+						extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
+						extractFileName = filepath.Base(extractFile)
+					}
 				}
 			}
 
@@ -180,7 +190,13 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			log.Printf("[%s] Extracting: %s", reply.Gid, extractFile)
 			if ext == "rar" {
-				errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
+				if multiPart {
+					cmd := "unrar"
+					args := []string{"x", extractFile, getExtractPath() + extractFileName}
+					errExtract = exec.Command(cmd, args...).Run()
+				} else {
+					errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
+				}
 			} else if ext == "zip" {
 				errExtract = archiver.Zip.Open(extractFile, getExtractPath()+extractFileName)
 			}
@@ -189,7 +205,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 				log.Printf("[%s] Error extracting file %s: %s", reply.Gid, extractFile, errExtract)
 				os.RemoveAll(getExtractPath() + extractFileName)
 				// to handle wrong extract number
-				if (multiPart) {
+				if multiPart {
 					continue
 				}
 				return
@@ -207,6 +223,19 @@ func HandleGID(reply StatusResponse, c *Client) {
 			if errRemove != nil {
 				log.Printf("[%s] %s", reply.Gid, errRemove)
 				return
+			}
+			if multiPart {
+				files, errM := filepath.Glob(refFilename + ".part*." + ext)
+				if errM != nil {
+					log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errM)
+					return
+				}
+				for _, f := range files {
+					if errRMF := os.Remove(f); errRMF != nil {
+						log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errRMF)
+						return
+					}
+				}
 			}
 
 			continue
