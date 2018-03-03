@@ -15,10 +15,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o go-automate-ended
 FROM alpine:latest  
 RUN apk --no-cache add ca-certificates
 
-VOLUME /downloads
-VOLUME /ended
-VOLUME /extract
-VOLUME /nfs
+VOLUME /datas
 
 WORKDIR /app/
 COPY --from=builder /go/src/github.com/PoppyPop/docker/webui-aria2/go-automate-ended/go-automate-ended .

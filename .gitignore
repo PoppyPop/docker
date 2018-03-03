@@ -1,3 +1,5 @@
 # exclude everything except directory foo/bar
 webui-aria2/webui-aria2/
 webui-aria2/aria2-alpine/
+
+*.exe

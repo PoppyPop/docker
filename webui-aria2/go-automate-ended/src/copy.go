@@ -11,15 +11,21 @@ import (
 
 // MoveFile ...
 func MoveFile(src, dst string) (err error) {
-	cpErr := CopyFile(src, dst)
-	if cpErr != nil {
-		return cpErr
-	}
+	// Try to move on the same partition
+	errMove :=  os.Rename(src, dst)
 
-	rmErr := os.RemoveAll(src)
+	if errMove != nil {
+		// The os move failed, we try to copy/delete
+		cpErr := CopyFile(src, dst)
+		if cpErr != nil {
+			return cpErr
+		}
 
-	if rmErr != nil {
-		return rmErr
+		rmErr := os.RemoveAll(src)
+
+		if rmErr != nil {
+			return rmErr
+		}
 	}
 
 	return
@@ -86,15 +92,21 @@ func CopyFile(src, dst string) (err error) {
 
 // MoveDir ...
 func MoveDir(src, dst string) (err error) {
-	cpErr := CopyDir(src, dst)
-	if cpErr != nil {
-		return cpErr
-	}
+	// Try to move on the same partition
+	errMove :=  os.Rename(src, dst)
 
-	rmErr := os.RemoveAll(src)
+	if errMove != nil {
+		// The os move failed, we try to copy/delete
+		cpErr := CopyDir(src, dst)
+		if cpErr != nil {
+			return cpErr
+		}
 
-	if rmErr != nil {
-		return rmErr
+		rmErr := os.RemoveAll(src)
+
+		if rmErr != nil {
+			return rmErr
+		}
 	}
 
 	return

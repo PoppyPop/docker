@@ -3,17 +3,14 @@
 
 sudo apt-get install unar nfs-common
 
-sudo mkdir -p /downloads/aria2/Downloads
-sudo mkdir -p /downloads/aria2/Extract
-sudo mkdir -p /downloads/aria2/Ended
-sudo mkdir -p /downloads/aria2/webui-aria2
+sudo mkdir -p /datas/downloads/aria2/datas/Downloads
+sudo mkdir -p /datas/downloads/aria2/datas/Extract
+sudo mkdir -p /datas/downloads/aria2/datas/Ended
+sudo mkdir -p /datas/downloads/aria2/webui-aria2
 
-sudo cp -f autounrar.py /downloads/aria2/
-sudo cp -f copyFile.sh /downloads/aria2/
-sudo cp -f complete.sh /downloads/aria2/Downloads/
-
-# prep go-automated
-sudo go-automate-ended/init.sh
+sudo cp -f autounrar.py /datas/downloads/aria2/datas/
+sudo cp -f copyFile.sh /datas/downloads/aria2/datas/
+sudo cp -f complete.sh /datas/downloads/aria2/datas/
 
 #conf
 sudo mkdir -p /srv/confs/aria2/
@@ -23,6 +20,6 @@ sudo cp -f docker-compose.yml /srv/confs/aria2/
 sudo cp -f download-sudo /etc/sudoers.d/
 
 sudo useradd -m download
-sudo chown -R download:download /downloads/aria2/
+sudo chown -R download:download /datas/downloads/aria2/
 
 sudo id download

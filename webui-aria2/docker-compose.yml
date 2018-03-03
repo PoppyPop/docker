@@ -1,13 +1,7 @@
 version: '3'
 
 volumes:
-  aria-downloads:
-    external: true
-  aria-ended:
-    external: true
-  aria-extract:
-    external: true
-  aria-atrier:
+  aria-datas:
     external: true
 
 services:
@@ -17,9 +11,10 @@ services:
       - SPLIT=8
       - CONNECTIONS_PER_SERVER=8
       - CONCURRENT_DOWNLOADS=5
-      - COMPLETE_HOOK=/downloads/complete.sh
+      - DOWNLOAD_DIR=/datas/downloads
+      #- COMPLETE_HOOK=/datas/complete.sh
     volumes:
-      - aria-downloads:/downloads
+      -  aria-datas:/datas
     ports:
       - "6800:6800"
   
@@ -34,10 +29,7 @@ services:
   go-automated-ended:
     image: poppypop/go-automated-ended
     volumes:
-      - aria-downloads:/downloads 
-      - aria-ended:/ended 
-      - aria-extract:/extract 
-      - aria-atrier:/nfs:nocopy
+      - aria-datas:/datas 
 
 networks:
   default:

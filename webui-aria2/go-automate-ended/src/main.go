@@ -21,9 +21,11 @@ import (
 	"strings"
 	"time"
 
-	//lq "github.com/ahmetb/go-linq"
+	lq "github.com/ahmetb/go-linq"
 	"github.com/gorilla/websocket"
 	"github.com/mholt/archiver"
+	"regexp"
+	"path"
 )
 
 // Event Struct of the returning message as definied in aria2 rpc
@@ -119,26 +121,56 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			log.Printf("[%s] Moving: %s", reply.Gid, element.Path)
 
-			errRename := MoveFile(element.Path, "/ended/"+fileName)
+			errRename := MoveFile(element.Path, getEndedPath()+fileName)
 
 			if errRename != nil {
 				log.Printf("[%s] %s", reply.Gid, errRename)
 				return
 			}
 
-			errTr := TransfertFile(reply.Gid, "/ended/"+fileName)
-			if errTr != nil {
-				log.Printf("[%s] %s", reply.Gid, errTr)
-			}
-
-			RemoveDl(reply.Gid, c)
-
 			continue
 		}
 
 		if archiveExt[ext] {
 
-			errMkDirAll := os.MkdirAll("/extract/"+fileName, 0777)
+			var extractFile string
+			var extractFileName string
+			multiPart := false
+
+			r, _ := regexp.Compile(`^(.*)\.part\d+.rar$`)
+			result := r.FindStringSubmatch(element.Path)
+
+			// Multipart
+			if len(result) > 0 {
+				multiPart = true
+
+				refFilename := result[1]
+				directory := filepath.Dir(element.Path)
+				// Multipart archive
+				dlDirFiles, _ := ioutil.ReadDir(directory)
+				if len(dlDirFiles) > 1 {
+					otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
+						c := f.(os.FileInfo)
+						return !c.IsDir() &&
+							strings.HasPrefix(c.Name(), refFilename) &&
+							strings.TrimPrefix(filepath.Ext(c.Name()), ".") == ext &&
+							(strings.Contains(c.Name(), "part1") ||
+								strings.Contains(c.Name(), "part01") ||
+								strings.Contains(c.Name(), "part001"))
+					}).(os.FileInfo)
+
+					log.Printf("[%s] %s", reply.Gid, path.Join(directory, otherFile.Name()))
+					extractFile = path.Join(directory, otherFile.Name())
+					extractFileName = filepath.Base(extractFile)
+				}
+			}
+
+			if extractFile == "" {
+				extractFile = element.Path
+				extractFileName = fileName
+			}
+
+			errMkDirAll := os.MkdirAll(getExtractPath()+extractFileName, 0777)
 			if errMkDirAll != nil {
 				log.Printf("[%s] %s", reply.Gid, errMkDirAll)
 				return
@@ -146,23 +178,31 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			var errExtract error
 
+			log.Printf("[%s] Extracting: %s", reply.Gid, extractFile)
 			if ext == "rar" {
-				errExtract = archiver.Rar.Open(element.Path, "/extract/"+fileName)
+				errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
 			} else if ext == "zip" {
-				errExtract = archiver.Zip.Open(element.Path, "/extract/"+fileName)
+				errExtract = archiver.Zip.Open(extractFile, getExtractPath()+extractFileName)
 			}
 
 			if errExtract != nil {
-				log.Printf("[%s] Error extracting file %s: %s", reply.Gid, element.Path, errExtract)
+				log.Printf("[%s] Error extracting file %s: %s", reply.Gid, extractFile, errExtract)
+				os.RemoveAll(getExtractPath() + extractFileName)
+				// to handle wrong extract number
+				if (multiPart) {
+					continue
+				}
 				return
 			}
 
-			errRename := MoveDir("/extract/"+fileName, "/ended/"+fileName)
+			log.Printf("[%s] Moving: %s", reply.Gid, getExtractPath()+extractFileName)
+			errRename := MoveDir(getExtractPath()+extractFileName, getEndedPath()+extractFileName)
 			if errRename != nil {
 				log.Printf("[%s] %s", reply.Gid, errRename)
 				return
 			}
 
+			log.Printf("[%s] Cleaning: %s", reply.Gid, element.Path)
 			errRemove := os.RemoveAll(element.Path)
 			if errRemove != nil {
 				log.Printf("[%s] %s", reply.Gid, errRemove)
@@ -172,6 +212,8 @@ func HandleGID(reply StatusResponse, c *Client) {
 			continue
 		}
 	}
+
+	RemoveDl(reply.Gid, c)
 
 	files, _ := ioutil.ReadDir(reply.Dir)
 	if len(files) == 0 {
@@ -272,7 +314,7 @@ func RemoveDl(gid string, c *Client) {
 func TransfertFile(gid string, file string) (err error) {
 	log.Printf("[%s] Transfert file: %s", gid, file)
 
-	errMount := MoveFile(file, "/nfs")
+	errMount := MoveFile(file, getTransferedPath())
 
 	if errMount != nil {
 		return errMount
@@ -291,6 +333,19 @@ const (
 
 var addr = flag.String("addr", "192.168.0.235:6800", "http service address")
 var token = flag.String("token", "reMgE94K5cSiE926", "auth token")
+var basePath = flag.String("path", "/datas", "base path")
+
+func getExtractPath() string {
+	return *basePath + "/Extract/"
+}
+
+func getEndedPath() string {
+	return *basePath + "/Ended/"
+}
+
+func getTransferedPath() string {
+	return *basePath + "/Atrier/"
+}
 
 var rpcIds = make(map[uint64]bool)
 
@@ -333,6 +388,7 @@ func main() {
 				continue
 			}
 		}
+		log.Println("Connected !")
 		defer c.Close()
 
 		// reset nbtry
