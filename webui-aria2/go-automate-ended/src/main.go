@@ -24,6 +24,7 @@ import (
 	lq "github.com/ahmetb/go-linq"
 	"github.com/gorilla/websocket"
 	"github.com/mholt/archiver"
+	"math"
 	"os/exec"
 	"path"
 	"regexp"
@@ -112,13 +113,8 @@ func HandleGID(reply StatusResponse, c *Client) {
 			errRemove := os.Remove(element.Path)
 			if errRemove != nil {
 				log.Printf("[%s] %s", reply.Gid, errRemove)
-				return
 			}
-
-			continue
-		}
-
-		if videoExt[ext] || audioExt[ext] {
+		} else if videoExt[ext] || audioExt[ext] {
 
 			log.Printf("[%s] Moving: %s", reply.Gid, element.Path)
 
@@ -126,119 +122,64 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			if errRename != nil {
 				log.Printf("[%s] %s", reply.Gid, errRename)
-				return
 			}
+		} else if archiveExt[ext] {
 
-			continue
-		}
+			multiPart, extractFile, extractFileName, refFilename, errHandle := HandleArchive(reply, element, ext, fileName)
+			if errHandle != nil {
+				log.Printf("[%s] %s", reply.Gid, errHandle)
+			} else {
 
-		if archiveExt[ext] {
-
-			var extractFile string
-			var extractFileName string
-			var refFilename string
-			multiPart := false
-
-			r, _ := regexp.Compile(`^(.*)\.part\d+.rar$`)
-			result := r.FindStringSubmatch(element.Path)
-
-			// Multipart
-			if len(result) > 0 {
-				multiPart = true
-
-				refFilename = result[1]
-				directory := filepath.Dir(element.Path)
-				// Multipart archive
-				dlDirFiles, errReadDir := ioutil.ReadDir(directory)
-
-				if errReadDir != nil {
-					log.Printf("[%s] %s", reply.Gid, errReadDir)
-					return
-				}
-
-				if len(dlDirFiles) > 1 {
-					otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
-						c := f.(os.FileInfo)
-						return !c.IsDir() &&
-							strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
-							strings.TrimPrefix(filepath.Ext(c.Name()), ".") == ext &&
-							(strings.Contains(c.Name(), "part1") ||
-								strings.Contains(c.Name(), "part01") ||
-								strings.Contains(c.Name(), "part001"))
-					})
-
-					if otherFile != nil {
-						log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
-						extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
-						extractFileName = filepath.Base(extractFile)
-					}
-				}
-			}
-
-			if extractFile == "" {
-				extractFile = element.Path
-				extractFileName = fileName
-			}
-
-			errMkDirAll := os.MkdirAll(getExtractPath()+extractFileName, 0777)
-			if errMkDirAll != nil {
-				log.Printf("[%s] %s", reply.Gid, errMkDirAll)
-				return
-			}
-
-			var errExtract error
-
-			log.Printf("[%s] Extracting: %s", reply.Gid, extractFile)
-			if ext == "rar" {
-				if multiPart {
-					cmd := "unrar"
-					args := []string{"x", extractFile, getExtractPath() + extractFileName}
-					errExtract = exec.Command(cmd, args...).Run()
+				errMkDirAll := os.MkdirAll(getExtractPath()+extractFileName, 0777)
+				if errMkDirAll != nil {
+					log.Printf("[%s] %s", reply.Gid, errMkDirAll)
 				} else {
-					errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
-				}
-			} else if ext == "zip" {
-				errExtract = archiver.Zip.Open(extractFile, getExtractPath()+extractFileName)
-			}
 
-			if errExtract != nil {
-				log.Printf("[%s] Error extracting file %s: %s", reply.Gid, extractFile, errExtract)
-				os.RemoveAll(getExtractPath() + extractFileName)
-				// to handle wrong extract number
-				if multiPart {
-					continue
-				}
-				return
-			}
+					log.Printf("[%s] Extracting: %s", reply.Gid, extractFile)
+					errExtract := Extract(extractFile, ext, extractFileName, multiPart)
 
-			log.Printf("[%s] Moving: %s", reply.Gid, getExtractPath()+extractFileName)
-			errRename := MoveDir(getExtractPath()+extractFileName, getEndedPath()+extractFileName)
-			if errRename != nil {
-				log.Printf("[%s] %s", reply.Gid, errRename)
-				return
-			}
+					if errExtract != nil {
+						log.Printf("[%s] Error extracting file %s: %s", reply.Gid, extractFile, errExtract)
+						os.RemoveAll(getExtractPath() + extractFileName)
+					} else {
 
-			log.Printf("[%s] Cleaning: %s", reply.Gid, element.Path)
-			errRemove := os.RemoveAll(element.Path)
-			if errRemove != nil {
-				log.Printf("[%s] %s", reply.Gid, errRemove)
-				return
-			}
-			if multiPart {
-				files, errM := filepath.Glob(refFilename + ".part*." + ext)
-				if errM != nil {
-					log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errM)
-					return
-				}
-				for _, f := range files {
-					if errRMF := os.Remove(f); errRMF != nil {
-						log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errRMF)
-						return
+						log.Printf("[%s] Moving: %s", reply.Gid, getExtractPath()+extractFileName)
+						errRename := MoveDir(getExtractPath()+extractFileName, getEndedPath()+extractFileName)
+						if errRename != nil {
+							log.Printf("[%s] %s", reply.Gid, errRename)
+						} else {
+							// Cleaning
+							if multiPart {
+								// Remove files
+								files, errM := filepath.Glob(refFilename + ".part*." + ext)
+								if errM != nil {
+									log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errM)
+								} else {
+									for _, f := range files {
+										if errRMF := os.Remove(f); errRMF != nil {
+											log.Printf("[%s] Cleaning multipart error: %s", reply.Gid, errRMF)
+										}
+									}
+								}
+							} else {
+								log.Printf("[%s] Cleaning: %s", reply.Gid, element.Path)
+								errRemove := os.RemoveAll(element.Path)
+								if errRemove != nil {
+									log.Printf("[%s] %s", reply.Gid, errRemove)
+								}
+							}
+						}
 					}
 				}
-			}
 
-			continue
+				if multiPart {
+					// Remove lock
+					if errRML := os.Remove(getLockFile(refFilename)); errRML != nil {
+						log.Printf("[%s] Cleaning lock error: %s", reply.Gid, errRML)
+					}
+				}
+
+			}
 		}
 	}
 
@@ -252,6 +193,123 @@ func HandleGID(reply StatusResponse, c *Client) {
 	log.Printf("[%s] Terminated", reply.Gid)
 
 	return
+}
+
+func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName string) (multiPart bool, extractFile, extractFileName, refFilename string, err error) {
+	multiPart = false
+
+	r, _ := regexp.Compile(`^(.*)\.part\d+.rar$`)
+	result := r.FindStringSubmatch(element.Path)
+
+	// Multipart
+	if len(result) > 0 {
+		multiPart = true
+
+		refFilename = result[1]
+		directory := filepath.Dir(element.Path)
+		// Multipart archive
+		dlDirFiles, errReadDir := ioutil.ReadDir(directory)
+
+		if errReadDir != nil {
+			log.Printf("[%s] %s", reply.Gid, errReadDir)
+			return
+		}
+
+		if len(dlDirFiles) > 1 {
+			otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
+				c := f.(os.FileInfo)
+				return !c.IsDir() &&
+					strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
+					strings.TrimPrefix(filepath.Ext(c.Name()), ".") == ext &&
+					(strings.Contains(c.Name(), "part1") ||
+						strings.Contains(c.Name(), "part01") ||
+						strings.Contains(c.Name(), "part001"))
+			})
+
+			if otherFile != nil {
+
+				refTimeout := time.Now()
+				// lock handle
+				for {
+					// check if the file still exists
+					var baseFileInfo, baseFileExist = os.Stat(element.Path)
+					var waitTime time.Duration
+
+					if os.IsNotExist(baseFileExist) {
+						// the file doesn'tn exist anymore
+						// printing message + quit
+						log.Printf("[%s] File already extracted.", reply.Gid)
+						err = errors.New("file already extracted")
+
+						break
+
+					} else if baseFileExist == nil {
+						calculatedWait := float64(baseFileInfo.Size())/1024/1024/50 + (1 + rand.Float64())
+						waitTime = time.Duration(math.Max(calculatedWait, 1+rand.Float64()))
+					}
+
+					var _, fileExist = os.Stat(getLockFile(refFilename))
+
+					// create file if not exists
+					if os.IsNotExist(fileExist) {
+						errCreate := ioutil.WriteFile(getLockFile(refFilename), []byte(reply.Gid), 0644)
+						if errCreate != nil {
+							log.Printf("[%s] Error Creating lock %s", reply.Gid, errCreate)
+							err = errors.New("error Creating lock")
+							break
+						}
+						// break the infinite loop
+						break
+
+					} else if fileExist == nil {
+						// the lock already exists
+
+						// Check for timeout
+						delta := time.Now().Sub(refTimeout)
+						if delta.Minutes() > 15 {
+							log.Printf("[%s] Timeout break for lock", reply.Gid)
+							err = errors.New("timeout break for lock")
+							break
+						}
+
+						// Normal wait for lock
+						time.Sleep(waitTime)
+					}
+				}
+
+				if err == nil {
+					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
+					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
+					extractFileName = filepath.Base(extractFile)
+				}
+			}
+		}
+	}
+
+	if extractFile == "" {
+		extractFile = element.Path
+		extractFileName = fileName
+	}
+
+	return
+}
+
+func Extract(extractFile, ext, extractFileName string, multiPart bool) error {
+	var errExtract error
+
+	if ext == "rar" {
+		if multiPart {
+			cmd := "unrar"
+			args := []string{"x", extractFile, getExtractPath() + extractFileName}
+			errExtract = exec.Command(cmd, args...).Run()
+		} else {
+			errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
+		}
+	} else if ext == "zip" {
+		errExtract = archiver.Zip.Open(extractFile, getExtractPath()+extractFileName)
+	}
+
+	return errExtract
 }
 
 // DecodeEvent decode les réponse de type Event
@@ -339,19 +397,6 @@ func RemoveDl(gid string, c *Client) {
 	c.send <- message
 }
 
-// TransfertFile ...
-func TransfertFile(gid string, file string) (err error) {
-	log.Printf("[%s] Transfert file: %s", gid, file)
-
-	errMount := MoveFile(file, getTransferedPath())
-
-	if errMount != nil {
-		return errMount
-	}
-
-	return
-}
-
 const (
 	// Time allowed to read the next pong message from the peer.
 	pongWait = 60 * time.Second
@@ -372,8 +417,8 @@ func getEndedPath() string {
 	return *basePath + "/Ended/"
 }
 
-func getTransferedPath() string {
-	return *basePath + "/Atrier/"
+func getLockFile(path string) string {
+	return path + ".lock"
 }
 
 var rpcIds = make(map[uint64]bool)

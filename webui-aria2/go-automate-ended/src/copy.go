@@ -12,7 +12,7 @@ import (
 // MoveFile ...
 func MoveFile(src, dst string) (err error) {
 	// Try to move on the same partition
-	errMove :=  os.Rename(src, dst)
+	errMove := os.Rename(src, dst)
 
 	if errMove != nil {
 		// The os move failed, we try to copy/delete
@@ -93,7 +93,7 @@ func CopyFile(src, dst string) (err error) {
 // MoveDir ...
 func MoveDir(src, dst string) (err error) {
 	// Try to move on the same partition
-	errMove :=  os.Rename(src, dst)
+	errMove := os.Rename(src, dst)
 
 	if errMove != nil {
 		// The os move failed, we try to copy/delete
