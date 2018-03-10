@@ -2,7 +2,9 @@ version: '3'
 
 services:
   openldap:
-    image: poppypop/ldap
+    image: poppypop/docker-openldap
+    env_file:
+      - conf/slapd.env
     volumes:
       - openldap-data:/var/lib/openldap/openldap-data
       - /etc/ssl:/etc/ssl:ro
