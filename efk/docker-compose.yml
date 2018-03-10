@@ -63,7 +63,7 @@ services:
         max-file: "7"
 
   fluent:
-    image: poppypop/fluentd:alpine
+    image: poppypop/docker-fluentd
     ports:
       - 24224:24224
     depends_on:
