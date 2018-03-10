@@ -4,7 +4,7 @@ services:
     # elastic
     dhcpd:
         restart: always
-        image: poppypop/dhcpd
+        image: poppypop/docker-dhcpd
         network_mode: "host"
         volumes:
             - /srv/confs/dhcpd:/data
