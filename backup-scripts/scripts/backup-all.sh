@@ -15,6 +15,10 @@ ${src}/elastic/backup-elastic.sh
 echo "Web"
 ${src}/web/backup-web.sh
 
+# Docker
+echo "Docker"
+${src}/docker/backup-docker-volumes.sh
+
 # End : Sync to gdrive
 echo "GSync"
 ${src}/gdrive-sync.sh
