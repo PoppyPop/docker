@@ -37,19 +37,24 @@
 
 #lvconvert --type cache --cachepool datas-vg/cache datas-vg/datas
 
+#CHECK
+#sudo lvs -a -o +devices
+
 # ADD NEW
-vgextend datas-vg /dev/md1
+#sudo vgextend datas-vg /dev/md1
 
 # remove the cache and extend the volume
-lvconvert --uncache datas-vg/datas
-lvextend -l %FREE datas-vg/datas /dev/md1
+#sudo lvconvert --uncache datas-vg/datas
+#sudo lvextend -l +100%FREE datas-vg/datas /dev/md1
 
 # Recreate the cache using the data you collected above
-lvcreate -L 100M -n cache_meta datas-vg /dev/sdf2
-lvcreate -l %FREE -n cache datas-vg /dev/sdf2
+#sudo lvcreate -L 100M -n cache_meta datas-vg /dev/sdf2
+#sudo lvcreate -l 100%FREE -n cache datas-vg /dev/sdf2
+# Needed for convert OP
+#sudo lvreduce -l -25 datas-vg/cache
 
-lvconvert --type cache-pool --cachemode writeback --poolmetadata datas-vg/cache_meta datas-vg/cache
-lvconvert --type cache --cachepool datas-vg/cache datas-vg/datas
+#sudo lvconvert --type cache-pool --cachemode writeback --poolmetadata datas-vg/cache_meta datas-vg/cache
+#sudo lvconvert --type cache --cachepool datas-vg/cache datas-vg/datas
 
 
 
