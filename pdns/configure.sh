@@ -2,7 +2,9 @@
 #
 # NextCloud
 
-if [ ! -f db.env ] 
+mkdir -p conf
+
+if [ ! -f conf/db.env ] 
 then
 	sudo apt install bind9utils
 	TSIGFILE=$(dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST TSIG)

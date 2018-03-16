@@ -34,6 +34,20 @@ services:
     networks:
       - proxy-net
 
+  pdns-companion:
+    image: poppypop/docker-pdns-nginx-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-net
+    depends_on:
+      - nginx
+    environment:
+      - "ENDPOINT=http://dns-api.moot.fr"
+      - "HOST_IP=${NO_PROXY}"
+    env_file:
+      - /srv/confs/pdns/pdns-api.env
+
 #  letsencrypt-companion:
 #    image: jrcs/letsencrypt-nginx-proxy-companion
 #    volumes:
