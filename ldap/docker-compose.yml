@@ -5,6 +5,7 @@ services:
     image: poppypop/docker-openldap
     volumes:
       - openldap-data:/var/lib/openldap/openldap-data
+      - openldap-config:/etc/openldap/slapd.d
       - /etc/ssl:/etc/ssl:ro
     networks:
       - ldap-backend
@@ -21,7 +22,7 @@ services:
     image: poppypop/docker-fusiond
     volumes:
       - /etc/ssl:/etc/ssl:ro
-      - fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
+      - ${PWD}/fusiondirectory/fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
     environment:
       - VIRTUAL_HOST=ldap.yugo.moot
       - VIRTUAL_PORT=80
@@ -37,6 +38,8 @@ services:
 
 volumes:
   openldap-data:
+    external: true
+  openldap-config:
     external: true
         
 networks:

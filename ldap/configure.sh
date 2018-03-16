@@ -7,13 +7,18 @@ then
 	ROOTDN="cn=admin,${SUFFIX}"
 	ROOTPW=$(openssl rand -base64 12)
 	
-	cp openldap/conf/slapd.env.sample openldap/conf/slapd.env
-	sed -i "s|{SUFFIX}|${SUFFIX}|g" openldap/conf/slapd.env
-	sed -i "s|{ROOTDN}|${ROOTDN}|g" openldap/conf/slapd.env
-	sed -i "s|{ROOTPW}|${ROOTPW}|g" openldap/conf/slapd.env
+	cp openldap/slapd.env.sample openldap/slapd.env
+	sed -i "s|{SUFFIX}|${SUFFIX}|g" openldap/slapd.env
+	sed -i "s|{ROOTDN}|${ROOTDN}|g" openldap/slapd.env
+	sed -i "s|{ROOTPW}|${ROOTPW}|g" openldap/slapd.env
 	
 	cp fusiondirectory/fusiondirectory.conf.sample fusiondirectory/fusiondirectory.conf
+	sed -i "s|{SUFFIX}|${SUFFIX}|g" fusiondirectory/fusiondirectory.conf
+	sed -i "s|{ROOTDN}|${ROOTDN}|g" fusiondirectory/fusiondirectory.conf
 	sed -i "s|{ROOTPW}|${ROOTPW}|g" fusiondirectory/fusiondirectory.conf
+
+	echo -e $"ROOTCAURL=http://yugo.moot.fr:8887/ca.pem\n" >> openldap/slapd.env
+	echo -e $"ROOTCAURL=http://yugo.moot.fr:8887/ca.pem\n" >> fusiondirectory/fusiondirectory.env
 	
 	echo -e $"=========== INFOS ==========="
 	echo "SUFFIX   : ${SUFFIX}" 

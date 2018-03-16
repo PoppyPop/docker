@@ -7,6 +7,7 @@ sudo mkdir -p /srv/confs/ldap
 sudo cp -f docker-compose.yml /srv/confs/ldap/
 
 #datas
+docker volume create openldap-config --label backup=yes
 docker volume create openldap-data --label backup=yes
 
 #docker network

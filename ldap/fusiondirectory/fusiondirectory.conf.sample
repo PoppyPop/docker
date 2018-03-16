@@ -18,9 +18,9 @@
     <!-- Location definition -->
     <location name="default"
     >
-        <referral URI="ldap://openldap:389/dc=moot,dc=fr"
-                        adminDn="cn=admin,dc=moot,dc=fr"
-                        adminPassword="{PASSCONFIG}" />
+        <referral URI="ldap://openldap:389/{SUFFIX}"
+                        adminDn="{ROOTDN}"
+                        adminPassword="{ROOTPW}" />
     </location>
   </main>
 </conf>
