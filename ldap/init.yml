@@ -7,6 +7,9 @@ services:
       - openldap/slapd.env
     environment:
       - SLAPCONFIG=/etc/openldap/config.ldif
+      - LDAP_TLS_CA_CRT_FILENAME=/etc/ssl/ca.crt
+      - LDAP_TLS_CRT_FILENAME=/etc/ssl/server.crt
+      - LDAP_TLS_KEY_FILENAME=/etc/ssl/private/server.key
     volumes:
       - /etc/ssl:/etc/ssl:ro
       - openldap-data:/var/lib/openldap/openldap-data
