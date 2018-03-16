@@ -22,7 +22,7 @@ services:
     image: poppypop/docker-fusiond
     volumes:
       - /etc/ssl:/etc/ssl:ro
-      - ${PWD}/fusiondirectory/fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
+      - /srv/confs/ldap/fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
     environment:
       - VIRTUAL_HOST=ldap.yugo.moot
       - VIRTUAL_PORT=80

@@ -5,6 +5,7 @@
 sudo mkdir -p /srv/confs/ldap
 
 sudo cp -f docker-compose.yml /srv/confs/ldap/
+sudo cp -f fusiondirectory/fusiondirectory.conf /srv/confs/ldap/
 
 #datas
 docker volume create openldap-config --label backup=yes
