@@ -22,4 +22,7 @@ sudo cp -f download-sudo /etc/sudoers.d/
 sudo useradd -m download
 sudo chown -R download:download /datas/downloads/aria2/
 
+setfacl -d -R -m g:domain_media:rwX /datas/downloads/aria2/
+setfacl -R -m g:domain_media:rwX /datas/downloads/aria2/
+
 sudo id download
