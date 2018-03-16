@@ -56,6 +56,16 @@
 #sudo lvconvert --type cache-pool --cachemode writeback --poolmetadata datas-vg/cache_meta datas-vg/cache
 #sudo lvconvert --type cache --cachepool datas-vg/cache datas-vg/datas
 
+#size update
+#sudo resize2fs /dev/mapper/datas--vg-datas
+
+#update /etc/mdadm/mdadm.conf
+# Add missing line
+#sudo mdadm --detail --scan
+
+#after update
+#sudo update-initramfs -u
+
 
 
 
