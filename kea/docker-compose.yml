@@ -29,6 +29,7 @@ services:
       - kea.env
     volumes:
       - kea-socket:/var/run/kea/sockets/
+      - ${PWD}/hook.sh:/hook.sh:ro
 
   #kea-control-agent:
   #  image: poppypop/docker-kea
