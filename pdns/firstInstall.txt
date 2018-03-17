@@ -1,0 +1,29 @@
+# TODO with docker exec -ti [id] /bin/sh
+
+pdnsutil create-zone moot.fr. ns1.moot.fr.
+pdnsutil add-record moot.fr. @ NS ns2.moot.fr.
+pdnsutil set-meta moot.fr. SOA-EDIT-API INCEPTION-EPOCH 
+pdnsutil secure-zone moot.fr.
+pdnsutil rectify-zone moot.fr.
+
+pdnsutil create-zone 0.168.192.in-addr.arpa. ns1.moot.fr.
+pdnsutil set-kind 0.168.192.in-addr.arpa. MASTER
+pdnsutil add-record 0.168.192.in-addr.arpa. @ NS ns2.moot.fr.
+pdnsutil set-meta 0.168.192.in-addr.arpa. SOA-EDIT-API INCEPTION-EPOCH 
+pdnsutil secure-zone 0.168.192.in-addr.arpa.
+pdnsutil rectify-zone 0.168.192.in-addr.arpa.
+
+pdnsutil add-record moot.fr. pi1 A 86400 192.168.0.238
+pdnsutil add-record 0.168.192.in-addr.arpa. 238 PTR 86400 pi1.moot.fr.
+
+pdnsutil add-record moot.fr. routeur A 86400 192.168.0.254
+pdnsutil add-record 0.168.192.in-addr.arpa. 254 PTR 86400 routeur.moot.fr.
+
+pdnsutil add-record moot.fr. sw1 A 86400 192.168.0.239
+pdnsutil add-record 0.168.192.in-addr.arpa. 239 PTR 86400 sw1.moot.fr.
+
+pdnsutil add-record moot.fr. yugo A 86400 192.168.0.235
+pdnsutil add-record 0.168.192.in-addr.arpa. 235 PTR 86400 yugo.moot.fr.
+
+pdnsutil add-record moot.fr. ns1 CNAME 86400 yugo.moot.fr.
+pdnsutil add-record moot.fr. ns2 CNAME 86400 pi1.moot.fr.
