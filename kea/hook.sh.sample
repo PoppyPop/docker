@@ -4,11 +4,10 @@ DNS_DOMAIN={DOMAIN}
 PDNS_KEY={PDNS_api_key}
 PDNS_URL={ENDPOINT}
 
-
 if [ "$1" = "lease4_select" ] || [ "$1" = "lease4_renew" ]; then
-	curl -s -X PATCH --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"${KEA_LEASE4_ADDRESS}\", \"disabled\": false}], \"ttl\": 3600, \"type\": \"A\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN}
-	curl -s -X PATCH --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"\\\"${KEA_LEASE4_HWADDR}\\\"\", \"disabled\": false}], \"ttl\": 3600, \"type\": \"TXT\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN}
+	curl -s -X PATCH --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"${KEA_LEASE4_ADDRESS}\", \"disabled\": false}], \"ttl\": ${KEA_LEASE4_VALID_LIFETIME}, \"type\": \"A\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN}
+	curl -s -X PATCH --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"\\\"${KEA_LEASE4_HWADDR}\\\"\", \"disabled\": false}], \"ttl\": ${KEA_LEASE4_VALID_LIFETIME}, \"type\": \"TXT\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN}
 	
 	DATE=`date '+%Y-%m-%d %H:%M:%S.000'`
-	echo "${DATE} INFO [kea-run-hookscript] PDNS : Updating ${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN} TO ${KEA_LEASE4_ADDRESS} [${KEA_LEASE4_HWADDR}]"
+	echo "${DATE} INFO [kea-run-hookscript] PDNS : Updating ${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN} TO ${KEA_LEASE4_ADDRESS} FOR ${KEA_LEASE4_VALID_LIFETIME} [${KEA_LEASE4_HWADDR}]"
 fi
