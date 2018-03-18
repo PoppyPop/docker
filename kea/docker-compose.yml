@@ -8,38 +8,49 @@ services:
       - db.env
     volumes:
       - kea-mysql:/var/lib/mysql
-    ports:
-      - "127.0.0.1:9306:3306"
       
   adminer:
     image: adminer
     environment:
-      - VIRTUAL_HOST=kea-mysql.yugo.moot
+      - VIRTUAL_HOST=kea-mysql.moot.fr
       - VIRTUAL_PORT=8080
+      - PUBLISH_DNS=1
+      - PUBLISH_DNS_TXT=1
     networks:
       - proxy-net
       - default
 
   kea:
     image: poppypop/docker-kea
-    network_mode: "host"
     depends_on:
       - db
     env_file:
       - kea.env
     volumes:
-      - kea-socket:/var/run/kea/sockets/
+      - kea-socket:/run/kea/sockets/
       - ${PWD}/hook.sh:/hook.sh:ro
+      - ${PWD}/kea-dhcp4.conf:/etc/kea/kea-dhcp4.conf:ro
+    ports:
+      - "9067:67/udp"
 
-  #kea-control-agent:
-  #  image: poppypop/docker-kea
-  #  command: kea-ctrl-agent
-  #  depends_on:
-  #    - kea
-  #  volumes:
-  #    - kea-socket:/var/run/kea/sockets/
-  #  ports:
-  #    - "8080:8080"
+  kea-relay:
+    image: poppypop/docker-kea
+    network_mode: "host"
+    volumes:
+      - ${PWD}/kea-dhcp4-relay.conf:/etc/kea/kea-dhcp4.conf:ro
+
+  kea-control-agent:
+    image: poppypop/docker-kea
+    command: kea-ctrl-agent
+    environment:
+      - VIRTUAL_HOST=kea-api.moot.fr
+      - VIRTUAL_PORT=8080
+      - PUBLISH_DNS=1
+      - PUBLISH_DNS_TXT=1
+    depends_on:
+      - kea
+    volumes:
+      - kea-socket:/run/kea/sockets/
 
 
 volumes:
