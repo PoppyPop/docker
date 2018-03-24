@@ -16,6 +16,12 @@ services:
       - html:/usr/share/nginx/html
     networks:
       - proxy-net
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: nginx.docker.{{.ID}} 
       
   dockergen-nginx:
     image: jwilder/docker-gen
@@ -33,6 +39,12 @@ services:
       - nginx
     networks:
       - proxy-net
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
   pdns-companion:
     image: poppypop/docker-pdns-nginx-proxy-companion
@@ -47,6 +59,12 @@ services:
       - "HOST_IP=${NO_PROXY}"
     env_file:
       - /srv/confs/pdns/pdns-api.env
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
 #  letsencrypt-companion:
 #    image: jrcs/letsencrypt-nginx-proxy-companion

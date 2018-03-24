@@ -12,6 +12,12 @@ services:
       default:
         aliases:
           - mysql
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
   adminer:
     image: adminer
@@ -22,6 +28,12 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
   pdns-recursor:
     image: pschiffe/pdns-recursor:alpine
@@ -39,6 +51,12 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
   pdns:
     image: pschiffe/pdns-mysql:alpine
@@ -56,6 +74,12 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
   pdns-recursor-companion :
     image: poppypop/docker-pdns-recursor-companion   
@@ -64,6 +88,12 @@ services:
     depends_on:
       - pdns
       - pdns-recursor
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
   pdns-admin-uwsgi:
     image: pschiffe/pdns-admin-uwsgi:alpine
@@ -76,6 +106,12 @@ services:
     networks:
       - ldap-backend
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
   pdns-admin-static:
     image: pschiffe/pdns-admin-static
@@ -87,6 +123,12 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
 volumes:
   pdns-mysql:

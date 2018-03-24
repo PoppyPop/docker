@@ -10,6 +10,12 @@ services:
       - kea-mysql:/var/lib/mysql
     ports:
       - "127.0.0.1:3198:3306"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}   
 
   adminer:
     image: adminer
@@ -21,6 +27,12 @@ services:
     networks:
       - proxy-net
       - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
   kea:
     image: poppypop/docker-kea
@@ -37,20 +49,12 @@ services:
       - KEA_IFACE=ens34
       - DB_PORT=3198
       - DB_HOST=127.0.0.1
-#    ports:
-#      - "192.168.0.118:167:67/udp"
-#      - "192.168.0.118:167:67"
-
-#  kea-relay:
-#    image: poppypop/docker-dhcrelay
-#    depends_on:
-#      - kea
-#    network_mode: "host"
-#    environment:
-#      - DHCRELAY_IFACE=ens34
-#      - DHCRELAY_CIRCUIT=1
-#      - DHCRELAY_DROP=1
-#      - DHCRELAY_SERVERS=192.168.0.118
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
   kea-control-agent:
     image: poppypop/docker-kea
@@ -64,6 +68,12 @@ services:
       - kea
     volumes:
       - kea-socket:/run/kea/sockets/
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
 
 volumes:

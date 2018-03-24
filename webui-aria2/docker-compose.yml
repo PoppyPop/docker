@@ -17,6 +17,12 @@ services:
       -  aria-datas:/datas
     ports:
       - "6800:6800"
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
   
   httpd:
     image: poppypop/aria2-webui
@@ -25,11 +31,23 @@ services:
       - VIRTUAL_PORT=8080
     networks:
       - proxy-net
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
       
   go-automated-ended:
     image: poppypop/go-automated-ended
     volumes:
       - aria-datas:/datas 
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
 
 networks:
   default:
