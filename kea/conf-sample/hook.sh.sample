@@ -4,12 +4,13 @@ DNS_DOMAIN={DOMAIN}
 PDNS_KEY={PDNS_api_key}
 PDNS_URL={ENDPOINT}
 DATE=`date '+%Y-%m-%d %H:%M:%S.000'`
+TS=`date '+%T'`
 
 if [ "$1" = "lease4_select" ] || [ "$1" = "lease4_renew" ]; then
 	RESPONSE=$(curl -s -X PATCH --connect-timeout 2 -m 5  --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"${KEA_LEASE4_ADDRESS}\", \"disabled\": false}], \"ttl\": ${KEA_LEASE4_VALID_LIFETIME}, \"type\": \"A\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN})
 
 	if [ $? -eq 0 ]; then 
-		RESPONSE2=$(curl -s -X PATCH --connect-timeout 2 -m 5 --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"\\\"${KEA_LEASE4_HWADDR}\\\"\", \"disabled\": false}], \"ttl\": ${KEA_LEASE4_VALID_LIFETIME}, \"type\": \"TXT\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN})
+		RESPONSE2=$(curl -s -X PATCH --connect-timeout 2 -m 5 --data "{\"rrsets\": [{\"comments\": [], \"changetype\": \"REPLACE\", \"name\": \"${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN}\", \"records\": [{\"content\": \"\\\"DH ${KEA_LEASE4_HWADDR} ${TS}\\\"\", \"disabled\": false}], \"ttl\": ${KEA_LEASE4_VALID_LIFETIME}, \"type\": \"TXT\"}]}" -H "X-API-Key: ${PDNS_KEY}" ${PDNS_URL}/api/v1/servers/localhost/zones/${DNS_DOMAIN})
 
 		if [ $? -eq 0 ]; then 
 			echo "${DATE} INFO [kea-run-hookscript] PDNS : Updating ${KEA_LEASE4_HOSTNAME}.${DNS_DOMAIN} TO ${KEA_LEASE4_ADDRESS} FOR ${KEA_LEASE4_VALID_LIFETIME} [${KEA_LEASE4_HWADDR}]"
