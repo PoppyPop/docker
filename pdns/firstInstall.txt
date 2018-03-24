@@ -1,4 +1,5 @@
 # TODO with docker exec -ti [id] /bin/sh
+# docker exec -ti pdns_pdns_1 /bin/sh
 
 pdnsutil create-zone moot.fr. ns1.moot.fr.
 pdnsutil add-record moot.fr. @ NS ns2.moot.fr.
@@ -32,4 +33,5 @@ pdnsutil add-record moot.fr. ns2 CNAME 86400 pi1.moot.fr.
 pdnsutil add-record moot.fr. dns-mysql CNAME 86400 yugo.moot.fr.
 pdnsutil add-record moot.fr. dns-recursor CNAME 86400 yugo.moot.fr.
 pdnsutil add-record moot.fr. dns-api CNAME 86400 yugo.moot.fr.
+pdnsutil add-record moot.fr. dns CNAME 86400 yugo.moot.fr.
 
