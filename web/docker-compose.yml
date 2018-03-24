@@ -30,7 +30,7 @@ services:
             - /srv/confs/web/conf.d:/etc/nginx/conf.d:ro
             - /srv/datas/web:/usr/share/nginx/html:ro
         environment:
-            - VIRTUAL_HOST=yugo.moot
+            - VIRTUAL_HOST=yugo.moot.fr
             - VIRTUAL_PORT=80
         networks:
             - webbackend
