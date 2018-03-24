@@ -8,13 +8,13 @@ then
 	DBROOTPASS=$(openssl rand -base64 12)	
 	DBROOTUSER=root
 	
-	cp db.env.sample db.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" db.env
+	cp conf-sample/db.env.sample conf/db.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/db.env
 	
-	cp kea.env.sample kea.env
-	sed -i "s|{DBROOTNAME}|${DBROOTNAME}|g" kea.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" kea.env
-	sed -i "s|{DBROOTUSER}|${DBROOTUSER}|g" kea.env
+	cp conf-sample/kea.env.sample conf/kea.env
+	sed -i "s|{DBROOTNAME}|${DBROOTNAME}|g" conf/kea.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/kea.env
+	sed -i "s|{DBROOTUSER}|${DBROOTUSER}|g" conf/kea.env
 
 	if [ -f /srv/confs/pdns/conf/pdns-api.env ]; then 
 		source /srv/confs/pdns/conf/pdns-api.env
@@ -25,12 +25,16 @@ then
 		echo -n "Enter pdns endpoint (default:http://pdns-api.moot.fr) [ENTER]: "
 		read ENDPOINT
 
-		cp hook.sh.sample hook.sh
-		sed -i "s|{PDNS_api_key}|${PDNS_api_key}|g" hook.sh
-		sed -i "s|{DOMAIN}|${DOMAIN:-moot.fr.}|g" hook.sh
-		sed -i "s|{ENDPOINT}|${ENDPOINT:-http://pdns-api.moot.fr}}|g" hook.sh
 
-		chmod +x hook.sh
+		DOMAIN=${DOMAIN:-moot.fr.}
+		ENDPOINT=${ENDPOINT:-http://pdns-api.moot.fr}
+
+		cp conf-sample/hook.sh.sample conf/hook.sh
+		sed -i "s|{PDNS_api_key}|${PDNS_api_key}|g" conf/hook.sh
+		sed -i "s|{DOMAIN}|${DOMAIN}|g" conf/hook.sh
+		sed -i "s|{ENDPOINT}|${ENDPOINT}|g" conf/hook.sh
+
+		chmod +x conf/hook.sh
 	fi
 	
 
