@@ -7,7 +7,7 @@ services:
       - TZ=Europe/Paris
       #- PGID=1001
       #- PUID=1001
-      - VIRTUAL_HOST=transmission.yugo.moot
+      - VIRTUAL_HOST=transmission.moot.fr
       - VIRTUAL_PORT=9091
     volumes:
       - /datas/downloads/transmission:/downloads

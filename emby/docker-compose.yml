@@ -4,7 +4,7 @@ services:
   emby:
     image: emby/embyserver_netcore:latest
     environment:
-      - VIRTUAL_HOST=emby.yugo.moot
+      - VIRTUAL_HOST=emby.moot.fr
       - VIRTUAL_PORT=8096
       - UID=11001
       - GID=11002
