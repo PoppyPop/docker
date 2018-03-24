@@ -22,12 +22,12 @@ then
 		echo -n "Enter pdns fqdn domain (ending with a dot) (default:moot.fr.) [ENTER]: "
 		read DOMAIN
 
-		echo -n "Enter pdns endpoint (default:http://pdns-api.moot.fr) [ENTER]: "
+		echo -n "Enter pdns endpoint (default:http://dns-api.moot.fr) [ENTER]: "
 		read ENDPOINT
 
 
 		DOMAIN=${DOMAIN:-moot.fr.}
-		ENDPOINT=${ENDPOINT:-http://pdns-api.moot.fr}
+		ENDPOINT=${ENDPOINT:-http://dns-api.moot.fr}
 
 		cp conf-sample/hook.sh.sample conf/hook.sh
 		sed -i "s|{PDNS_api_key}|${PDNS_api_key}|g" conf/hook.sh
