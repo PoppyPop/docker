@@ -27,3 +27,9 @@ pdnsutil add-record 0.168.192.in-addr.arpa. 235 PTR 86400 yugo.moot.fr.
 
 pdnsutil add-record moot.fr. ns1 CNAME 86400 yugo.moot.fr.
 pdnsutil add-record moot.fr. ns2 CNAME 86400 pi1.moot.fr.
+
+# PDNS Spec
+pdnsutil add-record moot.fr. dns-mysql CNAME 86400 yugo.moot.fr.
+pdnsutil add-record moot.fr. dns-recursor CNAME 86400 yugo.moot.fr.
+pdnsutil add-record moot.fr. dns-api CNAME 86400 yugo.moot.fr.
+
