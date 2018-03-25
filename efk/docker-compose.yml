@@ -91,6 +91,7 @@ services:
       - elastic1
       - elastic2
     networks:
+      - proxy-net
       - esnet
     logging:
       driver: json-file
@@ -103,5 +104,7 @@ networks:
     driver: bridge
     driver_opts:
       com.docker.network.driver.mtu: 9000
+  proxy-net:
+    external: true
 
     
