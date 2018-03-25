@@ -56,9 +56,9 @@ services:
       - nginx
     environment:
       - "ENDPOINT=http://dns-api.moot.fr"
-      - "HOST_IP=${NO_PROXY}"
+      - "HOST_IP=10.0.1.10"
     env_file:
-      - /srv/confs/pdns/pdns-api.env
+      - /srv/confs/pdns/conf/pdns-api.env
     logging:
       driver: fluentd
       options:
