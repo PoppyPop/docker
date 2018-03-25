@@ -29,7 +29,7 @@ INSERT INTO hosts (dhcp_identifier,
                    hostname, dhcp4_subnet_id)
 VALUES (UNHEX(REPLACE('00:22:4d:a3:cb:70', ':', '')),
 	(SELECT type FROM host_identifier_type WHERE name='hw-address'),
-        INET_ATON('192.168.0.240'),
+        INET_ATON('10.0.0.50'),
         'domo1', 1);
 
 INSERT INTO hosts (dhcp_identifier,
@@ -40,14 +40,5 @@ VALUES (UNHEX(REPLACE('00:11:32:26:A6:D5', ':', '')),
 	(SELECT type FROM host_identifier_type WHERE name='hw-address'),
         INET_ATON('192.168.0.250'),
         'pico', 1);
-
-INSERT INTO hosts (dhcp_identifier,
-                   dhcp_identifier_type,
-                   ipv4_address,
-                   hostname, dhcp4_subnet_id)
-VALUES (UNHEX(REPLACE('b8:27:eb:c8:49:34', ':', '')),
-	(SELECT type FROM host_identifier_type WHERE name='hw-address'),
-        INET_ATON('192.168.0.238'),
-        'pi1', 1);
 
 
