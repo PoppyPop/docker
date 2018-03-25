@@ -405,8 +405,8 @@ const (
 	pingPeriod = (pongWait * 9) / 10
 )
 
-var addr = flag.String("addr", "192.168.0.235:6800", "http service address")
-var token = flag.String("token", "reMgE94K5cSiE926", "auth token")
+var addr = flag.String("addr", "yugo.moot.fr:6800", "http service address")
+var token = flag.String("token", "", "auth token")
 var basePath = flag.String("path", "/datas", "base path")
 
 func getExtractPath() string {
