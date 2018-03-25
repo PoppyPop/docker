@@ -4,7 +4,8 @@
 #confs
 sudo mkdir -p /srv/confs/pdns
 
-sudo cp -fr conf/* /srv/confs/pdns/
+sudo cp -fr conf/ /srv/confs/pdns/
+sudo cp -f docker-compose.yml /srv/confs/pdns/
 
 #datas
 docker volume create pdns-mysql --label backup=yes

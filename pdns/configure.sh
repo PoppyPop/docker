@@ -6,12 +6,12 @@ mkdir -p conf
 
 if [ ! -f conf/db.env ] 
 then
-	sudo apt install bind9utils
-	TSIGFILE=$(dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST TSIG)
-	TSIG=$(cat ${TSIGFILE}.key | awk '{print $7$8}')
+	#sudo apt install bind9utils
+	#TSIGFILE=$(dnssec-keygen -a HMAC-SHA512 -b 512 -n HOST TSIG)
+	#TSIG=$(cat ${TSIGFILE}.key | awk '{print $7$8}')
 
-	rm ${TSIGFILE}.key
-	rm ${TSIGFILE}.private
+	#rm ${TSIGFILE}.key
+	#rm ${TSIGFILE}.private
 
 	DBROOTPASS=$(openssl rand -base64 12)	
 	APIKEY=$(openssl rand -base64 12)
@@ -39,7 +39,7 @@ then
 	read -s -p "LDAP Pass ? " LDAPPASS; echo
 	sed -i "s|{LDAPPASS}|${LDAPPASS}|g" conf/pdns-admin.env
 
-	echo "TSIG=${TSIG}" > conf/pdns-tsig.env
+	#echo "TSIG=${TSIG}" > conf/pdns-tsig.env
 	
 	echo -e $"=========== pdns ==========="
 	echo "base     : ${DBROOTPASS}"
