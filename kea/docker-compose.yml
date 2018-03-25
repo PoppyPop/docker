@@ -46,7 +46,7 @@ services:
       - /srv/confs/kea/kea-dhcp4/:/etc/kea/
     network_mode: "host"
     environment:
-      - KEA_IFACE=ens34
+      - KEA_IFACE=eno1
       - DB_PORT=3198
       - DB_HOST=127.0.0.1
     logging:
