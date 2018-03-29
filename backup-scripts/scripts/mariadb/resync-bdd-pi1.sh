@@ -4,13 +4,14 @@
 # START SYNC 
 
 SLAVENAME='pi1'
-REMOTESERVER='pi1.moot'
+REMOTESERVER='pi1.moot.fr'
 REMOTEUSER='replication'
 
 read -p "Mot de passe de replication:" REMOTEPASS
 read -p "Mot de passe sql root local:" ROOTPASS
 
-echo "CHANGE MASTER 'pi1' TO MASTER_HOST='192.168.0.238', MASTER_PORT=3306,MASTER_USER='replication', MASTER_PASSWORD='yqTOksHDSGTy' ;" | mysql -u root -p$ROOTPASS -h 127.0.0.1
+echo "STOP SLAVE '${SLAVENAME}'" | mysql -u root -p$ROOTPASS -h 127.0.0.1
+echo "CHANGE MASTER 'pi1' TO MASTER_HOST='${REMOTESERVER}', MASTER_PORT=3306,MASTER_USER='${REMOTEUSER}', MASTER_PASSWORD='${REMOTEPASS}' ;" | mysql -u root -p$ROOTPASS -h 127.0.0.1
 
 mysqldump -u $REMOTEUSER -p$REMOTEPASS -h $REMOTESERVER --databases `mysql -u $REMOTEUSER -p$REMOTEPASS -h $REMOTESERVER --skip-column-names -e "SELECT GROUP_CONCAT(schema_name SEPARATOR ' ') FROM information_schema.schemata WHERE schema_name NOT IN ('mysql','performance_schema','information_schema');"` --no-data --skip-add-drop-table --lock-table=false --quick > dump-struct.sql
 
