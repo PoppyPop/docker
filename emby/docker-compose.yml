@@ -2,7 +2,7 @@ version: '3'
 
 services:
   emby:
-    image: emby/embyserver_netcore:latest
+    image: emby/embyserver:beta
     environment:
       - VIRTUAL_HOST=emby.moot.fr
       - VIRTUAL_PORT=8096
@@ -10,7 +10,7 @@ services:
       - PUBLISH_DNS_TXT=1
       - UID=11001
       - GID=11002
-      - GIDLIST=513
+      - GIDLIST=513,44
     volumes:
       - emby-datas:/config
       - "/datas:/datas"
