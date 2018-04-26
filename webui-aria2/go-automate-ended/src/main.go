@@ -109,6 +109,8 @@ func HandleGID(reply StatusResponse, c *Client) {
 		fileName := filepath.Base(element.Path)
 		ext := strings.TrimPrefix(filepath.Ext(fileName), ".")
 
+		fileNameWithDir := strings.TrimPrefix(element.Path, getDownloadPath())
+
 		if ext == "nfo" {
 			errRemove := os.Remove(element.Path)
 			if errRemove != nil {
@@ -118,14 +120,14 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 			log.Printf("[%s] Moving: %s", reply.Gid, element.Path)
 
-			errRename := MoveFile(element.Path, getEndedPath()+fileName)
+			errRename := MoveFile(element.Path, getEndedPath()+fileNameWithDir)
 
 			if errRename != nil {
 				log.Printf("[%s] %s", reply.Gid, errRename)
 			}
 		} else if archiveExt[ext] {
 
-			multiPart, extractFile, extractFileName, refFilename, errHandle := HandleArchive(reply, element, ext, fileName)
+			multiPart, extractFile, extractFileName, refFilename, errHandle := HandleArchive(reply, element, ext, fileNameWithDir)
 			if errHandle != nil {
 				log.Printf("[%s] %s", reply.Gid, errHandle)
 			} else {
@@ -256,7 +258,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 						if errCreate != nil {
 							log.Printf("[%s] Error Creating lock %s", reply.Gid, errCreate)
 							err = errors.New("error Creating lock")
-							break
 						}
 						// break the infinite loop
 						break
@@ -280,7 +281,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 				if err == nil {
 					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
 					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
-					extractFileName = filepath.Base(extractFile)
+					extractFileName = strings.TrimPrefix(extractFile, getDownloadPath())
 				}
 			}
 		}
@@ -408,6 +409,11 @@ const (
 var addr = flag.String("addr", "yugo.moot.fr:6800", "http service address")
 var token = flag.String("token", "", "auth token")
 var basePath = flag.String("path", "/datas", "base path")
+
+
+func getDownloadPath() string {
+	return *basePath + "/Downloads/"
+}
 
 func getExtractPath() string {
 	return *basePath + "/Extract/"
