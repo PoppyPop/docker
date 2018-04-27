@@ -187,9 +187,11 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 	RemoveDl(reply.Gid, c)
 
-	files, _ := ioutil.ReadDir(reply.Dir)
-	if len(files) == 0 {
-		os.RemoveAll(reply.Dir)
+	if reply.Dir != getDownloadPath() {
+		files, _ := ioutil.ReadDir(reply.Dir)
+		if len(files) == 0 {
+			os.RemoveAll(reply.Dir)
+		}
 	}
 
 	log.Printf("[%s] Terminated", reply.Gid)
@@ -409,7 +411,6 @@ const (
 var addr = flag.String("addr", "yugo.moot.fr:6800", "http service address")
 var token = flag.String("token", "", "auth token")
 var basePath = flag.String("path", "/datas", "base path")
-
 
 func getDownloadPath() string {
 	return *basePath + "/Downloads/"
