@@ -13,7 +13,7 @@ services:
       - GIDLIST=513,44
     volumes:
       - emby-datas:/config
-      - "/datas:/datas"
+      - emby-local-datas:/datas
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"
     networks:
@@ -32,6 +32,8 @@ services:
 
 volumes:
   emby-datas:
+    external: true
+  emby-local-datas:
     external: true
 
 networks:
