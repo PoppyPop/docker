@@ -216,7 +216,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 		dlDirFiles, errReadDir := ioutil.ReadDir(directory)
 
 		if errReadDir != nil {
-			log.Printf("[%s] %s", reply.Gid, errReadDir)
 			err = errReadDir
 			return
 		}
@@ -234,7 +233,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			})
 
 			if haveAria2File {
-				log.Printf("[%s] Aria2 file existing", reply.Gid)
 				err = errors.New("Aria2 file existing")
 				return
 			}
@@ -261,7 +259,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 					if os.IsNotExist(baseFileExist) {
 						// the file doesn'tn exist anymore
 						// printing message + quit
-						log.Printf("[%s] File already extracted.", reply.Gid)
 						err = errors.New("file already extracted")
 
 						break
@@ -277,7 +274,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 					if os.IsNotExist(fileExist) {
 						errCreate := ioutil.WriteFile(getLockFile(refFilename), []byte(reply.Gid), 0644)
 						if errCreate != nil {
-							log.Printf("[%s] Error Creating lock %s", reply.Gid, errCreate)
 							err = errors.New("error Creating lock")
 						}
 						// break the infinite loop
@@ -289,7 +285,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 						// Check for timeout
 						delta := time.Now().Sub(refTimeout)
 						if delta.Minutes() > 15 {
-							log.Printf("[%s] Timeout break for lock", reply.Gid)
 							err = errors.New("timeout break for lock")
 							break
 						}
@@ -299,7 +294,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 					}
 				}
 
-				if err == nil {
+				if err == nil && element.Path != path.Join(directory, otherFile.(os.FileInfo).Name()) {
 					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
 					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
 					extractFileName = strings.TrimPrefix(extractFile, getDownloadPath())
