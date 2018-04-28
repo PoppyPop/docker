@@ -187,7 +187,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 
 	RemoveDl(reply.Gid, c)
 
-	if reply.Dir != getDownloadPath() {
+	if strings.TrimSuffix(reply.Dir, "/") != strings.TrimSuffix(getDownloadPath(), "/") {
 		files, _ := ioutil.ReadDir(reply.Dir)
 		if len(files) == 0 {
 			log.Printf("[%s] Cleaning : %s", reply.Gid, reply.Dir)
