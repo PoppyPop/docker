@@ -15,6 +15,7 @@ services:
       #- COMPLETE_HOOK=/datas/complete.sh
     volumes:
       -  aria-datas:/datas
+    user: 1001:1001
     ports:
       - "6800:6800"
     logging:
@@ -44,6 +45,7 @@ services:
     image: poppypop/go-automated-ended
     volumes:
       - aria-datas:/datas 
+    user: 1001:1001
     logging:
       driver: fluentd
       options:

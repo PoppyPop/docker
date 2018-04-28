@@ -190,6 +190,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 	if reply.Dir != getDownloadPath() {
 		files, _ := ioutil.ReadDir(reply.Dir)
 		if len(files) == 0 {
+			log.Printf("[%s] Cleaning : %s", reply.Gid, reply.Dir)
 			os.RemoveAll(reply.Dir)
 		}
 	}
@@ -216,10 +217,28 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 
 		if errReadDir != nil {
 			log.Printf("[%s] %s", reply.Gid, errReadDir)
+			err = errReadDir
 			return
 		}
 
 		if len(dlDirFiles) > 1 {
+
+			// Check if an aria2 file exist
+			haveAria2File := lq.From(dlDirFiles).AnyWith(func(f interface{}) bool {
+				c := f.(os.FileInfo)
+				return !c.IsDir() &&
+					path.Join(directory, c.Name()) != element.Path && // Self exclusion
+					path.Join(directory, c.Name()) != element.Path+".aria2" && // Self exclusion (aria2 version)
+					strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
+					strings.TrimPrefix(filepath.Ext(c.Name()), ".") == "aria2"
+			})
+
+			if haveAria2File {
+				log.Printf("[%s] Aria2 file existing", reply.Gid)
+				err = errors.New("Aria2 file existing")
+				return
+			}
+
 			otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
 				c := f.(os.FileInfo)
 				return !c.IsDir() &&
