@@ -237,7 +237,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 				return
 			}
 
-			otherFile := lq.From(dlDirFiles).FirstWith(func(f interface{}) bool {
+			otherFile := lq.From(dlDirFiles).SingleWith(func(f interface{}) bool {
 				c := f.(os.FileInfo)
 				return !c.IsDir() &&
 					strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
@@ -248,6 +248,12 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			})
 
 			if otherFile != nil {
+
+				if element.Path != path.Join(directory, otherFile.(os.FileInfo).Name()) {
+					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
+					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
+					extractFileName = strings.TrimPrefix(extractFile, getDownloadPath())
+				}
 
 				refTimeout := time.Now()
 				// lock handle
@@ -294,16 +300,14 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 					}
 				}
 
-				if err == nil && element.Path != path.Join(directory, otherFile.(os.FileInfo).Name()) {
-					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
-					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
-					extractFileName = strings.TrimPrefix(extractFile, getDownloadPath())
-				}
+			} else {
+				// TODO not part1
+				err = errors.New("Multipart : Not a part1 file, don't try to extract it")
 			}
 		}
 	}
 
-	if extractFile == "" {
+	if err != nil && extractFile == "" {
 		extractFile = element.Path
 		extractFileName = fileName
 	}
