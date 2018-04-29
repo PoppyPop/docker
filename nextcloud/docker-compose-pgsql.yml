@@ -12,6 +12,35 @@ services:
         fluentd-async-connect: "true"
         tag: docker.{{.ID}}
         
+  db:
+    image: postgres:alpine
+    volumes:
+      - nextcloud-pg:/var/lib/postgresql/data
+    env_file:
+      - db.env
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
+  
+  adminer:
+    image: adminer
+    #restart: always
+    environment:
+      - VIRTUAL_HOST=cloud-.moot.fr
+      - VIRTUAL_PORT=8080
+    networks:
+      - proxy-net
+      - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
+      
   app:  
     image: nextcloud:fpm-alpine
     volumes:
@@ -57,7 +86,7 @@ services:
         tag: docker.{{.ID}}
 
   cron:
-    image: nextcloud:fpm-alpine
+    image: poppypop/nextcloud-app
     volumes:
       - nextcloud-data:/var/www/html
     user: www-data
@@ -89,9 +118,6 @@ volumes:
   nextcloud-data:
     external: true
   redis-data:
-  nextcloud-base:
-  nextcloud-apps:
-  nextcloud-config:
 
 networks:
   default:
