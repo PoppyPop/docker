@@ -6,13 +6,13 @@ volumes:
 
 services:
   aria2:
-    image: poppypop/aria2:alpine
+    image: poppypop/aria2-alpine
     environment:
       - SPLIT=8
       - CONNECTIONS_PER_SERVER=8
       - CONCURRENT_DOWNLOADS=5
       - DOWNLOAD_DIR=/datas/Downloads
-      #- COMPLETE_HOOK=/datas/complete.sh
+      - SESSION_FILE=/datas/aria2.session
     volumes:
       -  aria-datas:/datas
     user: 1001:1001
