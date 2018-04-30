@@ -23,7 +23,7 @@ services:
       
   dockergen-nginx:
     image: jwilder/docker-gen
-    command: -notify-sighup nginx-proxy -watch /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
+    command: -notify-sighup nginx-proxy -interval 86400 -watch /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
     volumes:
       - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
@@ -64,7 +64,7 @@ services:
         
   ssl-companion:
     image: poppypop/docker-ssl-nginx-proxy-companion
-    command: -notify /docker-ssl-nginx-proxy-companion -notify-output -watch /cfssl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
+    command: -notify /docker-ssl-nginx-proxy-companion -notify-output -interval 86400 -watch /cfssl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
     volumes:
       - certs:/certs
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
