@@ -455,7 +455,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	u := url.URL{Scheme: "ws", Host: *addr, Path: "/jsonrpc"}
+	u := url.URL{Scheme: "wss", Host: *addr, Path: "/jsonrpc"}
 	nbtry := 1
 
 	for {
