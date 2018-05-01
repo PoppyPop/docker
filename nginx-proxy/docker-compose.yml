@@ -51,7 +51,7 @@ services:
     depends_on:
       - nginx
     environment:
-      - "ENDPOINT=http://dns-api.moot.fr"
+      - "ENDPOINT=https://dns-api.moot.fr"
       - "HOST_IP=10.0.1.10"
     env_file:
       - /srv/confs/pdns/conf/pdns-api.env
