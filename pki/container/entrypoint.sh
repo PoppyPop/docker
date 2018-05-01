@@ -22,9 +22,6 @@ if [ ! -f /etc/cfssl/ca.pem ]; then
 
 	cfssl genkey -initca ca.json | cfssljson -bare ca
 
-	mkdir capub
-	ln -s ${PWD}/ca.pem ${PWD}/capub/ca.pem
-
 	cfssl gencert -ca ca.pem -ca-key ca-key.pem -config="config.json" -profile="intermediate" intermediate.json | cfssljson -bare signing-ca
 
 	cfssl gencert -ca signing-ca.pem -ca-key signing-ca-key.pem -config="config.json" -profile="ocsp" ocsp.json| cfssljson -bare ocsp-ca
@@ -32,6 +29,10 @@ if [ ! -f /etc/cfssl/ca.pem ]; then
 	cfssl ocspdump -db-config db-config.json > ocspdump.txt
 
 	chmod a-w ca.pem signing-ca.pem ca-key.pem signing-ca-key.pem
+	
+	mkdir capub
+	ln -s ${PWD}/ca.pem ${PWD}/capub/ca.pem
+	ln -s ${PWD}/signing-ca.pem ${PWD}/capub/int.pem
 
 	rm /etc/cfssl/bootstrap
 fi
