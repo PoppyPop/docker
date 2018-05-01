@@ -82,6 +82,7 @@ services:
 
 volumes:
   certs:
+    external: true
   conf.d:
   vhost.d:
   html:

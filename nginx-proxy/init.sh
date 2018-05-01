@@ -13,3 +13,5 @@ sudo cp -f nginx.tmpl /srv/confs/nginx-proxy/nginx.tmpl
 
 sudo cp -f ssl/cfssl_service_data.tmpl /srv/confs/nginx-proxy/cfssl_service_data.tmpl
 
+docker volume create certs --label backup=yes
+

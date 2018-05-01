@@ -3,6 +3,8 @@ version: '3'
 volumes:
   aria-datas:
     external: true
+  certs:
+    external: true
 
 services:
   aria2:
@@ -13,8 +15,12 @@ services:
       - CONCURRENT_DOWNLOADS=5
       - DOWNLOAD_DIR=/datas/Downloads
       - SESSION_FILE=/datas/aria2.session
+      - RPC_SECURE=true
+      - RPC_CERT=/certs/aria.moot.fr.crt
+      - RPC_PRIV_KEY=/certs/aria.moot.fr.key
     volumes:
       -  aria-datas:/datas
+      -  certs:/certs
     user: 1001:1001
     ports:
       - "6800:6800"
