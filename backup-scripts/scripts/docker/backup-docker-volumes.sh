@@ -37,10 +37,18 @@ done
 
 echo "============================ BACKUP ============================"
 
-parallel ./backup-docker-volume.sh ::: ${BACKUP[@]}
+# Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin
+SCRIPTPATH=$(dirname "$SCRIPT")
 
-#for i in "${BACKUP[@]}"
-#do
-#	echo -e "${GREEN}$i${NC}"
-#	./backup-docker-volume.sh $i
-#done
+parallel ${SCRIPTPATH}/backup-docker-volume.sh ::: ${BACKUP[@]}
+
+
+if [ $? -eq 0 ]
+then
+	echo "Docker: Ok"
+else
+    echo "Docker: Fail"  
+    exit 1  
+fi

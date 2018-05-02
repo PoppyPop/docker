@@ -5,18 +5,23 @@ src=${BASH_SOURCE%/*}
 
 curator --config ${src}/config.yml ${src}/backup.yml
 
-backupdir=/srv/backs/efk
 backupsrc=/srv/datas/efk/backup
+backupdir=/srv/backs
 
 # Test Folder
 if [ ! -d "$backupdir" ]; then
   mkdir -p $backupdir
 fi
 
-# First: Remove old backups
-rm -rf $backupdir/elastic.tar.gz
-
 # Add New Backup
-tar -zcf $backupdir/elastic.tar.gz -C $backupsrc .
+/srv/scripts/backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
 
-exit $?
+if [ $? -eq 0 ]
+then
+	rm -rf $backupsrc/*
+
+	echo "Elastic: Ok"
+else
+    echo "Elastic: Fail"  
+    exit 1  
+fi

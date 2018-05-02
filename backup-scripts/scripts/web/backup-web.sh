@@ -1,18 +1,16 @@
 #!/bin/bash
 #
 
-backupdir=/srv/backs/web
+backupdir=/srv/backs
 backupsrc=/srv/datas/web
-now=`date +"%Y-%m-%d_%H-%M"`
-
-# Test Folder
-if [ ! -d "$backupdir" ]; then
-  mkdir -p $backupdir
-fi
-
-# First: Remove old backups
-find $backupdir/ -type f -mtime +7 -delete
 
 # Add New Backup
-tar -zcf $backupdir/$now.tar.gz -C $backupsrc .
-       
+/srv/scripts/backup-dir.sh "local-web" "$backupsrc" "$backupdir"
+
+if [ $? -eq 0 ]
+then
+	echo "Web: Ok"
+else
+    echo "Web: Fail"  
+    exit 1  
+fi

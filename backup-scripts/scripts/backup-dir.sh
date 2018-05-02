@@ -16,15 +16,28 @@ backup () {
 	echo "Backup $2 finished"
 }
 
+if [ -z "$1" ]; then
+	echo "name is mandatory"
+	exit 1
+fi
 
 # What to backup. 
-backup_name=$1
-backup_files="/volume"
+backup_name="$1"
+
+if [ -z "$2" ]; then
+	backup_files="/volume"
+else
+	backup_files="$2"
+fi
 
 # Where to backup to.
-dest="/backup"
+if [ -z "$3" ]; then
+	dest="/backup"
+else
+	dest="$3"
+fi
 
-retention=10
+retention=11
 ext="tar.bz2"
 
 # Setup variables for the archive filename.
@@ -47,16 +60,16 @@ mkdir -p $dest/weekly
 mkdir -p $dest/daily
 
 # Clean old backup
-find $dest/daily -type f -mtime +$retention -delete
-find $dest/weekly -type f -mtime +$((retention*7)) -delete
-find $dest/monthly -type f -mtime +$((retention*30)) -delete
+ls -tp "$dest/daily/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
+ls -tp "$dest/weekly/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
+ls -tp "$dest/monthly/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
 
 # Create archive.
-if [ $day_num == 1 ]; then
+if [ $day_num -eq 1 ]; then
 	backup $backup_files $dest/monthly/$month_file
 fi
 
-if [ $day == "Sunday" ]; then
+if [ "$day" = "Sunday" ]; then
 	backup $backup_files $dest/weekly/$week_file 
 fi
 
