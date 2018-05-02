@@ -17,6 +17,7 @@ sudo mkdir -p /srv/confs/efk/
 sudo mkdir -p /srv/backs/efk
 
 sudo cp -f docker-compose.yml /srv/confs/efk/
+sudo cp -f fluentd/fluent.conf /srv/confs/efk/
 
 vmmapcount=`sudo grep -c "vm.max_map_count" /etc/sysctl.conf`
 
