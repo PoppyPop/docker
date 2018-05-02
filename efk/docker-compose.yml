@@ -70,9 +70,9 @@ services:
       - elastic1
       - elastic2
     volumes:
-      - /srv/confs/efk/fluent.conf:/etc/fluentd/fluent.conf
+      - /srv/confs/efk/fluent.conf:/fluentd/etc/fluent.conf:ro
     environment:
-      - FLUENTD_CONF=/etc/fluentd/fluent.conf
+      - FLUENTD_CONF=fluent.conf
     networks:
       - esnet
     logging:
