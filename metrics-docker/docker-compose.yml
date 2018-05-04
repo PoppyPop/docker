@@ -1,0 +1,22 @@
+version: '3'
+services:
+  metricbeat-docker:
+    image: docker.elastic.co/beats/metricbeat:6.2.4
+    command: -e
+    volumes:
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - ./ca.pem:/etc/pki/root/ca.pem:ro
+      - ./int.pem:/etc/pki/root/int.pem:ro
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    user: root
+    networks:
+      - efk-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+            
+networks:
+  efk-net:
+    external: true
