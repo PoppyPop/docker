@@ -5,13 +5,13 @@ services:
     image: redis:alpine
     volumes:
       - redis-data:/data
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: "127.0.0.1:24224"
-#        fluentd-async-connect: "true"
-#        tag: docker.{{.ID}}
-        
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
+              
   app:  
     image: nextcloud:fpm-alpine
     volumes:
@@ -27,12 +27,12 @@ services:
       - webbackend
       - ldap-backend
       - default
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: "127.0.0.1:24224"
-#        fluentd-async-connect: "true"
-#        tag: docker.{{.ID}}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
 
   web:
     image: nginx
@@ -49,27 +49,31 @@ services:
     networks:
       - proxy-net
       - default
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: "127.0.0.1:24224"
-#        fluentd-async-connect: "true"
-#        tag: docker.{{.ID}}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: nginx.docker.{{.ID}}
 
   cron:
     image: nextcloud:fpm-alpine
     volumes:
-      - nextcloud-data:/var/www/html
+      - nextcloud-base:/var/www/html
+      - nextcloud-apps:/var/www/html/custom_apps
+      - nextcloud-config:/var/www/html/config
+      - nextcloud-data:/var/www/html/data
     user: www-data
     entrypoint: |
       sh -c 'sh -s <<EOF
         trap "break;exit" SIGHUP SIGINT SIGTERM
-
         while [ ! -f /var/www/html/config/config.php ]; do
+          echo "Waiting for /var/www/html/config/config.php"
           sleep 1m
         done
 
         while true; do
+          echo "Executing Cron"
           php -f /var/www/html/cron.php
           sleep 15m
         done
@@ -78,12 +82,12 @@ services:
       - redis
     networks:
       - webbackend
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: "127.0.0.1:24224"
-#        fluentd-async-connect: "true"
-#        tag: docker.{{.ID}}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
 
 volumes:
   nextcloud-data:

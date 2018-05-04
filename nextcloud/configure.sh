@@ -20,12 +20,14 @@ then
 	USER="nextcloud"
 	
 	NUSER="admin"
-	HOST="mariadb"
+	HOST="postgres"
 	
-	echo -e "Creating BDD min config please enter root password"
-	CREATE="CREATE DATABASE IF NOT EXISTS ${BASE};GRANT ALL ON ${BASE}.* TO ${USER}@'%' IDENTIFIED BY '${PASSCONFIG}';"
-	#echo "$CREATE"
-	mysql -h yugo.moot -u root -p -e "$CREATE"
+	read -p "Creating BDD min config please enter postgres password: " PGPASSWORD
+	export PGPASSWORD
+	psql -U postgres -h yugo.moot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${BASE}'" | grep -q 1 || psql -U postgres -h yugo.moot.fr -w -c "CREATE DATABASE ${BASE}"
+	psql -U postgres -h yugo.moot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = '${USER}'" | grep -q 1 || psql -U postgres -h yugo.moot.fr -w -c "CREATE ROLE ${USER} LOGIN PASSWORD '${PASSCONFIG}'"
+	psql -U postgres -h yugo.moot.fr -w -c "GRANT ALL PRIVILEGES ON DATABASE ${BASE} to ${USER}"
+	
 	
 	cp db.env.sample db.env
 	sed -i "s|{BASE}|${BASE}|g" db.env
