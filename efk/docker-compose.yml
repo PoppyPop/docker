@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   elastic1:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
@@ -16,7 +16,10 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    mem_limit: 6g
+    deploy:
+      resources:
+        limits:
+          memory: 6g
     cap_add:
       - IPC_LOCK
     volumes:
@@ -25,7 +28,9 @@ services:
     ports:
       - 9200:9200
     networks:
-      - esnet
+      efk-net:
+        aliases:
+          - elasticsearch
     logging:
       driver: json-file
       options:
@@ -48,14 +53,17 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    mem_limit: 6g
+    deploy:
+      resources:
+        limits:
+          memory: 6g
     cap_add:
       - IPC_LOCK
+    networks:
+      - efk-net
     volumes:
       - /srv/datas/efk/elastic2:/usr/share/elasticsearch/data
       - /srv/datas/efk/backup:/backup
-    networks:
-      - esnet
     logging:
       driver: json-file
       options:
@@ -74,7 +82,7 @@ services:
     environment:
       - FLUENTD_CONF=fluent.conf
     networks:
-      - esnet
+      - efk-net
     logging:
       driver: json-file
       options:
@@ -84,19 +92,17 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:6.2.4
     environment:
-      - ELASTICSEARCH_URL=http://elastic1:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - VIRTUAL_HOST=kibana.moot.fr
       - VIRTUAL_PORT=5601
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1
-#    ports:
-#      - 5601:5601 
     depends_on:
       - elastic1
       - elastic2
     networks:
       - proxy-net
-      - esnet
+      - efk-net
     logging:
       driver: json-file
       options:
@@ -104,11 +110,9 @@ services:
         max-file: "7"
         
 networks:
-  esnet:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 9000
   proxy-net:
+    external: true
+  efk-net:
     external: true
 
     

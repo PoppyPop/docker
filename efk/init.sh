@@ -12,6 +12,8 @@ sudo mkdir -p /srv/datas/efk/backup
 
 sudo chown -R 1000:1000 /srv/datas/efk/*
 
+sudo docker network create --opt com.docker.network.driver.mtu=9000 efk-net
+
 # conf
 sudo mkdir -p /srv/confs/efk/
 sudo mkdir -p /srv/backs/efk
