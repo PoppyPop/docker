@@ -1,0 +1,19 @@
+version: '3'
+services:
+  metricbeat-sys:
+    image: docker.elastic.co/beats/metricbeat:6.2.4
+    command: -e -system.hostfs=/hostfs
+    volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - ./ca.pem:/etc/pki/root/ca.pem
+      - ./int.pem:/etc/pki/root/int.pem
+    network_mode: "host"
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+            
