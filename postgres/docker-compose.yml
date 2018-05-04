@@ -1,0 +1,49 @@
+version: '3'
+
+networks:
+  webbackend:
+    external: true
+  proxy-net:
+    external: true
+        
+services:
+  adminer:
+    image: adminer
+    #restart: always
+    environment:
+      - VIRTUAL_HOST=pg.moot.fr
+      - VIRTUAL_PORT=8080
+      - PUBLISH_DNS=1
+      - PUBLISH_DNS_TXT=1
+    networks:
+      - proxy-net
+      - default
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
+        
+  postgres:
+    image: postgres:alpine
+    #restart: always
+    env_file:
+      - conf/db.env
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-datas:/var/lib/postgresql/data
+    networks:
+      - default
+      - webbackend
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}} 
+        
+volumes:
+  pg-datas:
+    external: true
