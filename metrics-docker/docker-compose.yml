@@ -2,15 +2,17 @@ version: '3'
 services:
   metricbeat-docker:
     image: docker.elastic.co/beats/metricbeat:6.2.4
-    command: -e
+    command: -e -system.hostfs=/hostfs
     volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
       - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
       - ./ca.pem:/etc/pki/root/ca.pem:ro
       - ./int.pem:/etc/pki/root/int.pem:ro
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     user: root
-    networks:
-      - efk-net
+    network_mode: "host"
     logging:
       driver: json-file
       options:

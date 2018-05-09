@@ -1,3 +1,5 @@
+name: docker
+
 metricbeat.modules:
 - module: docker
   metricsets: ["container", "cpu", "diskio", "healthcheck", "info", "memory", "network"]
