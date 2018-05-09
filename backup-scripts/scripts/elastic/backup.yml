@@ -79,5 +79,9 @@ actions:
       exclude: True
     - filtertype: pattern
       kind: prefix
+      value: .security
+      exclude: True
+    - filtertype: pattern
+      kind: prefix
       value: metricbeat
       exclude: True

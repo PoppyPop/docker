@@ -8,4 +8,4 @@ sudo cp -rf scripts/* /srv/scripts/
 
 sudo cp -rf cron.daily/* /etc/cron.daily/
 
-sudo /srv/scripts/mariadb/install.sh
+# sudo /srv/scripts/mariadb/install.sh
