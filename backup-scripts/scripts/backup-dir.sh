@@ -37,7 +37,7 @@ else
 	dest="$3"
 fi
 
-retention=11
+retention=8
 ext="tar.bz2"
 
 # Setup variables for the archive filename.
@@ -59,11 +59,6 @@ mkdir -p $dest/monthly
 mkdir -p $dest/weekly
 mkdir -p $dest/daily
 
-# Clean old backup
-ls -tp "$dest/daily/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
-ls -tp "$dest/weekly/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
-ls -tp "$dest/monthly/$backup_name*" 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
-
 # Create archive.
 if [ $day_num -eq 1 ]; then
 	backup $backup_files $dest/monthly/$month_file
@@ -74,4 +69,9 @@ if [ "$day" = "Sunday" ]; then
 fi
 
 backup $backup_files $dest/daily/$day_file 
+
+# Clean old backup
+ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
+ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
+ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
 
