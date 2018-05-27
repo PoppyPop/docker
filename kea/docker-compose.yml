@@ -42,6 +42,7 @@ services:
       - /srv/confs/kea/kea.env
     volumes:
       - kea-socket:/run/kea/sockets/
+      - alpine-certs:/etc/ssl/certs:ro
       - /srv/confs/kea/hook.sh:/hook.sh:ro
       - /srv/confs/kea/kea-dhcp4/:/etc/kea/
     network_mode: "host"
@@ -81,6 +82,8 @@ services:
 
 volumes:
   kea-mysql:
+    external: true
+  alpine-certs:
     external: true
   kea-socket:
 
