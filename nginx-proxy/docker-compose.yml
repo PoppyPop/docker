@@ -89,6 +89,8 @@ services:
 volumes:
   certs:
     external: true
+  alpine-certs:
+    external: true
   conf.d:
   vhost.d:
   html:
