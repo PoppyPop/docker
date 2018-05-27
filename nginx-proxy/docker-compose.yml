@@ -49,6 +49,7 @@ services:
   pdns-companion:
     image: poppypop/docker-pdns-nginx-proxy-companion
     volumes:
+      - alpine-certs:/etc/ssl/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy-net
@@ -71,6 +72,7 @@ services:
     command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
     volumes:
       - certs:/certs
+      - alpine-certs:/etc/ssl/certs:ro
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
       - "/srv/confs/nginx-proxy/cfssl_service_data.tmpl:/cfssl/cfssl_service_data.tmpl"
     depends_on:
