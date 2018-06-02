@@ -23,4 +23,8 @@ VOLUME /datas
 
 WORKDIR /app/
 COPY --from=builder /go/src/github.com/PoppyPop/docker/webui-aria2/go-automate-ended/go-automate-ended .
+
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
+
 CMD ["/app/go-automate-ended"] 
