@@ -461,6 +461,8 @@ func getLockFile(path string) string {
 	return path + ".lock"
 }
 
+var version = "1.0.0"
+
 var rpcIds = make(map[uint64]bool)
 
 func main() {
@@ -469,6 +471,8 @@ func main() {
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
+
+	log.Printf("Version: %s", version)
 
 	u := url.URL{Scheme: "wss", Host: *addr, Path: "/jsonrpc"}
 	nbtry := 1

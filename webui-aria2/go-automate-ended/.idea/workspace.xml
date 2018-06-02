@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="245" column="13" selection-start-line="245" selection-start-column="13" selection-end-line="245" selection-end-column="13" />
+            <state relative-caret-position="510">
+              <caret line="474" column="37" selection-start-line="474" selection-start-column="37" selection-end-line="474" selection-end-column="37" />
               <folding>
                 <element signature="e#189#486#0" expanded="true" />
               </folding>
@@ -110,7 +110,7 @@
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18266475" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18266475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -151,8 +151,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="245" column="13" selection-start-line="245" selection-start-column="13" selection-end-line="245" selection-end-column="13" />
+        <state relative-caret-position="510">
+          <caret line="474" column="37" selection-start-line="474" selection-start-column="37" selection-end-line="474" selection-end-column="37" />
           <folding>
             <element signature="e#189#486#0" expanded="true" />
           </folding>
