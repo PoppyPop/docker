@@ -222,15 +222,30 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 
 		if len(dlDirFiles) > 1 {
 
-			// Check if an aria2 file exist
-			haveAria2File := lq.From(dlDirFiles).AnyWith(func(f interface{}) bool {
-				c := f.(os.FileInfo)
-				return !c.IsDir() &&
-					path.Join(directory, c.Name()) != element.Path && // Self exclusion
-					path.Join(directory, c.Name()) != element.Path+".aria2" && // Self exclusion (aria2 version)
-					strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
-					strings.TrimPrefix(filepath.Ext(c.Name()), ".") == "aria2"
-			})
+			aria2FileTry := 0
+			haveAria2File := true
+
+			// Check if an aria2 file exist for 6sec.
+			// Wait for 1 seconds
+			time.Sleep(time.Second)
+			for aria2FileTry < 6 {
+
+				haveAria2File = lq.From(dlDirFiles).AnyWith(func(f interface{}) bool {
+					c := f.(os.FileInfo)
+					return !c.IsDir() &&
+						path.Join(directory, c.Name()) != element.Path && // Self exclusion
+						path.Join(directory, c.Name()) != element.Path+".aria2" && // Self exclusion (aria2 version)
+						strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
+						strings.TrimPrefix(filepath.Ext(c.Name()), ".") == "aria2"
+				})
+
+				if !haveAria2File {
+					break
+				}
+
+				time.Sleep(time.Second)
+				aria2FileTry += aria2FileTry
+			}
 
 			if haveAria2File {
 				err = errors.New("Aria2 file existing")
