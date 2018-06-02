@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="474" column="37" selection-start-line="474" selection-start-column="37" selection-end-line="474" selection-end-column="37" />
+            <state relative-caret-position="357">
+              <caret line="108" column="53" selection-start-line="108" selection-start-column="53" selection-end-line="108" selection-end-column="53" />
               <folding>
                 <element signature="e#189#486#0" expanded="true" />
               </folding>
@@ -151,8 +151,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="474" column="37" selection-start-line="474" selection-start-column="37" selection-end-line="474" selection-end-column="37" />
+        <state relative-caret-position="357">
+          <caret line="108" column="53" selection-start-line="108" selection-start-column="53" selection-end-line="108" selection-end-column="53" />
           <folding>
             <element signature="e#189#486#0" expanded="true" />
           </folding>

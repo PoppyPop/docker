@@ -106,6 +106,8 @@ func HandleGID(reply StatusResponse, c *Client) {
 	archiveExt := map[string]bool{"rar": true, "zip": true}
 
 	for _, element := range reply.Files {
+		log.Printf("[%s] %s", reply.Gid, element.Path)
+
 		fileName := filepath.Base(element.Path)
 		ext := strings.TrimPrefix(filepath.Ext(fileName), ".")
 
