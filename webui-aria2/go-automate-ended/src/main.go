@@ -273,11 +273,14 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			})
 
 			if otherFile != nil {
-
+				
 				if element.Path != path.Join(directory, otherFile.(os.FileInfo).Name()) {
 					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
 					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
 					extractFileName = strings.TrimPrefix(extractFile, getDownloadPath())
+				} else {
+					extractFile = element.Path
+					extractFileName = fileName
 				}
 
 				refTimeout := time.Now()
