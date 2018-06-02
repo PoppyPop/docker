@@ -229,7 +229,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			haveAria2File := true
 
 			// Check if an aria2 file exist for 6sec.
-			for aria2FileTry < 6 {
+			for aria2FileTry < 4 {
 
 				dlDirFiles, errReadDir := ioutil.ReadDir(directory)
 
@@ -254,7 +254,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 				log.Printf("[%s] aria2 file try %d", reply.Gid, aria2FileTry)
 
 				time.Sleep(time.Second)
-				aria2FileTry += aria2FileTry
+				aria2FileTry += 1
 			}
 
 			if haveAria2File {
@@ -273,7 +273,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			})
 
 			if otherFile != nil {
-				
+
 				if element.Path != path.Join(directory, otherFile.(os.FileInfo).Name()) {
 					log.Printf("[%s] Replacing %s by %s", reply.Gid, element.Path, path.Join(directory, otherFile.(os.FileInfo).Name()))
 					extractFile = path.Join(directory, otherFile.(os.FileInfo).Name())
@@ -323,6 +323,7 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 							break
 						}
 
+						log.Printf("[%s] Waiting %d for lock", reply.Gid, waitTime)
 						// Normal wait for lock
 						time.Sleep(waitTime)
 					}
