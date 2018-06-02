@@ -357,6 +357,8 @@ func Extract(extractFile, ext, extractFileName string, multiPart bool) error {
 			cmd := "unrar"
 			args := []string{"x", extractFile, getExtractPath() + extractFileName}
 			errExtract = exec.Command(cmd, args...).Run()
+
+			ChmodR(getExtractPath() + extractFileName,0664 )
 		} else {
 			errExtract = archiver.Rar.Open(extractFile, getExtractPath()+extractFileName)
 		}
@@ -365,6 +367,15 @@ func Extract(extractFile, ext, extractFileName string, multiPart bool) error {
 	}
 
 	return errExtract
+}
+
+func ChmodR(path string, mask os.FileMode) error {
+	return filepath.Walk(path, func(name string, info os.FileInfo, err error) error {
+		if err == nil && !info.IsDir() {
+			err = os.Chmod(name, mask)
+		}
+		return err
+	})
 }
 
 // DecodeEvent decode les réponse de type Event
