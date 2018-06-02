@@ -106,7 +106,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 	archiveExt := map[string]bool{"rar": true, "zip": true}
 
 	for _, element := range reply.Files {
-		log.Printf("[%s] %s", reply.Gid, element.Path)
+		log.Printf("[%s] File : %s", reply.Gid, element.Path)
 
 		fileName := filepath.Base(element.Path)
 		ext := strings.TrimPrefix(filepath.Ext(fileName), ".")
@@ -203,6 +203,7 @@ func HandleGID(reply StatusResponse, c *Client) {
 }
 
 func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName string) (multiPart bool, extractFile, extractFileName, refFilename string, err error) {
+
 	multiPart = false
 
 	r, _ := regexp.Compile(`^(.*)\.part\d+.rar$`)
@@ -329,12 +330,17 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 				err = errors.New("Multipart : Not a part1 file, don't try to extract it")
 			}
 		}
-	}
-
-	if err != nil && extractFile == "" {
+	} else {
 		extractFile = element.Path
 		extractFileName = fileName
 	}
+
+	if err != nil && extractFile == ""  {
+		extractFile = element.Path
+		extractFileName = fileName
+	}
+
+	log.Printf("[%s] Extracted value: %s / %s", reply.Gid, extractFile, extractFileName)
 
 	return
 }
