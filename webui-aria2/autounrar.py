@@ -33,6 +33,9 @@ def CheckRarComplete( path, file, associatedFiles ):
 	
 def UnRar( path, handlefile, properfile, associatedFiles ):
 	
+	if not os.path.exists('./Extract'):
+		os.makedirs('./Extract')
+	
 	extractPath = os.path.join('./Extract', properfile)
 	os.mkdir(extractPath)
 	
