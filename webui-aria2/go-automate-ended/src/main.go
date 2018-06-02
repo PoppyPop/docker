@@ -228,15 +228,13 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			haveAria2File := true
 
 			// Check if an aria2 file exist for 6sec.
-			// Wait for 1 seconds
-			time.Sleep(time.Second)
 			for aria2FileTry < 6 {
 
 				haveAria2File = lq.From(dlDirFiles).AnyWith(func(f interface{}) bool {
 					c := f.(os.FileInfo)
 					return !c.IsDir() &&
 						path.Join(directory, c.Name()) != element.Path && // Self exclusion
-						path.Join(directory, c.Name()) != element.Path+".aria2" && // Self exclusion (aria2 version)
+						//path.Join(directory, c.Name()) != element.Path+".aria2" && // Self exclusion (aria2 version)
 						strings.HasPrefix(path.Join(directory, c.Name()), refFilename) &&
 						strings.TrimPrefix(filepath.Ext(c.Name()), ".") == "aria2"
 				})
@@ -245,12 +243,21 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 					break
 				}
 
+				log.Printf("[%s] aria2 file try %d", reply.Gid, aria2FileTry)
+
 				time.Sleep(time.Second)
 				aria2FileTry += aria2FileTry
 			}
 
 			if haveAria2File {
 				err = errors.New("Aria2 file existing")
+				return
+			}
+
+			dlDirFiles, errReadDir := ioutil.ReadDir(directory)
+
+			if errReadDir != nil {
+				err = errReadDir
 				return
 			}
 
@@ -463,7 +470,7 @@ func getLockFile(path string) string {
 	return path + ".lock"
 }
 
-var version = "1.0.0"
+var version = "1.0.1"
 
 var rpcIds = make(map[uint64]bool)
 
