@@ -230,6 +230,13 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 			// Check if an aria2 file exist for 6sec.
 			for aria2FileTry < 6 {
 
+				dlDirFiles, errReadDir := ioutil.ReadDir(directory)
+
+				if errReadDir != nil {
+					err = errReadDir
+					return
+				}
+
 				haveAria2File = lq.From(dlDirFiles).AnyWith(func(f interface{}) bool {
 					c := f.(os.FileInfo)
 					return !c.IsDir() &&
@@ -251,13 +258,6 @@ func HandleArchive(reply StatusResponse, element FileResponse, ext, fileName str
 
 			if haveAria2File {
 				err = errors.New("Aria2 file existing")
-				return
-			}
-
-			dlDirFiles, errReadDir := ioutil.ReadDir(directory)
-
-			if errReadDir != nil {
-				err = errReadDir
 				return
 			}
 
