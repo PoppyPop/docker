@@ -21,7 +21,7 @@ services:
     image: adminer
     #restart: always
     environment:
-      - VIRTUAL_HOST=dns-mysql.moot.fr
+      - VIRTUAL_HOST=dns-sql.moot.fr
       - VIRTUAL_PORT=8080
     networks:
       - proxy-net
@@ -36,8 +36,8 @@ services:
   pdns-recursor:
     image: pschiffe/pdns-recursor:alpine
     ports:
-      - "53:53"
-      - "53:53/udp"
+      - "10.0.1.10:53:53"
+      - "10.0.1.10:53:53/udp"
     environment:
       - VIRTUAL_HOST=dns-recursor.moot.fr
       - VIRTUAL_PORT=8080
