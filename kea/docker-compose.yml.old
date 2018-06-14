@@ -2,25 +2,25 @@ version: '3'
 
 services:
   db:
-    image: postgres:alpine
+    image: mariadb
     #restart: always
     env_file:
-      - conf/db.env
+      - /srv/confs/kea/db.env
     volumes:
-      - kea-pgsql:/var/lib/postgresql/data
+      - kea-mysql:/var/lib/mysql
     ports:
-      - "127.0.0.1:3199:5432"
+      - "127.0.0.1:3198:3306"
     logging:
       driver: fluentd
       options:
         fluentd-address: "127.0.0.1:24224" 
         fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        tag: docker.{{.ID}}   
 
   adminer:
     image: adminer
     environment:
-      - VIRTUAL_HOST=kea-sql.moot.fr
+      - VIRTUAL_HOST=kea-mysql.moot.fr
       - VIRTUAL_PORT=8080
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1
@@ -35,11 +35,11 @@ services:
         tag: docker.{{.ID}} 
 
   kea:
-    image: poppypop/docker-kea:pgsql
+    image: poppypop/docker-kea
     depends_on:
       - db
     env_file:
-      - conf/kea.env
+      - /srv/confs/kea/kea.env
     volumes:
       - kea-socket:/run/kea/sockets/
       - alpine-certs:/etc/ssl/certs:ro
@@ -48,7 +48,7 @@ services:
     network_mode: "host"
     environment:
       - KEA_IFACE=eno1
-      - DB_PORT=3199
+      - DB_PORT=3198
       - DB_HOST=127.0.0.1
     logging:
       driver: fluentd
@@ -58,7 +58,7 @@ services:
         tag: docker.{{.ID}} 
 
   kea-control-agent:
-    image: poppypop/docker-kea:pgsql
+    image: poppypop/docker-kea
     command: kea-ctrl-agent
     environment:
       - VIRTUAL_HOST=kea-api.moot.fr
@@ -81,7 +81,7 @@ services:
 
 
 volumes:
-  kea-pgsql:
+  kea-mysql:
     external: true
   alpine-certs:
     external: true
