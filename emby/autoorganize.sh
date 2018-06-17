@@ -18,3 +18,5 @@ curl -s $AUTOORGURL > Emby.addic7ed.dll
 docker run --rm  -v emby-datas:/dist -v ${PWD}:/local alpine \
 	cp -f /local/Emby.addic7ed.dll /dist/plugins/Emby.addic7ed.dll
 	
+rm Emby.addic7ed.dll Emby.AutoOrganize.dll
+	
