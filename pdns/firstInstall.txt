@@ -35,6 +35,9 @@ pdnsutil add-record moot.fr. dns-recursor CNAME 86400 yugo.moot.fr.
 pdnsutil add-record moot.fr. dns-api CNAME 86400 yugo.moot.fr.
 pdnsutil add-record moot.fr. dns CNAME 86400 yugo.moot.fr.
 
+# PKI
+pdnsutil add-record moot.fr. pki CNAME 86400 yugo.moot.fr.
+
 #DSIG
 #pdnsutil import-tsig-key DDNS_UPDATE hmac-md5 iK6lZRz9VwZM3J2BSpq60Bsl9QocyslT52fnvw788yE=
 #pdnsutil set-meta moot.fr. TSIG-ALLOW-DNSUPDATE ddns_update 
