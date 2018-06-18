@@ -19,13 +19,13 @@ curl -X GET http://yugo.moot.fr:8887/ca.pem | sudo tee /usr/local/share/ca-certi
 sudo update-ca-certificates
 
 #ubuntu
-sudo mkdir /usr/share/ca-certificates/extra
+export BASEDIR=/usr/local/share/ca-certificates
 
-curl -X GET http://yugo.moot.fr:8887/int.pem | sudo tee /usr/share/ca-certificates/extra/int.pem  > /dev/null
-curl -X GET http://yugo.moot.fr:8887/ca.pem | sudo tee /usr/share/ca-certificates/extra/ca.pem  > /dev/null
+sudo mkdir ${BASEDIR}
+curl -X GET http://pki.moot.fr:8887/int.pem | sudo tee ${BASEDIR}/Moot.fr_INT.pem  > /dev/null
+curl -X GET http://pki.moot.fr:8887/ca.pem | sudo tee ${BASEDIR}/Moot.fr_CA.pem  > /dev/null
 
-sudo openssl x509 -in /usr/share/ca-certificates/extra/int.pem -inform PEM -out /usr/share/ca-certificates/extra/int.crt 
-sudo openssl x509 -in /usr/share/ca-certificates/extra/ca.pem -inform PEM -out /usr/share/ca-certificates/extra/ca.crt 
+sudo openssl x509 -in ${BASEDIR}/Moot.fr_INT.pem -inform PEM -out ${BASEDIR}/Moot.fr_INT.crt 
+sudo openssl x509 -in ${BASEDIR}/Moot.fr_CA.pem -inform PEM -out ${BASEDIR}/Moot.fr_CA.crt 
 
-sudo dpkg-reconfigure ca-certificates
 sudo update-ca-certificates
