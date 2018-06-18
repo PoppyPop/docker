@@ -21,4 +21,6 @@ openssl x509 -in ${BASEDIR}/Moot.fr_CA.pem -inform PEM -out ${BASEDIR}/Moot.fr_C
 #dpkg-reconfigure ca-certificates
 update-ca-certificates -f
 
+cd /etc/ssl/certs/ && for i in *; do link=$(readlink $i) && rm $i && cp $link $i; done
+
 exit

@@ -14,4 +14,6 @@ curl -X GET http://yugo.moot.fr:8887/ca.pem | tee /usr/local/share/ca-certificat
 
 update-ca-certificates
 
+cd /etc/ssl/certs/ && for i in *; do link=$(readlink $i) && rm $i && cp $link $i; done
+
 exit
