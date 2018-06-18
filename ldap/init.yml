@@ -6,9 +6,9 @@ services:
     env_file:
       #- openldap/slapd.env
       - openldap/slapd.ssl.env
-    environment:
+    #environment:
       #- SLAPCONFIG=/etc/openldap/config.ldif
-      - DEBUG=1
+      #- DEBUG=1
     volumes:
       - alpine-certs:/etc/ssl/certs:ro
       - openldap-certs:/etc/ssl/ldap:ro
