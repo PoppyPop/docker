@@ -6,7 +6,8 @@ services:
     volumes:
       - openldap-data:/var/lib/openldap/openldap-data
       - openldap-config:/etc/openldap/slapd.d
-      - /etc/ssl:/etc/ssl:ro
+      - alpine-certs:/etc/ssl/certs:ro
+      - openldap-certs:/etc/ssl/ldap:ro
     networks:
       - ldap-backend
     ports:
@@ -21,7 +22,7 @@ services:
   fd:
     image: poppypop/docker-fusiond
     volumes:
-      - /etc/ssl:/etc/ssl:ro
+      - debian-certs:/etc/ssl/certs:ro
       - /srv/confs/ldap/fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
     environment:
       - VIRTUAL_HOST=ldap.moot.fr
@@ -43,6 +44,12 @@ volumes:
     external: true
   openldap-config:
     external: true
+  openldap-certs:
+    external: true  
+  alpine-certs:
+    external: true  
+  debian-certs:
+    external: true  
         
 networks:
   default:

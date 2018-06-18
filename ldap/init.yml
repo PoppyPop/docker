@@ -4,27 +4,24 @@ services:
   openldap:
     image: poppypop/docker-openldap
     env_file:
-      - openldap/slapd.env
+      #- openldap/slapd.env
+      - openldap/slapd.ssl.env
     environment:
-      - SLAPCONFIG=/etc/openldap/config.ldif
-      - LDAP_TLS_CA_CRT_FILENAME=/etc/ssl/ca.crt
-      - LDAP_TLS_CRT_FILENAME=/etc/ssl/server.crt
-      - LDAP_TLS_KEY_FILENAME=/etc/ssl/private/server.key
+      #- SLAPCONFIG=/etc/openldap/config.ldif
+      - DEBUG=1
     volumes:
-      - /etc/ssl:/etc/ssl:ro
+      - alpine-certs:/etc/ssl/certs:ro
+      - openldap-certs:/etc/ssl/ldap:ro
       - openldap-data:/var/lib/openldap/openldap-data
       - openldap-config:/etc/openldap/slapd.d
       - ${PWD}/openldap/config.ldif:/etc/openldap/config.ldif:ro
-  fd:
-    image: poppypop/docker-fusiond
-    env_file:
-      - fusiondirectory/fusiondirectory.env
-    volumes:
-      - /etc/ssl:/etc/ssl:ro
-      - ${PWD}/fusiondirectory/fusiondirectory.conf:/etc/fusiondirectory/fusiondirectory.conf:ro
 
 volumes:
   openldap-data:
     external: true
   openldap-config:
     external: true
+  openldap-certs:
+    external: true  
+  alpine-certs:
+    external: true 
