@@ -2,6 +2,24 @@
 
 # /dev/sdf2 = cache ssd
 
+# v2 : uniquement raid 10
+
+mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sdd missing /dev/sde missing
+
+mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
+
+update-initramfs -u
+
+#echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+
+
+
+
+
+
+
+
+
 
 #md0 : 
 #/dev/sda1   	 2048 1953525134 1953523087 931.5G Linux LVM
@@ -65,6 +83,8 @@
 
 #after update
 #sudo update-initramfs -u
+
+#/dev/mapper/datas--vg-datas    /datas  ext4    defaults,nofail 0       2
 
 
 
