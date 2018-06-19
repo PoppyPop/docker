@@ -8,12 +8,12 @@ chmod +x bcache-status
 mv bcache-status /usr/sbin/
 
 # -B = backing device = spinning dsk
-wipefs -a /dev/sdf2
+# wipefs -a /dev/md0 -- ne pas faire avec le raid, supprime les superblock raid
 make-bcache -B /dev/md0
 
 #Copy set-UUID from output
-#UUID:                   6b1561e6-55b1-44ab-84ad-9c2164d17ac0
-#Set UUID:               5b6f302d-4e51-4fbf-a6eb-b10061c2821c
+#UUID:                   6f5ae2f6-c70c-4da2-847a-c1fdeab9cbc1
+#Set UUID:               3e90f0c7-7c6b-40f1-85f5-eb5032af8a28
 #version:                1
 #block_size:             1
 #data_offset:            16

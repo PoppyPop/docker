@@ -4,7 +4,9 @@
 
 # v2 : uniquement raid 10
 
-mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sdd missing /dev/sde missing
+fdisk #create partion -100MB = 3906824334 sectors
+
+mdadm --create --verbose /dev/md0 --level=10 --raid-devices=4 /dev/sdd1 missing /dev/sdc1 missing
 
 mdadm --detail --scan | tee -a /etc/mdadm/mdadm.conf
 
@@ -12,12 +14,15 @@ update-initramfs -u
 
 #echo '/dev/md0 /mnt/md0 ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
 
+pvcreate /dev/bcache0
 
+vgcreate datas-vg /dev/bcache0
 
+lvcreate -l +100%FREE -n datas datas-vg /dev/bcache0
 
+lvdisplay
 
-
-
+mkfs.ext4 /dev/datas-vg/datas
 
 
 
