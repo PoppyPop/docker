@@ -10,7 +10,7 @@ user=$5
 
 defaultGroup='domain_admins'
 smbBase='/etc/samba'
-nfsConfFile='/etc/exports.test'
+nfsConfFile='/etc/exports'
 
 ### don't modify from here unless you know what you are doing ####
 
@@ -84,7 +84,7 @@ function CleanNfsConfFile {
 }
 
 function SetNfsConfFile {
-	if ! echo "$sharePath	192.168.0.0/255.255.255.0(rw,no_subtree_check,anongid=513,async,anonuid=11001)" > $nfsConfFile
+	if ! echo "$sharePath	10.0.0.0/255.255.240.0(rw,no_subtree_check,anongid=513,async,anonuid=11001)" >> $nfsConfFile
 	then
 		echo -e $"There is an ERROR creating $shareName Nfs"
 		exit;exit 25;
