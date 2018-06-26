@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 
-sudo mkdir -p /downloads/transmission
 sudo mkdir -p /srv/confs/transmission
 
 #conf systemd

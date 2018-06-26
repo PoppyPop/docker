@@ -12,9 +12,9 @@ services:
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1
     volumes:
-      - /datas/downloads/transmission:/downloads
+      - transmission-datas:/downloads
       - transmission-watch:/watch
-      - /srv/confs/transmission:/config
+      - transmission-conf:/config
     ports:
       - 51413:51413
       - 51413:51413/udp
@@ -29,6 +29,10 @@ services:
         
 volumes:
   transmission-watch:
+  transmission-datas:
+    external: true
+  transmission-conf:
+    external: true
     
 networks:
   default:
