@@ -23,8 +23,8 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - /srv/datas/efk/elastic1:/usr/share/elasticsearch/data
-      - /srv/datas/efk/backup:/backup
+      - elastic1-datas:/usr/share/elasticsearch/data
+      - elastic-backup:/backup
     ports:
       - 9200:9200
     networks:
@@ -62,8 +62,8 @@ services:
     networks:
       - efk-net
     volumes:
-      - /srv/datas/efk/elastic2:/usr/share/elasticsearch/data
-      - /srv/datas/efk/backup:/backup
+      - elastic2-datas:/usr/share/elasticsearch/data
+      - elastic-backup:/backup
     logging:
       driver: json-file
       options:
@@ -78,7 +78,7 @@ services:
       - elastic1
       - elastic2
     volumes:
-      - /srv/confs/efk/fluent.conf:/fluentd/etc/fluent.conf:ro
+      - fluent-conf:/fluentd/etc/:ro
     environment:
       - FLUENTD_CONF=fluent.conf
     networks:
@@ -115,4 +115,13 @@ networks:
   efk-net:
     external: true
 
+volumes:
+  elastic1-datas:
+    external: true
+  elastic2-datas:
+    external: true
+  elastic-backup:
+    external: true
+  fluent-conf:
+    external: true
     
