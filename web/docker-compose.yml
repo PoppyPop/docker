@@ -1,54 +1,59 @@
 version: '3'
 
 networks:
-    webbackend:
-        external: true
-    proxy-net:
-        external: true
+  webbackend:
+    external: true
+  proxy-net:
+    external: true
 
+volumes:
+  web-datas:
+    external: true
+  web-conf:
+    external: true
+    
 services:
-    # PHPFpm
-    php-fpm:
-        image: poppypop/php-fpm
-        volumes:
-            - /srv/datas/web:/srv/http
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224"
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}
-        networks:
-            webbackend:
-                aliases:
-                    - phpfpm
-    # Webstack NGINX
-    nginx:
-        image: nginx:alpine 
-        volumes:
-            - /srv/confs/web/nginx.conf:/etc/nginx/nginx.conf:ro
-            - /srv/confs/web/conf.d:/etc/nginx/conf.d:ro
-            - /srv/datas/web:/usr/share/nginx/html:ro
-        environment:
-            - VIRTUAL_HOST=yugo.moot.fr
-            - VIRTUAL_PORT=80
-        networks:
-            - webbackend
-            - proxy-net
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224" 
-                fluentd-async-connect: "true"
-                tag: nginx.docker.{{.ID}}
-    # Webstack VARNISH
-    #varnish:
-    #    image: jacksoncage/varnish
-    #    links:
-    #    - nginx:nginx
-    #    volumes:
-    #    - /srv/confs/web/default.vcl:/etc/varnish/default.vcl
-    #    volumes_from:
-    #    - nginx:ro
-    #    ports:
-    #    - 80:80
+  # PHPFpm
+  php-fpm:
+    image: poppypop/php-fpm
+    volumes:
+      - web-datas:/srv/http
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224"
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
+    networks:
+      webbackend:
+        aliases:
+          - phpfpm
+  # Webstack NGINX
+  nginx:
+    image: nginx:alpine 
+    volumes:
+      - web-conf:/etc/nginx/conf.d:ro
+      - web-datas:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=yugo.moot.fr
+      - VIRTUAL_PORT=80
+    networks:
+      - webbackend
+      - proxy-net
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: nginx.docker.{{.ID}}
+  # Webstack VARNISH
+  #varnish:
+  #  image: jacksoncage/varnish
+  #  links:
+  #  - nginx:nginx
+  #  volumes:
+  #  - web-conf:/etc/varnish/
+  #  volumes_from:
+  #  - nginx:ro
+  #  ports:
+  #  - 80:80
