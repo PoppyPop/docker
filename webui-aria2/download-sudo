@@ -1,4 +1,0 @@
-download     ALL=NOPASSWD:/bin/mount
-download     ALL=NOPASSWD:/sbin/mount.nfs
-download     ALL=NOPASSWD:/bin/umount
-download     ALL=NOPASSWD:/sbin/umount.nfs

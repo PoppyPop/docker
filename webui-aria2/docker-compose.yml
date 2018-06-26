@@ -5,6 +5,8 @@ volumes:
     external: true
   certs:
     external: true
+  alpine-certs:
+    external: true
 
 services:
   aria2:
@@ -19,8 +21,9 @@ services:
       - RPC_CERT=/certs/aria.moot.fr.crt
       - RPC_PRIV_KEY=/certs/aria.moot.fr.key
     volumes:
-      -  aria-datas:/datas
-      -  certs:/certs
+      - aria-datas:/datas
+      - certs:/certs
+      - alpine-certs:/etc/ssl/certs:ro
     user: 1001:1001
     ports:
       - "6800:6800"
@@ -51,6 +54,7 @@ services:
     image: poppypop/go-automated-ended
     volumes:
       - aria-datas:/datas 
+      - alpine-certs:/etc/ssl/certs:ro
     user: 1001:1001
     logging:
       driver: fluentd

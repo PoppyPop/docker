@@ -5,7 +5,7 @@ Requires=docker.service
 
 [Service]
 WorkingDirectory=/srv/confs/%i/
-ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml pull  
+ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml down  
 ExecStart=/usr/bin/docker-compose -f docker-compose.yml up 
 ExecStop=/usr/bin/docker-compose -f docker-compose.yml down  
 
