@@ -5,7 +5,7 @@ services:
     image: postgres:alpine
     #restart: always
     env_file:
-      - conf/db.env
+      - env/db.env
     volumes:
       - kea-pgsql:/var/lib/postgresql/data
     ports:
@@ -39,12 +39,11 @@ services:
     depends_on:
       - db
     env_file:
-      - conf/kea.env
+      - env/kea.env
     volumes:
       - kea-socket:/run/kea/sockets/
       - alpine-certs:/etc/ssl/certs:ro
-      - /srv/confs/kea/hook.sh:/hook.sh:ro
-      - /srv/confs/kea/kea-dhcp4/:/etc/kea/
+      - kea-conf:/etc/kea/
     network_mode: "host"
     environment:
       - KEA_IFACE=eno1
@@ -86,7 +85,9 @@ volumes:
   alpine-certs:
     external: true
   kea-socket:
-
+  kea-conf:
+    external: true
+    
 networks:
   default:
     driver_opts:

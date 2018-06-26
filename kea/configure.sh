@@ -8,16 +8,16 @@ then
 	DBROOTPASS=$(openssl rand -base64 12)	
 	DBROOTUSER=root
 	
-	cp conf-sample/db.env.sample conf/db.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/db.env
+	cp conf-sample/db.env.sample env/db.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" env/db.env
 	
-	cp conf-sample/kea.env.sample conf/kea.env
-	sed -i "s|{DBROOTNAME}|${DBROOTNAME}|g" conf/kea.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/kea.env
-	sed -i "s|{DBROOTUSER}|${DBROOTUSER}|g" conf/kea.env
+	cp conf-sample/kea.env.sample env/kea.env
+	sed -i "s|{DBROOTNAME}|${DBROOTNAME}|g" env/kea.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" env/kea.env
+	sed -i "s|{DBROOTUSER}|${DBROOTUSER}|g" env/kea.env
 
-	if [ -f /srv/confs/pdns/conf/pdns-api.env ]; then 
-		source /srv/confs/pdns/conf/pdns-api.env
+	if [ -f /srv/confs/pdns/env/pdns-api.env ]; then 
+		source /srv/confs/pdns/env/pdns-api.env
 		
 		echo -n "Enter pdns fqdn domain (ending with a dot) (default:moot.fr.) [ENTER]: "
 		read DOMAIN
