@@ -6,9 +6,6 @@ sudo mkdir -p /srv/confs/web/conf.d
 
 sudo mkdir -p /srv/datas/web
 
-#backs
-sudo mkdir -p /srv/backs/web
-
 #conf systemd
 sudo cp -f docker-compose.yml /srv/confs/web/
 
