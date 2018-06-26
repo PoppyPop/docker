@@ -1,27 +1,33 @@
-version: '2'
+version: '3'
 
 networks:
-    webbackend:
-        external: true
-        
+  webbackend:
+    external: true
+    
+volumes:
+  mariadb-config:
+    external: true
+  mariadb-datas:
+    external: true    
+    
 services:
-    # mariadb
-    mariadb:
-        image: mariadb
-#        environment: # First start
-#            - MYSQL_ROOT_PASSWORD=pass # First start
-        volumes:
-            - /srv/datas/mariadb:/var/lib/mysql
-            - /srv/confs/mariadb/my.cnf:/etc/mysql/conf.d/my.cnf:ro
-        ports:
-            - 3306:3306
-        networks:
-            webbackend:
-                aliases:
-                    - mariadb
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224" 
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}
+  # mariadb
+  mariadb:
+    image: mariadb
+#    environment: # First start
+#      - MYSQL_ROOT_PASSWORD=pass # First start
+    volumes:
+      - mariadb-datas:/var/lib/mysql
+      - mariadb-config:/etc/mysql/conf.d/:ro
+    ports:
+      - 3306:3306
+    networks:
+      webbackend:
+        aliases:
+          - mariadb
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "127.0.0.1:24224" 
+        fluentd-async-connect: "true"
+        tag: docker.{{.ID}}
