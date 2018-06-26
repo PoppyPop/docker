@@ -21,7 +21,7 @@ services:
       - nextcloud-data:/var/www/html/data
       - alpine-certs:/etc/ssl/certs:ro
     env_file:
-      - db.env
+      - env/db.env
     depends_on:
       - redis
     networks:
@@ -39,7 +39,7 @@ services:
     image: nginx:alpine
     volumes:
       - nextcloud-base:/var/www/html:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nextcloud-nginx:/etc/nginx/conf.d:ro
       - alpine-certs:/etc/ssl/certs:ro
     environment:
       - VIRTUAL_HOST=cloud.moot.fr
@@ -66,6 +66,8 @@ services:
       - nextcloud-config:/var/www/html/config
       - nextcloud-data:/var/www/html/data
       - alpine-certs:/etc/ssl/certs:ro
+    env_file:
+      - env/db.env
     user: www-data
     entrypoint: |
       sh -c 'sh -s <<EOF
@@ -102,6 +104,8 @@ volumes:
   nextcloud-config:
     external: true
   alpine-certs:
+    external: true  
+  nextcloud-nginx:
     external: true  
   redis-data:
 

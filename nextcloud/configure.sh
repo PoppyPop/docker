@@ -29,13 +29,13 @@ then
 	psql -U postgres -h yugo.moot.fr -w -c "GRANT ALL PRIVILEGES ON DATABASE ${BASE} to ${USER}"
 	
 	
-	cp db.env.sample db.env
-	sed -i "s|{BASE}|${BASE}|g" db.env
-	sed -i "s|{USER}|${USER}|g" db.env
-	sed -i "s|{PASSCONFIG}|${PASSCONFIG}|g" db.env
-	sed -i "s|{NUSER}|${NUSER}|g" db.env
-	sed -i "s|{PASSNEXT}|${PASSNEXT}|g" db.env
-	sed -i "s|{HOST}|${HOST}|g" db.env
+	cp conf-sample/db.env.sample env/db.env
+	sed -i "s|{BASE}|${BASE}|g" env/db.env
+	sed -i "s|{USER}|${USER}|g" env/db.env
+	sed -i "s|{PASSCONFIG}|${PASSCONFIG}|g" env/db.env
+	sed -i "s|{NUSER}|${NUSER}|g" env/db.env
+	sed -i "s|{PASSNEXT}|${PASSNEXT}|g" env/db.env
+	sed -i "s|{HOST}|${HOST}|g" env/db.env
 	
 	echo -e $"=========== INFOS ==========="
 	echo "base     : ${BASE}"
