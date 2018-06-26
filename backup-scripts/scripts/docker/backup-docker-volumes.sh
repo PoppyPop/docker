@@ -4,6 +4,8 @@
 # Fail on error
 set -e
 
+ALLVOLUME=${1:-0}
+
 # list volumes with backup tag
 readarray -t RESULT < <( docker volume ls --format "{{.Label \"backup\"}}|{{.Name}}" )
 
@@ -15,12 +17,16 @@ do
 	
 	if [ ${#volume[@]} = 1 ]
 	then
-		NOBACKUP+=(${volume[0]})
-	elif [ ${volume[0]} = "yes" ]
+		if [ "${ALLVOLUME}" == "0" ]; then
+			NOBACKUP+=(${volume[0]})
+		else
+			BACKUP+=(${volume[0]})
+		fi
+	elif [ ${volume[0]} = "no" ]
 	then
-		BACKUP+=(${volume[1]})
-	else 
 		NOBACKUP+=(${volume[1]})
+	else 
+		BACKUP+=(${volume[1]})
 	fi
 done
 
@@ -36,14 +42,16 @@ do
 done
 
 echo "============================ BACKUP ============================"
-
+for i in "${BACKUP[@]}"
+do
+	echo -e "${GREEN}$i${NC}"
+done
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
 parallel ${SCRIPTPATH}/backup-docker-volume.sh ::: ${BACKUP[@]}
-
 
 if [ $? -eq 0 ]
 then

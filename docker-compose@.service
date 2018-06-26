@@ -5,9 +5,9 @@ Requires=docker.service
 
 [Service]
 WorkingDirectory=/srv/confs/%i/
-ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml down  
+ExecStartPre=/usr/bin/docker-compose -f docker-compose.yml pull  
 ExecStart=/usr/bin/docker-compose -f docker-compose.yml up 
-ExecStop=/usr/bin/docker-compose -f docker-compose.yml stop  
+ExecStop=/usr/bin/docker-compose -f docker-compose.yml down  
 
 [Install]
 WantedBy=multi-user.target  

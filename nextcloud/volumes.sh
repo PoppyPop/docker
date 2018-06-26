@@ -8,4 +8,4 @@ docker volume create nextcloud-config --label backup=yes
 
 docker volume create nextcloud-nginx
 
-docker volume create -o type=none -o device=/datas/nextcloud -o o=bind nextcloud-data
+docker volume create -o type=none -o device=/datas/nextcloud -o o=bind nextcloud-data --label backup=no
