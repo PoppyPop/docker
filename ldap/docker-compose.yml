@@ -23,7 +23,7 @@ services:
     image: poppypop/docker-fusiond
     volumes:
       - debian-certs:/etc/ssl/certs:ro
-      - /srv/confs/ldap/fd/:/etc/fusiondirectory/
+      - fusiond-config:/etc/fusiondirectory/
     environment:
       - VIRTUAL_HOST=ldap.moot.fr
       - VIRTUAL_PORT=80
@@ -49,6 +49,8 @@ volumes:
   alpine-certs:
     external: true  
   debian-certs:
+    external: true  
+  fusiond-config:
     external: true  
         
 networks:
