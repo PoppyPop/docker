@@ -5,7 +5,7 @@ src=${BASH_SOURCE%/*}
 
 curator --config ${src}/config.yml ${src}/backup.yml
 
-backupsrc=/srv/datas/efk/backup
+backupsrc=/srv/backs/efk
 backupdir=/srv/backs
 
 # Test Folder

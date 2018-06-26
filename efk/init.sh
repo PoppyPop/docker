@@ -1,25 +1,15 @@
 #!/bin/bash
 #
 
-# elastic 1
-sudo mkdir -p /srv/datas/efk/elastic1
-
-# elastic 2
-sudo mkdir -p /srv/datas/efk/elastic2
-
-# Backup
-sudo mkdir -p /srv/datas/efk/backup
-
-sudo chown -R 1000:1000 /srv/datas/efk/*
-
 sudo docker network create --opt com.docker.network.driver.mtu=9000 efk-net
 
 # conf
-sudo mkdir -p /srv/confs/efk/
+sudo mkdir -p /srv/confs/efk
+
+# Backup
 sudo mkdir -p /srv/backs/efk
 
 sudo cp -f docker-compose.yml /srv/confs/efk/
-sudo cp -f fluentd/fluent.conf /srv/confs/efk/
 
 vmmapcount=`sudo grep -c "vm.max_map_count" /etc/sysctl.conf`
 
