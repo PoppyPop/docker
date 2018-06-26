@@ -34,7 +34,7 @@ services:
       - vhost.d:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "/srv/confs/nginx-proxy/nginx.tmpl:/etc/docker-gen/templates/nginx.tmpl"
+      - ngproxy-tmpl:/etc/docker-gen/templates
     depends_on:
       - nginx
     networks:
@@ -59,7 +59,7 @@ services:
       - "ENDPOINT=https://dns-api.moot.fr"
       - "HOST_IP=10.0.1.10"
     env_file:
-      - /srv/confs/pdns/conf/pdns-api.env
+      - /srv/confs/pdns/env/pdns-api.env
     logging:
       driver: fluentd
       options:
@@ -69,12 +69,12 @@ services:
         
   ssl-companion:
     image: poppypop/docker-ssl-nginx-proxy-companion
-    command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
+    command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/tmpl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
     volumes:
       - certs:/certs
       - alpine-certs:/etc/ssl/certs:ro
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - "/srv/confs/nginx-proxy/cfssl_service_data.tmpl:/cfssl/cfssl_service_data.tmpl"
+      - ngproxy-tmpl:/cfssl/tmpl
     depends_on:
       - nginx
     networks:
@@ -90,6 +90,8 @@ volumes:
   certs:
     external: true
   alpine-certs:
+    external: true
+  ngproxy-tmpl:
     external: true
   conf.d:
   vhost.d:
