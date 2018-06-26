@@ -5,7 +5,7 @@ services:
     image: postgres:alpine
     #restart: always
     env_file:
-      - conf/db.env
+      - env/db.env
     volumes:
       - pdns-pgsql:/var/lib/postgresql/data
     networks:
@@ -44,8 +44,8 @@ services:
     expose:
       - 8080
     env_file:
-      - conf/pdns-api.env
-      - conf/pdns-recursor.env
+      - env/pdns-api.env
+      - env/pdns-recursor.env
     networks:
       - proxy-net
       - default
@@ -67,8 +67,8 @@ services:
     expose:
       - 8080
     env_file:
-      - conf/pdns.env
-      - conf/pdns-api.env
+      - env/pdns.env
+      - env/pdns-api.env
     networks:
       - proxy-net
       - default
@@ -82,7 +82,7 @@ services:
   pdns-recursor-companion :
     image: poppypop/docker-pdns-recursor-companion   
     env_file:
-      - conf/pdns-api.env
+      - env/pdns-api.env
     depends_on:
       - pdns
       - pdns-recursor
@@ -101,7 +101,7 @@ services:
     depends_on:
       - pdns
     env_file:
-      - conf/pdns-admin.env
+      - env/pdns-admin.env
     networks:
       - ldap-backend
       - default
