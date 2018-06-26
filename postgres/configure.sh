@@ -1,15 +1,15 @@
 #!/bin/bash
 #
 
-mkdir -p conf
+mkdir -p env
 
-if [ ! -f conf/db.env ] 
+if [ ! -f env/db.env ] 
 then
 
 	DBROOTPASS=$(openssl rand -base64 12)	
 	
-	cp conf-sample/db.env conf/db.env
-	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" conf/db.env
+	cp conf-sample/db.env env/db.env
+	sed -i "s|{DBROOTPASS}|${DBROOTPASS}|g" env/db.env
 
 	
 	echo -e $"=========== postgres ==========="
