@@ -1,0 +1,12 @@
+Config etc/systemd/resolved.conf
+DNSStubListener=no
+
+
+#rm link /etc/resolv.conf
+rm /etc/resolv.conf
+
+create file with : 
+nano /etc/resolv.conf
+nameserver 127.0.0.1
+nameserver 1.1.1.1
+search moot.fr

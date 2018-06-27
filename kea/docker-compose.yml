@@ -35,7 +35,7 @@ services:
         tag: docker.{{.ID}} 
 
   kea:
-    image: poppypop/docker-kea:pgsql
+    image: poppypop/docker-kea:latest
     depends_on:
       - db
     env_file:
@@ -46,7 +46,7 @@ services:
       - kea-conf:/etc/kea/
     network_mode: "host"
     environment:
-      - KEA_IFACE=enp1s0
+      - KEA_IFACE=\"enp1s0\", \"wlp2s0\"
       - DB_PORT=3199
       - DB_HOST=127.0.0.1
     logging:
@@ -57,7 +57,7 @@ services:
         tag: docker.{{.ID}} 
 
   kea-control-agent:
-    image: poppypop/docker-kea:pgsql
+    image: poppypop/docker-kea:latest
     command: kea-ctrl-agent
     environment:
       - VIRTUAL_HOST=kea-api.moot.fr

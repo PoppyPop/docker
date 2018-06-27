@@ -36,8 +36,8 @@ services:
   pdns-recursor:
     image: pschiffe/pdns-recursor:alpine
     ports:
-      - "10.0.1.10:53:53"
-      - "10.0.1.10:53:53/udp"
+      - "53:53"
+      - "53:53/udp"
     environment:
       - VIRTUAL_HOST=dns-recursor.moot.fr
       - VIRTUAL_PORT=8080
