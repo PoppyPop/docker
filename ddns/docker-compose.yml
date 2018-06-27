@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  emby:
+    image: poppypop/docker-ddns
+    env_file:
+      - env/ddns.env
+    volumes:
+      - ddns-datas:/conf
+#    logging:
+#      driver: fluentd
+#      options:
+#        fluentd-address: "127.0.0.1:24224" 
+#        fluentd-async-connect: "true"
+#        tag: docker.{{.ID}} 
+
+volumes:
+  ddns-datas:
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
