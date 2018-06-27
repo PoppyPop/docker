@@ -94,7 +94,7 @@ function SetNfsConfFile {
 }
 
 function ReloadNfsConfFile {
-	if ! exportfs
+	if ! exportfs -a
 	then
 		echo -e $"There is an ERROR Reloading Nfs"
 		exit;exit 29;
