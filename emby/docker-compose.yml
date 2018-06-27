@@ -20,8 +20,8 @@ services:
     networks:
       - proxy-net
       - default
-    ports:
-      - 7359:7359/udp
+#    ports:
+#      - 7359:7359/udp
     logging:
       driver: fluentd
       options:
