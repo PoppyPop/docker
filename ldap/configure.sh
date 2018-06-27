@@ -16,9 +16,6 @@ then
 	sed -i "s|{SUFFIX}|${SUFFIX}|g" fusiondirectory/fusiondirectory.conf
 	sed -i "s|{ROOTDN}|${ROOTDN}|g" fusiondirectory/fusiondirectory.conf
 	sed -i "s|{ROOTPW}|${ROOTPW}|g" fusiondirectory/fusiondirectory.conf
-
-	echo -e $"ROOTCAURL=http://yugo.moot.fr:8887/ca.pem\n" >> openldap/slapd.env
-	echo -e $"ROOTCAURL=http://yugo.moot.fr:8887/ca.pem\n" >> fusiondirectory/fusiondirectory.env
 	
 	echo -e $"=========== INFOS ==========="
 	echo "SUFFIX   : ${SUFFIX}" 
