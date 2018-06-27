@@ -2,7 +2,7 @@ version: '3'
 
 services:
   cfssl:
-    image: poppypop/cfssl
+    image: poppypop/docker-cfssl
     command: server
     volumes:
       - cfssl-data:/etc/cfssl
@@ -16,7 +16,7 @@ services:
         tag: docker.{{.ID}} 
       
   ocsp:
-    image: poppypop/cfssl
+    image: poppypop/docker-cfssl
     command: ocsp
     volumes:
       - cfssl-data:/etc/cfssl
@@ -30,26 +30,12 @@ services:
         tag: docker.{{.ID}} 
       
   httpca:
-    image: poppypop/cfssl
+    image: poppypop/docker-cfssl
     command: httpca
     volumes:
       - cfssl-data:/etc/cfssl
     ports:
       - "8887:8887" # CFSSL
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
-      
-  cron:
-    image: poppypop/cfssl
-    command: ocspdump
-    volumes:
-      - cfssl-data:/etc/cfssl
-    depends_on:
-      - ocsp
     logging:
       driver: fluentd
       options:

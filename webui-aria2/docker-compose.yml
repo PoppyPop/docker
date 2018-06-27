@@ -51,7 +51,7 @@ services:
         tag: docker.{{.ID}} 
       
   go-automated-ended:
-    image: poppypop/go-automated-ended
+    image: poppypop/go-automate-ended
     volumes:
       - aria-datas:/datas 
       - alpine-certs:/etc/ssl/certs:ro
