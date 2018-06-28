@@ -5,7 +5,7 @@ apt-get install bcache-tools
 
 wget https://gist.githubusercontent.com/visvirial/22513f28671752962f71c75a758a00f6/raw/53244e149b78b5b8ecb12a8d588191208b9d9d0d/bcache-status
 chmod +x bcache-status
-mv bcache-status /usr/sbin/
+sudo mv bcache-status /usr/sbin/
 
 # -B = backing device = spinning dsk
 # wipefs -a /dev/md0 -- ne pas faire avec le raid, supprime les superblock raid
