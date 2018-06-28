@@ -46,7 +46,7 @@ services:
       - kea-conf:/etc/kea/
     network_mode: "host"
     environment:
-      - KEA_IFACE=\"enp1s0\", \"wlp2s0\"
+      - KEA_IFACE=\"enp2s0\", \"wlp3s0\"
       - DB_PORT=3199
       - DB_HOST=127.0.0.1
     logging:
