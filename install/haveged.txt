@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+
+#https://www.techrepublic.com/article/how-to-add-more-entropy-to-improve-cryptographic-randomness-on-linux/
+sudo apt install haveged
