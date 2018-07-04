@@ -1,0 +1,49 @@
+
+## File input
+## read docker logs with tag=docker.container
+
+{{ define "gettag" }}{{/*
+  */}}{{ $customtag := index .Labels "fluentd-tag" }}{{/*
+  */}}{{ $customtagLen := len $customtag }}{{/*
+  */}}{{ if eq $customtagLen 0 }}{{/*
+    */}}docker.{{printf "%.*s" 12 .ID}}{{/*
+  */}}{{ else }}{{/*
+    */}}docker.{{ index .Labels "fluentd-tag" }}.{{ printf "%.*s" 12 .ID }}{{/*
+  */}}{{ end }}{{/*
+*/}}{{ end }}
+
+
+{{range $key, $container := .}}
+
+{{ if not (eq $container.Name "docker-fluentd") }}
+
+<source>
+  @type tail
+  <parse>
+    @type json
+	time_format %Y-%m-%dT%H:%M:%S.%LZ
+  </parse>
+  path /docker/containers/{{ $container.ID }}/{{ $container.ID }}-json.log
+  path_key source
+  pos_file /fluentd/logpos/{{ $container.ID }}-json.log.pos
+
+  tag {{ template "gettag" (dict "Labels" $container.Labels "ID" $container.ID) }}
+  
+  rotate_wait 5
+  enable_watch_timer false
+</source>
+
+<filter {{ template "gettag" (dict "Labels" $container.Labels "ID" $container.ID) }}>
+  @type record_transformer
+  <record>
+   {{range $label, $value := $container.Labels}}
+    docker.container.labels.{{ $label }} {{ $value }} 
+   {{ end }}
+    container_id {{ $container.ID }}
+    container_name {{ $container.Name }}
+  </record>
+</filter>
+
+{{end}}
+
+{{end}}

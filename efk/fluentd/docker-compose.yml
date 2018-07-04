@@ -1,0 +1,42 @@
+version: '3'
+services:
+  
+  fluentd:
+    image: poppypop/docker-fluentd
+    container_name: docker-fluentd
+    volumes:
+      - fluentd-conf:/fluentd/etc/:ro
+      - /var/lib/docker/containers/:/docker/containers/:ro
+      - fluentd-logpos:/fluentd/logpos/
+    environment:
+      - FLUENTD_CONF=fluentd.conf
+      - FLUENT_UID=0
+    networks:
+      - efk-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+  fluent-gen:
+    image: jwilder/docker-gen
+    command: -interval 86400 -watch /fluentd/etc/docker-log.tmpl /fluentd/etc/docker-log.conf
+    volumes:
+      - fluentd-conf:/fluentd/etc/
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
+        
+networks:
+  efk-net:
+    external: true
+
+volumes:
+  fluentd-logpos:
+  fluentd-conf:
+    external: true
+    
