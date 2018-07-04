@@ -2,7 +2,7 @@
 	"hosts": [
         "pki.mo-ot.fr"
   	],
-    "CN": "Moot Certification Authority",
+    "CN": "Mo-ot Certification Authority",
     "key": {
         "algo": "rsa",
         "size": 4096
@@ -11,7 +11,7 @@
     	{
 			"C": "FR",
 			"L": "Strasbourg",
-			"O": "Moot.fr",
+			"O": "Mo-ot.fr",
 			"OU": "Certificate Authority",
 			"ST": "Bas-Rhin"
     	}

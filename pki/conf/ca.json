@@ -7,10 +7,10 @@
     	{
 			"C": "FR",
 			"L": "Strasbourg",
-			"O": "Moot.fr",
+			"O": "Mo-ot.fr",
 			"OU": "Certificate Authority",
 			"ST": "Bas-Rhin"
     	}
     ],
-    "CN": "Moot CA Root"
+    "CN": "Mo-ot CA Root"
 }
