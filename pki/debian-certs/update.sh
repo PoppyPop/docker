@@ -12,11 +12,8 @@ BASEDIR=/usr/local/share/ca-certificates
 
 #debian
 mkdir ${BASEDIR}
-curl -X GET http://pki.mo-ot.fr:8887/int.pem | tee ${BASEDIR}/Moot.fr_INT.pem  > /dev/null
-curl -X GET http://pki.mo-ot.fr:8887/ca.pem | tee ${BASEDIR}/Moot.fr_CA.pem  > /dev/null
-
-openssl x509 -in ${BASEDIR}/Moot.fr_INT.pem -inform PEM -out ${BASEDIR}/Moot.fr_INT.crt 
-openssl x509 -in ${BASEDIR}/Moot.fr_CA.pem -inform PEM -out ${BASEDIR}/Moot.fr_CA.crt 
+curl -X GET http://pki.mo-ot.fr:8887/int.crt | tee ${BASEDIR}/Mo-ot.fr_INT.crt  > /dev/null
+curl -X GET http://pki.mo-ot.fr:8887/ca.crt | tee ${BASEDIR}/Mo-ot.fr_CA.crt  > /dev/null
 
 #dpkg-reconfigure ca-certificates
 update-ca-certificates -f

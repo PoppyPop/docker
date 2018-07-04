@@ -22,10 +22,7 @@ sudo update-ca-certificates
 export BASEDIR=/usr/local/share/ca-certificates
 
 sudo mkdir ${BASEDIR}
-curl -X GET http://pki.mo-ot.fr:8887/int.pem | sudo tee ${BASEDIR}/Moot.fr_INT.pem  > /dev/null
-curl -X GET http://pki.mo-ot.fr:8887/ca.pem | sudo tee ${BASEDIR}/Moot.fr_CA.pem  > /dev/null
-
-sudo openssl x509 -in ${BASEDIR}/Moot.fr_INT.pem -inform PEM -out ${BASEDIR}/Moot.fr_INT.crt 
-sudo openssl x509 -in ${BASEDIR}/Moot.fr_CA.pem -inform PEM -out ${BASEDIR}/Moot.fr_CA.crt 
+curl -X GET http://pki.mo-ot.fr:8887/int.crt | sudo tee ${BASEDIR}/Mo-ot.fr_INT.crt  > /dev/null
+curl -X GET http://pki.mo-ot.fr:8887/ca.crt | sudo tee ${BASEDIR}/Mo-ot.fr_CA.crt  > /dev/null
 
 sudo update-ca-certificates

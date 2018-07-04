@@ -70,6 +70,9 @@ services:
   ssl-companion:
     image: poppypop/docker-ssl-nginx-proxy-companion
     command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/tmpl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
+    environment:
+      - "CERT_SERVER=http://yugo.mo-ot.fr:8888"
+    CERT_SERVER
     volumes:
       - certs:/certs
       - alpine-certs:/etc/ssl/certs:ro

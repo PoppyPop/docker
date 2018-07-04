@@ -4,7 +4,7 @@
 if [ ! -f openldap/conf/slapd.ssl.env ] 
 then
 
-	LDAP_TLS_CA_CRT_FILENAME=/etc/ssl/certs/ca-cert-Moot.fr_CA.pem.pem
+	LDAP_TLS_CA_CRT_FILENAME=/etc/ssl/certs/ca-cert-Mo-ot.fr_CA.pem.pem
 	LDAP_TLS_CRT_FILENAME=/etc/ssl/ldap/ldap.mo-ot.fr.crt
 	LDAP_TLS_KEY_FILENAME=/etc/ssl/ldap/ldap.mo-ot.fr.key
 

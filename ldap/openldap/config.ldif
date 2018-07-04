@@ -8,8 +8,12 @@ objectClass: top
 objectClass: organization
 objectClass: gosaDepartment
 objectClass: gosaAcl
-gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW9vdCxkYz1mcg==:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vb3QsZGM9ZnI=
-gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tb290LGRjPWZy:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vb3QsZGM9ZnI=
+gosaAclEntry: 0:subtree:Y249YWRtaW4sb3U9YWNscm9sZXMsZGM9bW8tb3QsZGM9ZnI=:Y249YWRtaW5pc3RyYXRvcnMsb3U9Z3JvdXBzLGRjPW1vLW90LGRjPWZy
+gosaAclEntry: 1:subtree:Y249YXV0aCxvdT1hY2xyb2xlcyxkYz1tby1vdCxkYz1mcg==:Y249YXV0aGVudGljYXRvcnMsb3U9Z3JvdXBzLG91PWFkbWluLGRjPW1vLW90LGRjPWZy
+
+dn: ou=dhcp,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: dhcp
 
 dn: ou=admin,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
@@ -18,37 +22,29 @@ objectClass: gosaDepartment
 ou: admin
 description: Admin
 
-dn: ou=dhcp,dc=mo-ot,dc=fr
-objectClass: organizationalUnit
-ou: dhcp
-
 dn: ou=idmap,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
 ou: idmap
-
-dn: ou=groups,dc=mo-ot,dc=fr
-objectClass: organizationalUnit
-ou: groups
-
-dn: ou=groups,ou=admin,dc=mo-ot,dc=fr
-objectClass: organizationalUnit
-ou: groups
 
 dn: ou=users,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
 ou: users
 
-dn: ou=users,ou=admin,dc=mo-ot,dc=fr
+dn: ou=groups,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
-ou: users
+ou: groups
 
-dn: ou=aclroles,dc=mo-ot,dc=fr
+dn: ou=sudoers,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
-ou: aclroles
+ou: sudoers
 
 dn: ou=systems,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
 ou: systems
+
+dn: ou=aclroles,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: aclroles
 
 dn: ou=snapshots,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
@@ -58,144 +54,42 @@ dn: ou=fusiondirectory,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
 ou: fusiondirectory
 
-dn: sambaDomainName=MOOT,dc=mo-ot,dc=fr
+dn: sambaDomainName=YUGO,dc=mo-ot,dc=fr
+sambaDomainName: YUGO
+sambaSID: S-1-5-21-1606283650-3512945894-651899161
+sambaAlgorithmicRidBase: 1000
 objectClass: sambaDomain
-objectClass: sambaUnixIdPool
-sambaDomainName: MOOT
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436
-sambaNextRid: 10000
-uidNumber: 10000
-gidNumber: 10000
+sambaNextUserRid: 1000
+sambaMinPwdLength: 5
 sambaPwdHistoryLength: 0
+sambaLogonToChgPwd: 0
 sambaMaxPwdAge: -1
 sambaMinPwdAge: 0
+sambaLockoutDuration: 30
+sambaLockoutObservationWindow: 30
+sambaLockoutThreshold: 0
+sambaForceLogoff: -1
+sambaRefuseMachinePwdChange: 0
 
-dn: cn=replicators,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: replicators
-gidNumber: 552
-description: Netbios Domain Supports file replication in a sambaDomainName
-sambaSID: S-1-5-32-552
-sambaGroupType: 4
-displayName: Replicators
+dn: ou=users,ou=admin,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: users
 
-dn: cn=domain_users,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: domain_users
-gidNumber: 513
-description: Netbios Domain Users
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-513
-sambaGroupType: 2
-displayName: Domain Users
-
-dn: cn=domain_admins,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: domain_admins
-gidNumber: 512
-description: Netbios Domain Administrators
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-512
-sambaGroupType: 2
-displayName: Domain Admins
-memberUid: fd-admin
-
-dn: cn=domain_guests,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: domain_guests
-gidNumber: 514
-description: Netbios Domain Guests Users
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-514
-sambaGroupType: 2
-displayName: Domain Guests
-
-dn: cn=administrators,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: administrators
-gidNumber: 544
-description: Netbios Domain Members can fully administer the computer/sambaDom
- ainName
-sambaGroupType: 4
-displayName: Administrators
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-544
-memberUid: fd-admin
-
-dn: cn=authenticators,ou=groups,ou=admin,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: groupOfNames
-objectClass: gosaGroupOfNames
-cn: authenticators
-description: Authenticators
-member: uid=auth,ou=users,ou=admin,dc=mo-ot,dc=fr
-gosaGroupObjects: [U]
-
-dn: cn=print_operators,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: print_operators
-gidNumber: 550
-description: Netbios Domain Print Operators
-sambaSID: S-1-5-32-550
-sambaGroupType: 4
-displayName: Print Operators
-
-dn: cn=backup_operators,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: backup_operators
-gidNumber: 551
-description: Netbios Domain Members can bypass file security to back up files
-sambaSID: S-1-5-32-551
-sambaGroupType: 4
-displayName: Backup Operators
-
-dn: cn=domain_computers,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: domain_computers
-gidNumber: 515
-description: Netbios Domain Computers accounts
-sambaSID: S-1-5-21-1090165706-3691719236-1884811436-515
-sambaGroupType: 2
-displayName: Domain Computers
-
-dn: cn=account_operators,ou=groups,dc=mo-ot,dc=fr
-objectClass: top
-objectClass: posixGroup
-objectClass: sambaGroupMapping
-cn: account_operators
-gidNumber: 548
-description: Netbios Domain Users to manipulate users accounts
-sambaSID: S-1-5-32-548
-sambaGroupType: 4
-displayName: Account Operators
+dn: ou=groups,ou=admin,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: groups
 
 dn: uid=auth,ou=users,ou=admin,dc=mo-ot,dc=fr
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
 uid: auth
-userPassword:: e0NSWVBUfSQ2JFFnMjgxenFSZ3Y3SVQvZGskWUxldmJOVVFPRWcvVTFQUXU5UFd
- BZGVKTzJoWUt2NE5FLzdjM2pBZ2tEM3VUNk9EVnpWTjRZNWk4UG9uTDNlNE01eVlucjN6ajJmNmlx
- UnpCWUdqLi4=
 cn: Auth Administrator
 sn: Administrator
 givenName: Auth
-
-dn: ou=templates,ou=users,dc=mo-ot,dc=fr
-objectClass: organizationalUnit
-ou: templates
+userPassword:: e0NSWVBUfSQ2JHVHSjNYWUltekYzdVpUL3YkdWx5WXVEdk1DajJIWjFzbGxHOUh
+ jdWhOQ1pOdUgvU0J3UHN6aGN4MzFmZTUwZDM1dlQ5ZjRsQ3JLbHMyQmtJRjA1TjUvWUhkTG1LU252
+ MnlSU0dHai8=
 
 dn: uid=fd-admin,ou=users,ou=admin,dc=mo-ot,dc=fr
 objectClass: inetOrgPerson
@@ -205,9 +99,147 @@ cn: System Administrator
 sn: Administrator
 givenName: System
 uid: fd-admin
-userPassword:: e0NSWVBUfSQ2JGQ5Yk5OMHRvdmlXRFdrcEIkbEE5NTRPdHhXTlNpRUllZkFQSXJ
- 0RVZwTUNVYW5XazRrQm9EeEZLcHdRNW1WcERnNkVIVTljcEJGM3pyZnRTTzRWZUhMa2JzeWRlRldJ
- QnhEYVo1Vi8=
+userPassword:: e0NSWVBUfSEkNiRkOWJOTjB0b3ZpV0RXa3BCJGxBOTU0T3R4V05TaUVJZWZBUEl
+ ydEVWcE1DVWFuV2s0a0JvRHhGS3B3UTVtVnBEZzZFSFU5Y3BCRjN6cmZ0U080VmVITGtic3lkZUZX
+ SUJ4RGFaNVYv
+
+dn: cn=nextcloud,ou=groups,ou=admin,dc=mo-ot,dc=fr
+objectClass: groupOfNames
+objectClass: gosaGroupOfNames
+cn: nextcloud
+gosaGroupObjects: [U]
+member: uid=cookiesochocola,ou=users,dc=mo-ot,dc=fr
+member: uid=poppy,ou=users,dc=mo-ot,dc=fr
+description: NextCloud
+
+dn: cn=authenticators,ou=groups,ou=admin,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: groupOfNames
+objectClass: gosaGroupOfNames
+cn: authenticators
+description: Authenticators
+gosaGroupObjects: [U]
+member: uid=auth,ou=users,ou=admin,dc=mo-ot,dc=fr
+
+dn: uid=media,ou=users,dc=mo-ot,dc=fr
+cn: media media
+sn: media
+givenName: media
+uid: media
+userPassword:: e0NSWVBUfSQ2JC5TWk5NQWR3ZGVLRTdRcHEkaUFldnVsQlFmSUkyanhvQnQvRk1
+ wM2M3aGtFNnkzWGpRUU5ZQW4wRzhKc2lOZHRMR0IzajR5eVBVSHNBM2dHc2VVbkE0MmFXQmN1TWxt
+ YTFtMXo3Li8=
+homeDirectory: /home/media
+gecos: media media
+uidNumber: 11001
+gidNumber: 11002
+shadowLastChange: 17502
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-23002
+sambaPrimaryGroupSID: S-1-5-21-1606283650-3512945894-651899161-0
+sambaDomainName: YUGO
+sambaMungedDial: IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
+ CAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAUAAEABoACA
+ ABAEMAdAB4AEMAZgBnAFAAcgBlAHMAZQBuAHQANTUxZTBiYjAYAAgAAQBDAHQAeABDAGYAZwBGAGw
+ AYQBnAHMAMQAwMGUwMDAxMBIACAABAEMAdAB4AFMAaABhAGQAbwB3ADAxMDAwMDAwKgACAAEAQwB0
+ AHgATQBpAG4ARQBuAGMAcgB5AHAAdABpAG8AbgBMAGUAdgBlAGwAMDA=
+sambaAcctFlags: [U           ]
+sambaBadPasswordTime: 0
+sambaBadPasswordCount: 0
+sambaNTPassword: 715048BF9CB1B30B65C4415657836964
+sambaPwdLastSet: 1512231607
+loginShell: /bin/bash
+
+dn: uid=poppy,ou=users,dc=mo-ot,dc=fr
+cn: Poppy Poppy
+sn: Poppy
+givenName: Poppy
+uid: poppy
+userPassword:: e0NSWVBUfSQ2JHdTeHR4RGhhM2NyS3hTNnckMTJmSDQ3L09VbC41SHBjV0psb1A
+ zWW9wZ1NzNW02OERwVUpPNkE1NXpzcDREejV3UVVHamQ2YVdXNTdCTXpvV284OGYxWnpMLkJ1M0hp
+ anUySkouNy4=
+homeDirectory: /home/poppy
+gecos: Poppy Poppy
+loginShell: /bin/bash
+uidNumber: 11002
+shadowLastChange: 17498
+sambaMungedDial: IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
+ CAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAUAAEABoACA
+ ABAEMAdAB4AEMAZgBnAFAAcgBlAHMAZQBuAHQANTUxZTBiYjAYAAgAAQBDAHQAeABDAGYAZwBGAGw
+ AYQBnAHMAMQAwMGUwMDAxMBIACAABAEMAdAB4AFMAaABhAGQAbwB3ADAxMDAwMDAwKgACAAEAQwB0
+ AHgATQBpAG4ARQBuAGMAcgB5AHAAdABpAG8AbgBMAGUAdgBlAGwAMDA=
+sambaAcctFlags: [U           ]
+sambaBadPasswordTime: 0
+sambaBadPasswordCount: 0
+sambaNTPassword: 9C6C455AF87D58742C5BD3672E549E8E
+sambaPwdLastSet: 1511900259
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-23004
+sambaDomainName: YUGO
+gidNumber: 11001
+sambaPrimaryGroupSID: S-1-5-21-1606283650-3512945894-651899161-0
+sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCvKd3hB4EDSlxEaVWNLlDwYl6Q
+ +hl1s3UgajFOt//paIzK6EosfmY9P2K42+yN7oFdLrj2WT3Ohw8v+nCiCNSTatj3cnr7rjUJ9TOzr
+ EhSMvkyFTYXHCIui+H6oTiRnyQ8+xuvTbMNBAtKhZ0mReIPV7P7o7gM6RejA6MJsf5FSajLTWMRE4
+ 4MF1O98dpWZDKiI+52odlS1NZNT6gAOeh68uWWtT+NvMMVDHd3EyqYAzcu9Qx43m5a0uVFDq7ntOP
+ y38IW8BH1V0lswmQ7OVIQD3dEoVUbOwWQBLQ1LiyI9t5IDgWBciNBbuP0zzQy3S9f7QOiXtNhyMEY
+ rN3fF1XgSa7q3uTDajbneTMIVZqWzZhatDo+nDnfvoJMcIJc8BMwXXumuu+GpvN9cUOFKiUhzKXyU
+ YnVuErkVBTnxTtnpnv+8YHhzk3tYO0JcBjK43UGl0kOj1coqm3odrScYHw/I8IQ7T5Of+1YhGc5Mz
+ luqWqsmsPk4ep3QLSA+ehNUWSdtf/HQOg6z42jXhKQjXtWMqAj8kxUb4ITbdg4tHBTo8uAFdwAwBv
+ dcURCrL1NUIj8BYZx++Y09VCc9xyAm+Pr0TYQ7TuqsfKZ0/V5UYxma/YNM19XA1Lnf4J6Bf3wVJOQ
+ NK2Bp9gsGks5kfNIla+RI7owoTQ7dV8nFJQpN6LjIQ== Poppy@linux
+mail: skytep@gmail.com
+gosaMailDeliveryMode: []
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+objectClass: ldapPublicKey
+objectClass: gosaMailAccount
+
+dn: ou=templates,ou=users,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: templates
+
+dn: uid=cookiesochocola,ou=users,dc=mo-ot,dc=fr
+cn: Myriam CookiesOChocola
+sn: CookiesOChocola
+givenName: Myriam
+uid: cookiesochocola
+userPassword:: e0NSWVBUfSQ2JGRxWGFsUGl0cVh2c2lVY1UkZEFUL09PV3pxemc2a2hxdzAvUkI
+ wRDRyVVFjcTlRbEYxeXNuRUU4a0FBalVnNWZSZlhjTjFOSHEuOGhKand5SVZkd0kwRS9XeXNtU2Jl
+ Vm4wR2tuQi8=
+homeDirectory: /home/cookiesochocola
+gecos: Myriam CookiesOChocola
+loginShell: /bin/bash
+uidNumber: 11003
+gidNumber: 513
+shadowLastChange: 17499
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: sambaSamAccount
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-23006
+sambaPrimaryGroupSID: S-1-5-21-1606283650-3512945894-651899161-513
+sambaDomainName: YUGO
+sambaMungedDial: IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
+ CAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAUAAEABoACA
+ ABAEMAdAB4AEMAZgBnAFAAcgBlAHMAZQBuAHQANTUxZTBiYjAYAAgAAQBDAHQAeABDAGYAZwBGAGw
+ AYQBnAHMAMQAwMGUwMDAxMBIACAABAEMAdAB4AFMAaABhAGQAbwB3ADAxMDAwMDAwKgACAAEAQwB0
+ AHgATQBpAG4ARQBuAGMAcgB5AHAAdABpAG8AbgBMAGUAdgBlAGwAMDA=
+sambaAcctFlags: [U           ]
+sambaBadPasswordTime: 0
+sambaBadPasswordCount: 0
+sambaNTPassword: 9C6C455AF87D58742C5BD3672E549E8E
+sambaPwdLastSet: 1511996214
 
 dn: cn=NewUser,ou=templates,ou=users,dc=mo-ot,dc=fr
 objectClass: fdTemplate
@@ -226,7 +258,7 @@ fdTemplateField: objectClass:shadowAccount
 fdTemplateField: sambaAcctFlags:[U           ]
 fdTemplateField: sambaBadPasswordCount:0
 fdTemplateField: sambaBadPasswordTime:0
-fdTemplateField: sambaDomainName:MOOT
+fdTemplateField: sambaDomainName:YUGO
 fdTemplateField: sambaMungedDial:IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
  CAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIA
  AgACAAUAAEABoACAABAEMAdAB4AEMAZgBnAFAAcgBlAHMAZQBuAHQANTUxZTBiYjAYAAgAAQBDAHQ
@@ -234,11 +266,154 @@ fdTemplateField: sambaMungedDial:IAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgA
  MDAwKgACAAEAQwB0AHgATQBpAG4ARQBuAGMAcgB5AHAAdABpAG8AbgBMAGUAdgBlAGwAMDA=
 fdTemplateField: sambaNTPassword:3A5D835766219E4DDC1E2A9ED9A6FBBB
 fdTemplateField: sambaPwdLastSet:1508663796
-fdTemplateField: sambaSID:S-1-5-21-1090165706-3691719236-1884811436-0
+fdTemplateField: sambaSID:S-1-5-21-1606283650-3512945894-651899161-1000
 fdTemplateField: sn:%askme%
 fdTemplateField: uid:%l|sn%
-fdTemplateField: userPassword:%askme%
 cn: NewUser
+
+dn: cn=poppy,ou=groups,dc=mo-ot,dc=fr
+cn: poppy
+description: Group of user poppy
+gidNumber: 11001
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+sambaGroupType: 2
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-23005
+
+dn: cn=replicators,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: replicators
+gidNumber: 552
+description: Netbios Domain Supports file replication in a sambaDomainName
+sambaGroupType: 4
+displayName: Replicators
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-552
+
+dn: cn=domain_media,ou=groups,dc=mo-ot,dc=fr
+cn: domain_media
+gidNumber: 11002
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-23007
+sambaGroupType: 2
+
+dn: cn=domain_users,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_users
+gidNumber: 513
+description: Netbios Domain Users
+sambaGroupType: 2
+displayName: Domain Users
+memberUid: poppy
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-513
+
+dn: cn=domain_admins,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_admins
+gidNumber: 512
+description: Netbios Domain Administrators
+sambaGroupType: 2
+displayName: Domain Admins
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-512
+memberUid: fd-admin
+memberUid: poppy
+
+dn: cn=domain_guests,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_guests
+gidNumber: 514
+description: Netbios Domain Guests Users
+sambaGroupType: 2
+displayName: Domain Guests
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-514
+
+dn: cn=administrators,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: administrators
+gidNumber: 544
+description: Netbios Domain Members can fully administer the computer/sambaDom
+ ainName
+sambaGroupType: 4
+displayName: Administrators
+memberUid: fd-admin
+memberUid: poppy
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-544
+
+dn: cn=print_operators,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: print_operators
+gidNumber: 550
+description: Netbios Domain Print Operators
+sambaGroupType: 4
+displayName: Print Operators
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-550
+
+dn: cn=backup_operators,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: backup_operators
+gidNumber: 551
+description: Netbios Domain Members can bypass file security to back up files
+sambaGroupType: 4
+displayName: Backup Operators
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-551
+
+dn: cn=domain_computers,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: domain_computers
+gidNumber: 515
+description: Netbios Domain Computers accounts
+sambaGroupType: 2
+displayName: Domain Computers
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-515
+
+dn: cn=account_operators,ou=groups,dc=mo-ot,dc=fr
+objectClass: top
+objectClass: posixGroup
+objectClass: sambaGroupMapping
+cn: account_operators
+gidNumber: 548
+description: Netbios Domain Users to manipulate users accounts
+sambaGroupType: 4
+displayName: Account Operators
+sambaSID: S-1-5-21-1606283650-3512945894-651899161-548
+
+dn: cn=domain_admins,ou=sudoers,dc=mo-ot,dc=fr
+cn: domain_admins
+sudoCommand: ALL
+sudoRunAsUser: ALL
+sudoRunAsGroup: ALL
+sudoHost: ALL
+sudoUser: %domain_admins
+sudoOrder: 0
+objectClass: sudoRole
+
+dn: ou=servers,ou=systems,dc=mo-ot,dc=fr
+objectClass: organizationalUnit
+ou: servers
+
+dn: cn=yugo,ou=servers,ou=systems,dc=mo-ot,dc=fr
+objectClass: fdServer
+objectClass: ipHost
+objectClass: ieee802Device
+cn: yugo
+fdMode: unlocked
+ipHostNumber: 192.168.0.235
 
 dn: cn=auth,ou=aclroles,dc=mo-ot,dc=fr
 objectClass: top
@@ -365,16 +540,6 @@ fdEncodings: ISO8859-3=ISO8859-3 (Latin 3)
 fdEncodings: ISO8859-4=ISO8859-4 (Latin 4)
 fdEncodings: ISO8859-5=ISO8859-5 (Latin 5)
 fdEncodings: cp850=CP850 (Europe)
-objectClass: fusionDirectoryConf
-objectClass: fdSambaPluginConf
-objectClass: fdWebservicePluginConf
-objectClass: fdSudoPluginConf
-objectClass: fdDhcpPluginConf
-objectClass: fdDashboardPluginConf
-objectClass: fusionDirectoryPluginsConf
-objectClass: fdDnsPluginConf
-objectClass: fdSystemsPluginConf
-objectClass: fdPasswordRecoveryConf
 fdPasswordRecoveryActivated: FALSE
 fdPasswordRecoveryEmail: to.be@chang.ed
 fdPasswordRecoveryValidity: 10
@@ -397,8 +562,24 @@ fdShells: /sbin/nologin
 fdShells: /bin/false
 fdShells: /usr/bin/git-shell
 fdDefaultShell: /bin/bash
-fusionConfigMd5: e8f6bfd576c93388344ef7a832578060
+fusionConfigMd5: 98dbf84b59fb6a5155f65a711b9bbbf5
+fdMailAttribute: mail
+fdCyrusUseSlashes: FALSE
+fdCyrusDeleteMailbox: FALSE
+objectClass: fusionDirectoryConf
+objectClass: fdSambaPluginConf
+objectClass: fdWebservicePluginConf
+objectClass: fdSudoPluginConf
+objectClass: fdDhcpPluginConf
+objectClass: fdDashboardPluginConf
+objectClass: fusionDirectoryPluginsConf
+objectClass: fdDnsPluginConf
+objectClass: fdSystemsPluginConf
+objectClass: fdPasswordRecoveryConf
+objectClass: fdMailPluginConf
+fdMailUserCreation:: JWNuJSVkb21haW4lIA==
 
 dn: ou=recovery,ou=fusiondirectory,dc=mo-ot,dc=fr
 objectClass: organizationalUnit
 ou: recovery
+
