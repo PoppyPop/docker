@@ -7,7 +7,7 @@ services:
       - TZ=Europe/Paris
       #- PGID=1001
       #- PUID=1001
-      - VIRTUAL_HOST=transmission.moot.fr
+      - VIRTUAL_HOST=transmission.mo-ot.fr
       - VIRTUAL_PORT=9091
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1

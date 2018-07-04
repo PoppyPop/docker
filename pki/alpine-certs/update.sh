@@ -9,8 +9,8 @@ rm -rf /etc/ssl/certs/*
 
 #alpine
 mkdir -p /usr/local/share/ca-certificates/
-curl -X GET http://pki.moot.fr:8887/int.pem | tee /usr/local/share/ca-certificates/Moot.fr_INT.pem  > /dev/null
-curl -X GET http://pki.moot.fr:8887/ca.pem | tee /usr/local/share/ca-certificates/Moot.fr_CA.pem  > /dev/null
+curl -X GET http://pki.mo-ot.fr:8887/int.pem | tee /usr/local/share/ca-certificates/Moot.fr_INT.pem  > /dev/null
+curl -X GET http://pki.mo-ot.fr:8887/ca.pem | tee /usr/local/share/ca-certificates/Moot.fr_CA.pem  > /dev/null
 
 update-ca-certificates
 

@@ -21,7 +21,7 @@ services:
     image: adminer
     #restart: always
     environment:
-      - VIRTUAL_HOST=dns-sql.moot.fr
+      - VIRTUAL_HOST=dns-sql.mo-ot.fr
       - VIRTUAL_PORT=8080
     networks:
       - proxy-net
@@ -39,7 +39,7 @@ services:
       - "53:53"
       - "53:53/udp"
     environment:
-      - VIRTUAL_HOST=dns-recursor.moot.fr
+      - VIRTUAL_HOST=dns-recursor.mo-ot.fr
       - VIRTUAL_PORT=8080
     expose:
       - 8080
@@ -62,7 +62,7 @@ services:
     depends_on:
       - pgsql
     environment:
-      - VIRTUAL_HOST=dns-api.moot.fr
+      - VIRTUAL_HOST=dns-api.mo-ot.fr
       - VIRTUAL_PORT=8080
     expose:
       - 8080
@@ -117,7 +117,7 @@ services:
     depends_on:
       - pdns-admin-uwsgi
     environment:
-      - VIRTUAL_HOST=dns.moot.fr
+      - VIRTUAL_HOST=dns.mo-ot.fr
       - VIRTUAL_PORT=80
     ports:
       - 1256:80

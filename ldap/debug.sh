@@ -7,8 +7,8 @@
 #      -v openldap-config:/etc/openldap/slapd.d \
 #      -v ${PWD}/openldap/config.ldif:/etc/openldap/config.ldif:ro \
 #	  -e LDAP_TLS_CA_CRT_FILENAME=/etc/ssl/certs/ca-cert-Moot.fr_CA.pem.pem \
-#	  -e LDAP_TLS_CRT_FILENAME=/etc/ssl/ldap/ldap.moot.fr.crt \
-#	  -e LDAP_TLS_KEY_FILENAME=/etc/ssl/ldap/ldap.moot.fr.key \
+#	  -e LDAP_TLS_CRT_FILENAME=/etc/ssl/ldap/ldap.mo-ot.fr.crt \
+#	  -e LDAP_TLS_KEY_FILENAME=/etc/ssl/ldap/ldap.mo-ot.fr.key \
 #	  -p 389:389 -p 636:636 \
 #	  poppypop/docker-openldap $1
 

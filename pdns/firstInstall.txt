@@ -1,44 +1,44 @@
 # TODO with docker exec -ti [id] /bin/sh
 # docker exec -ti pdns_pdns_1 /bin/sh
 
-pdnsutil create-zone moot.fr. ns1.moot.fr.
-pdnsutil add-record moot.fr. @ NS ns2.moot.fr.
-pdnsutil set-meta moot.fr. SOA-EDIT-API INCEPTION-EPOCH 
-pdnsutil secure-zone moot.fr.
-pdnsutil rectify-zone moot.fr.
+pdnsutil create-zone mo-ot.fr. ns1.mo-ot.fr.
+pdnsutil add-record mo-ot.fr. @ NS ns2.mo-ot.fr.
+pdnsutil set-meta mo-ot.fr. SOA-EDIT-API INCEPTION-EPOCH 
+pdnsutil secure-zone mo-ot.fr.
+pdnsutil rectify-zone mo-ot.fr.
 
-pdnsutil create-zone 10.in-addr.arpa. ns1.moot.fr.
+pdnsutil create-zone 10.in-addr.arpa. ns1.mo-ot.fr.
 pdnsutil set-kind 10.in-addr.arpa. MASTER
-pdnsutil add-record 10.in-addr.arpa. @ NS ns2.moot.fr.
+pdnsutil add-record 10.in-addr.arpa. @ NS ns2.mo-ot.fr.
 pdnsutil set-meta 10.in-addr.arpa. SOA-EDIT-API INCEPTION-EPOCH 
 pdnsutil secure-zone 10.in-addr.arpa.
 pdnsutil rectify-zone 10.in-addr.arpa.
 
-pdnsutil add-record moot.fr. pi1 A 86400 10.0.1.11
-pdnsutil add-record 10.in-addr.arpa. 11.1.0 PTR 86400 pi1.moot.fr.
+pdnsutil add-record mo-ot.fr. pi1 A 86400 10.0.1.11
+pdnsutil add-record 10.in-addr.arpa. 11.1.0 PTR 86400 pi1.mo-ot.fr.
 
-pdnsutil add-record moot.fr. routeur A 86400 10.0.1.1
-pdnsutil add-record 10.in-addr.arpa. 1.1.0 PTR 86400 routeur.moot.fr.
+pdnsutil add-record mo-ot.fr. routeur A 86400 10.0.1.1
+pdnsutil add-record 10.in-addr.arpa. 1.1.0 PTR 86400 routeur.mo-ot.fr.
 
-pdnsutil add-record moot.fr. sw1 A 86400 10.0.1.20
-pdnsutil add-record 10.in-addr.arpa. 20.1.0 PTR 86400 sw1.moot.fr.
+pdnsutil add-record mo-ot.fr. sw1 A 86400 10.0.1.20
+pdnsutil add-record 10.in-addr.arpa. 20.1.0 PTR 86400 sw1.mo-ot.fr.
 
-pdnsutil add-record moot.fr. yugo A 86400 10.0.1.10
-pdnsutil add-record 10.in-addr.arpa. 10.1.0 PTR 86400 yugo.moot.fr.
+pdnsutil add-record mo-ot.fr. yugo A 86400 10.0.1.10
+pdnsutil add-record 10.in-addr.arpa. 10.1.0 PTR 86400 yugo.mo-ot.fr.
 
-pdnsutil add-record moot.fr. ns1 CNAME 86400 yugo.moot.fr.
-pdnsutil add-record moot.fr. ns2 CNAME 86400 pi1.moot.fr.
+pdnsutil add-record mo-ot.fr. ns1 CNAME 86400 yugo.mo-ot.fr.
+pdnsutil add-record mo-ot.fr. ns2 CNAME 86400 pi1.mo-ot.fr.
 
 # PDNS Spec
-pdnsutil add-record moot.fr. dns-mysql CNAME 86400 yugo.moot.fr.
-pdnsutil add-record moot.fr. dns-recursor CNAME 86400 yugo.moot.fr.
-pdnsutil add-record moot.fr. dns-api CNAME 86400 yugo.moot.fr.
-pdnsutil add-record moot.fr. dns CNAME 86400 yugo.moot.fr.
+pdnsutil add-record mo-ot.fr. dns-mysql CNAME 86400 yugo.mo-ot.fr.
+pdnsutil add-record mo-ot.fr. dns-recursor CNAME 86400 yugo.mo-ot.fr.
+pdnsutil add-record mo-ot.fr. dns-api CNAME 86400 yugo.mo-ot.fr.
+pdnsutil add-record mo-ot.fr. dns CNAME 86400 yugo.mo-ot.fr.
 
 # PKI
-pdnsutil add-record moot.fr. pki CNAME 86400 yugo.moot.fr.
+pdnsutil add-record mo-ot.fr. pki CNAME 86400 yugo.mo-ot.fr.
 
 #DSIG
 #pdnsutil import-tsig-key DDNS_UPDATE hmac-md5 iK6lZRz9VwZM3J2BSpq60Bsl9QocyslT52fnvw788yE=
-#pdnsutil set-meta moot.fr. TSIG-ALLOW-DNSUPDATE ddns_update 
+#pdnsutil set-meta mo-ot.fr. TSIG-ALLOW-DNSUPDATE ddns_update 
 #pdnsutil set-meta 10.in-addr.arpa. TSIG-ALLOW-DNSUPDATE ddns_update

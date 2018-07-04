@@ -3,7 +3,7 @@
 
 if [ ! -f openldap/conf/slapd.env ] 
 then
-	SUFFIX="dc=moot,dc=fr"
+	SUFFIX="dc=mo-ot,dc=fr"
 	ROOTDN="cn=admin,${SUFFIX}"
 	ROOTPW=$(openssl rand -base64 12)
 	

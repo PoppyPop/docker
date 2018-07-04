@@ -10,13 +10,13 @@ curl -L -s $AUTOORGURL > cfssl-client
 
 chmod +x cfssl-client
 
-./cfssl-client -p server -u http://yugo.moot.fr:8888 generate -d ldap.moot.fr -d ldap -d openldap
+./cfssl-client -p server -u http://yugo.mo-ot.fr:8888 generate -d ldap.mo-ot.fr -d ldap -d openldap
 
 docker run --rm  -v openldap-certs:/dist -v ${PWD}:/local alpine \
-	sh -c "rm -rf /dist/* ; cp -f /local/ldap.moot.fr.* /dist/"
+	sh -c "rm -rf /dist/* ; cp -f /local/ldap.mo-ot.fr.* /dist/"
 	
 rm cfssl-client
 
-rm -rf ldap.moot.fr.*
+rm -rf ldap.mo-ot.fr.*
 
 	

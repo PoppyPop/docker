@@ -19,15 +19,15 @@ then
 	if [ -f /srv/confs/pdns/env/pdns-api.env ]; then 
 		source /srv/confs/pdns/env/pdns-api.env
 		
-		echo -n "Enter pdns fqdn domain (ending with a dot) (default:moot.fr.) [ENTER]: "
+		echo -n "Enter pdns fqdn domain (ending with a dot) (default:mo-ot.fr.) [ENTER]: "
 		read DOMAIN
 
-		echo -n "Enter pdns endpoint (default:http://dns-api.moot.fr) [ENTER]: "
+		echo -n "Enter pdns endpoint (default:http://dns-api.mo-ot.fr) [ENTER]: "
 		read ENDPOINT
 
 
-		DOMAIN=${DOMAIN:-moot.fr.}
-		ENDPOINT=${ENDPOINT:-http://dns-api.moot.fr}
+		DOMAIN=${DOMAIN:-mo-ot.fr.}
+		ENDPOINT=${ENDPOINT:-http://dns-api.mo-ot.fr}
 
 		cp conf-sample/hook.sh.sample conf/hook.sh
 		sed -i "s|{PDNS_api_key}|${PDNS_api_key}|g" conf/hook.sh

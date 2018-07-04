@@ -89,7 +89,7 @@ func main() {
 		var rq jsonNewCertRequest
 
 		fileName := opts.Gen.Domains[0]
-		rq.Request.CN = "pki.moot.fr"
+		rq.Request.CN = "pki.mo-ot.fr"
 		rq.Request.Hosts = opts.Gen.Domains
 		rq.Profile = opts.Profile
 

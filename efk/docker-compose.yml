@@ -93,7 +93,7 @@ services:
     image: docker.elastic.co/kibana/kibana:6.2.4
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - VIRTUAL_HOST=kibana.moot.fr
+      - VIRTUAL_HOST=kibana.mo-ot.fr
       - VIRTUAL_PORT=5601
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1

@@ -1,8 +1,8 @@
 {
     "signing": {
         "default": {
-            "ocsp_url": "http://pki.moot.fr:8889",
-            "crl_url": "http://pki.moot.fr:8888/crl",
+            "ocsp_url": "http://pki.mo-ot.fr:8889",
+            "crl_url": "http://pki.mo-ot.fr:8888/crl",
             "expiry": "26280h",
             "auth_key": "default",
             "usages": [

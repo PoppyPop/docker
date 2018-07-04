@@ -4,7 +4,7 @@
 # START SYNC 
 
 SLAVENAME='pi1'
-REMOTESERVER='pi1.moot.fr'
+REMOTESERVER='pi1.mo-ot.fr'
 REMOTEUSER='replication'
 
 read -p "Mot de passe de replication:" REMOTEPASS

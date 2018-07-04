@@ -6,10 +6,10 @@ processors:
 - add_cloud_metadata:
 
 output.elasticsearch:
-  hosts: ['yugo.moot.fr:9200']
+  hosts: ['yugo.mo-ot.fr:9200']
   
 setup.kibana:
-  host: "kibana.moot.fr:443"
+  host: "kibana.mo-ot.fr:443"
   protocol: "https"
   ssl.enabled: true
   ssl.certificate_authorities: ["/etc/pki/root/ca.pem", "/etc/pki/root/int.pem"]

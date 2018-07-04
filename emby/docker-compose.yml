@@ -4,7 +4,7 @@ services:
   emby:
     image: emby/embyserver:beta
     environment:
-      - VIRTUAL_HOST=emby.moot.fr
+      - VIRTUAL_HOST=emby.mo-ot.fr
       - VIRTUAL_PORT=8096
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1

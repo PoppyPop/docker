@@ -24,9 +24,9 @@ then
 	
 	read -p "Creating BDD min config please enter postgres password: " PGPASSWORD
 	export PGPASSWORD
-	psql -U postgres -h yugo.moot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${BASE}'" | grep -q 1 || psql -U postgres -h yugo.moot.fr -w -c "CREATE DATABASE ${BASE}"
-	psql -U postgres -h yugo.moot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = '${USER}'" | grep -q 1 || psql -U postgres -h yugo.moot.fr -w -c "CREATE ROLE ${USER} LOGIN PASSWORD '${PASSCONFIG}'"
-	psql -U postgres -h yugo.moot.fr -w -c "GRANT ALL PRIVILEGES ON DATABASE ${BASE} to ${USER}"
+	psql -U postgres -h yugo.mo-ot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${BASE}'" | grep -q 1 || psql -U postgres -h yugo.mo-ot.fr -w -c "CREATE DATABASE ${BASE}"
+	psql -U postgres -h yugo.mo-ot.fr -w -tc "SELECT 1 FROM pg_catalog.pg_roles WHERE rolname = '${USER}'" | grep -q 1 || psql -U postgres -h yugo.mo-ot.fr -w -c "CREATE ROLE ${USER} LOGIN PASSWORD '${PASSCONFIG}'"
+	psql -U postgres -h yugo.mo-ot.fr -w -c "GRANT ALL PRIVILEGES ON DATABASE ${BASE} to ${USER}"
 	
 	
 	cp conf-sample/db.env.sample env/db.env
