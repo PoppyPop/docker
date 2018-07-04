@@ -46,6 +46,8 @@ services:
     env_file:
       - env/pdns-api.env
       - env/pdns-recursor.env
+    volumes:
+      - pdns-lua-conf:/etc/pdns/lua
     networks:
       - proxy-net
       - default
@@ -137,6 +139,8 @@ volumes:
   pdns-admin-upload:
     external: true
   pdns-admin-db:
+  pdns-lua-conf:
+    external: true
 
 networks:
   default:
