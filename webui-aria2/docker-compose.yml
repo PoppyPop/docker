@@ -52,6 +52,7 @@ services:
       
   go-automated-ended:
     image: poppypop/go-automate-ended
+    command: ["/app/go-automate-ended", "-addr", "aria.mo-ot.fr:6800"]
     volumes:
       - aria-datas:/datas 
       - alpine-certs:/etc/ssl/certs:ro
