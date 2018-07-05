@@ -135,8 +135,6 @@ volumes:
     external: true
   elastic-backup:
     external: true
-  fluent-conf:
-    external: true
   fluentd-conf:
     external: true
   fluentd-logpos:
