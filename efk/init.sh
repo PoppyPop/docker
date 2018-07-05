@@ -9,6 +9,9 @@ sudo mkdir -p /srv/confs/efk
 # Backup
 sudo mkdir -p /srv/backs/efk
 
+sudo setfacl -R -m u:1000:rwX /srv/backs/efk
+sudo setfacl -R -m mask:rwX /srv/backs/efk
+
 sudo cp -f docker-compose.yml /srv/confs/efk/
 
 vmmapcount=`sudo grep -c "vm.max_map_count" /etc/sysctl.conf`

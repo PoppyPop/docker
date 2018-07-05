@@ -27,6 +27,10 @@
   path_key source
   pos_file /fluentd/logpos/{{ $container.ID }}-json.log.pos
 
+{{ if (not (exists (printf "/fluentd/logpos/%s-json.log.pos" $container.ID))) }}
+  read_from_head true
+{{ end }}
+  
   tag {{ template "gettag" (dict "Labels" $container.Labels "ID" $container.ID) }}
   
   rotate_wait 5
