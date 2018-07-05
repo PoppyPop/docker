@@ -6,6 +6,7 @@ services:
     container_name: nginx-proxy
     labels:
       nginx_proxy_companion.nginx_proxy: ""
+      fluentd-tag: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -17,11 +18,10 @@ services:
     networks:
       - proxy-net
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: nginx.docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
   dockergen-nginx:
     image: jwilder/docker-gen
@@ -39,12 +39,11 @@ services:
       - nginx
     networks:
       - proxy-net
-#    logging:
-#      driver: fluentd
-#      options:
-#        fluentd-address: "127.0.0.1:24224" 
-#        fluentd-async-connect: "true"
-#        tag: docker.{{.ID}} 
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
 
   pdns-companion:
     image: poppypop/docker-pdns-nginx-proxy-companion
@@ -61,18 +60,16 @@ services:
     env_file:
       - /srv/confs/pdns/env/pdns-api.env
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
         
   ssl-companion:
     image: poppypop/docker-ssl-nginx-proxy-companion
     command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/tmpl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
     environment:
       - "CERT_SERVER=http://yugo.mo-ot.fr:8888"
-    CERT_SERVER
     volumes:
       - certs:/certs
       - alpine-certs:/etc/ssl/certs:ro
@@ -83,11 +80,10 @@ services:
     networks:
       - proxy-net
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
 
 volumes:
   certs:

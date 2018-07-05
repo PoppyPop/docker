@@ -6,11 +6,10 @@ services:
     volumes:
       - redis-data:/data
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
               
   app:  
     image: nextcloud:fpm-alpine
@@ -29,14 +28,15 @@ services:
       - ldap-backend
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
 
   web:
     image: nginx:alpine
+    labels:
+      fluentd-tag: nginx
     volumes:
       - nextcloud-base:/var/www/html:ro
       - nextcloud-nginx:/etc/nginx/conf.d:ro
@@ -52,11 +52,10 @@ services:
       - proxy-net
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: nginx.docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
 
   cron:
     image: nextcloud:fpm-alpine
@@ -88,11 +87,10 @@ services:
     networks:
       - webbackend
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
 
 volumes:
   nextcloud-data:

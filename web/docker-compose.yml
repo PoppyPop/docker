@@ -18,19 +18,21 @@ services:
     image: poppypop/php-fpm
     volumes:
       - web-datas:/srv/http
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
     networks:
       webbackend:
         aliases:
           - phpfpm
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
   # Webstack NGINX
   nginx:
     image: nginx:alpine 
+    labels:
+      fluentd-tag: nginx
     volumes:
       - web-conf:/etc/nginx/conf.d:ro
       - web-datas:/usr/share/nginx/html:ro
@@ -41,11 +43,10 @@ services:
       - webbackend
       - proxy-net
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: nginx.docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
   # Webstack VARNISH
   #varnish:
   #  image: jacksoncage/varnish

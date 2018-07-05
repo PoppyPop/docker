@@ -8,7 +8,7 @@
   */}}{{ if eq $customtagLen 0 }}{{/*
     */}}docker.{{printf "%.*s" 12 .ID}}{{/*
   */}}{{ else }}{{/*
-    */}}docker.{{ index .Labels "fluentd-tag" }}.{{ printf "%.*s" 12 .ID }}{{/*
+    */}}{{ index .Labels "fluentd-tag" }}.docker.{{ printf "%.*s" 12 .ID }}{{/*
   */}}{{ end }}{{/*
 */}}{{ end }}
 

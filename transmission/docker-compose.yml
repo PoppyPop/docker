@@ -21,11 +21,10 @@ services:
     networks:
       - proxy-net
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
         
 volumes:
   transmission-watch:

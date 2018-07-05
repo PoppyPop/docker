@@ -1,23 +1,22 @@
 version: '2'
 
 services:
-    # domoticz
-    domoticz:
-        image:  sdesbure/domoticz
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - /srv/confs/domoticz:/config
-        devices:
-            - /dev/ttyUSB0
-        logging:
-            driver: fluentd
-            options:
-                fluentd-address: "127.0.0.1:24224"
-                fluentd-async-connect: "true"
-                tag: docker.{{.ID}}
-        ports:
-            - 27000:8080
-
+  # domoticz
+  domoticz:
+    image:  sdesbure/domoticz
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /srv/confs/domoticz:/config
+    devices:
+      - /dev/ttyUSB0
+    ports:
+      - 27000:8080
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
 networks:
   default:
     driver_opts:

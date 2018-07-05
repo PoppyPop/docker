@@ -28,11 +28,10 @@ services:
     ports:
       - "6800:6800"
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
   
   httpd:
     image: poppypop/aria2-webui
@@ -44,11 +43,10 @@ services:
     networks:
       - proxy-net
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
   go-automated-ended:
     image: poppypop/go-automate-ended
@@ -58,11 +56,10 @@ services:
       - alpine-certs:/etc/ssl/certs:ro
     user: 1001:1001
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
 
 networks:
   default:

@@ -11,11 +11,10 @@ services:
     networks:
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
       
   adminer:
     image: adminer
@@ -27,11 +26,10 @@ services:
       - proxy-net
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
 
   pdns-recursor:
     image: pschiffe/pdns-recursor:alpine
@@ -52,11 +50,10 @@ services:
       - proxy-net
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
   pdns:
     image: poppypop/docker-pdns
@@ -75,11 +72,10 @@ services:
       - proxy-net
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
   pdns-recursor-companion :
     image: poppypop/docker-pdns-recursor-companion   
@@ -89,11 +85,10 @@ services:
       - pdns
       - pdns-recursor
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
   pdns-admin-uwsgi:
     image: poppypop/docker-pdns-admin-uwsgi
@@ -108,11 +103,10 @@ services:
       - ldap-backend
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
 
   pdns-admin-static:
     image: pschiffe/pdns-admin-static
@@ -121,17 +115,14 @@ services:
     environment:
       - VIRTUAL_HOST=dns.mo-ot.fr
       - VIRTUAL_PORT=80
-    ports:
-      - 1256:80
     networks:
       - proxy-net
       - default
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224" 
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}} 
+        max-size: "50m"
+        max-file: "7"
       
 volumes:
   pdns-pgsql:

@@ -14,11 +14,11 @@ services:
       - 389:389
       - 636:636
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}
+        max-size: "50m"
+        max-file: "7"
+        
   fd:
     image: poppypop/docker-fusiond
     volumes:
@@ -33,11 +33,10 @@ services:
       - proxy-net
       - ldap-backend
     logging:
-      driver: fluentd
+      driver: json-file
       options:
-        fluentd-address: "127.0.0.1:24224"
-        fluentd-async-connect: "true"
-        tag: docker.{{.ID}}    
+        max-size: "50m"
+        max-file: "7"   
 
 volumes:
   openldap-data:

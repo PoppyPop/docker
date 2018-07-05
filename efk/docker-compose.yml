@@ -70,19 +70,32 @@ services:
         max-size: "50m"
         max-file: "7"
 
-  fluent:
+  fluentd:
     image: poppypop/docker-fluentd
+    container_name: docker-fluentd
     ports:
       - 24224:24224
-    depends_on:
-      - elastic1
-      - elastic2
     volumes:
-      - fluent-conf:/fluentd/etc/:ro
+      - fluentd-conf:/fluentd/etc/:ro
+      - /var/lib/docker/containers/:/docker/containers/:ro
+      - fluentd-logpos:/fluentd/logpos/
     environment:
-      - FLUENTD_CONF=fluent.conf
+      - FLUENTD_CONF=fluentd.conf
+      - FLUENT_UID=0
     networks:
       - efk-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
+  fluentd-gen:
+    image: jwilder/docker-gen
+    command: -notify-sighup docker-fluentd -interval 86400 -watch /fluentd/etc/docker-log.tmpl /fluentd/etc/docker-log.conf
+    volumes:
+      - fluentd-conf:/fluentd/etc/
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     logging:
       driver: json-file
       options:
@@ -124,4 +137,7 @@ volumes:
     external: true
   fluent-conf:
     external: true
+  fluentd-conf:
+    external: true
+  fluentd-logpos:
     
