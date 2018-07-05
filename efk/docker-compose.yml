@@ -92,7 +92,7 @@ services:
         
   fluentd-gen:
     image: jwilder/docker-gen
-    command: -notify-sighup docker-fluentd -interval 86400 -watch /fluentd/etc/docker-log.tmpl /fluentd/etc/docker-log.conf
+    command: -notify-sighup docker-fluentd -interval 300 -watch /fluentd/etc/docker-log.tmpl /fluentd/etc/docker-log.conf
     volumes:
       - fluentd-conf:/fluentd/etc/
       - /var/run/docker.sock:/tmp/docker.sock:ro

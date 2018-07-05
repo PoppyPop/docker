@@ -1,0 +1,3 @@
+ldapsearch -H "ldaps://ldap.mo-ot.fr" -D "uid=auth,ou=users,ou=admin,dc=mo-ot,dc=fr" -b "dc=mo-ot,dc=fr" -x -W
+
+ldapsearch -H "ldaps://ldap.mo-ot.fr" -D "uid=auth,ou=users,ou=admin,dc=mo-ot,dc=fr" -b "dc=mo-ot,dc=fr" -x -W -s sub "(&(|(objectclass=posixAccount))(|(memberof=cn=nextcloud,ou=groups,ou=admin,dc=mo-ot,dc=fr)))"
