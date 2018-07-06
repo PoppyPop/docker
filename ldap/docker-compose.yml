@@ -8,6 +8,8 @@ services:
       - openldap-config:/etc/openldap/slapd.d
       - alpine-certs:/etc/ssl/certs:ro
       - openldap-certs:/etc/ssl/ldap:ro
+    environment:
+      - LOGLEVEL=40
     networks:
       - ldap-backend
     ports:
