@@ -3,13 +3,14 @@ version: '3'
 services:
   openldap:
     image: poppypop/docker-openldap
+    restart: on-failure
     volumes:
       - openldap-data:/var/lib/openldap/openldap-data
       - openldap-config:/etc/openldap/slapd.d
       - alpine-certs:/etc/ssl/certs:ro
       - openldap-certs:/etc/ssl/ldap:ro
     environment:
-      - LOGLEVEL=40
+      - LOGLEVEL=256
     networks:
       - ldap-backend
     ports:

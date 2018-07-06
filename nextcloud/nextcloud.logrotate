@@ -1,0 +1,9 @@
+/datas/nextcloud/nextcloud.log {
+	rotate 8
+	daily
+	missingok
+	notifempty
+	compress
+	delaycompress
+	create 640 82 82
+}

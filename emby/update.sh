@@ -5,4 +5,4 @@ docker-compose pull
 
 ./autoorganize.sh
 
-sudo systemctl restart docker-compose@emby
+sudo systemctl reload docker-compose@emby
