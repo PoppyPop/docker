@@ -136,7 +136,7 @@ proxy_set_header X-Forwarded-Port $proxy_x_forwarded_port;
 proxy_set_header Proxy "";
 {{ end }}
 
-sub_filter_types text/html text/css text/xml application/javascript application/json;
+sub_filter_types text/css text/xml application/javascript application/json;
 sub_filter_once off;
 		
 {{ $enable_ipv6 := eq (or ($.Env.ENABLE_IPV6) "") "true" }}

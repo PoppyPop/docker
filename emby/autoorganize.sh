@@ -4,14 +4,14 @@
 # Fail on error
 set -e
 
-AUTOORGURL=$(curl -L -s -u "PoppyPop" https://api.github.com/repos/PoppyPop/Emby.AutoOrganize/releases/latest | jq -r ".assets[] | select(.name | test(\"Emby.AutoOrganize.dll\")) | .browser_download_url")
+AUTOORGURL=$(curl -L -s https://api.github.com/repos/PoppyPop/Emby.AutoOrganize/releases/latest | jq -r ".assets[] | select(.name | test(\"Emby.AutoOrganize.dll\")) | .browser_download_url")
 
 curl -L -s $AUTOORGURL > Emby.AutoOrganize.dll
 
 docker run --rm  -v emby-datas:/dist -v ${PWD}:/local alpine \
 	sh -c 'mkdir -p /dist/plugins/ && cp -f /local/Emby.AutoOrganize.dll /dist/plugins/Emby.AutoOrganize.dll'
 	
-AUTOORGURL=$(curl -L -s -u "PoppyPop" https://api.github.com/repos/PoppyPop/Emby.addic7ed/releases/latest | jq -r ".assets[] | select(.name | test(\"Emby.addic7ed.dll\")) | .browser_download_url")
+AUTOORGURL=$(curl -L -s https://api.github.com/repos/PoppyPop/Emby.addic7ed/releases/latest | jq -r ".assets[] | select(.name | test(\"Emby.addic7ed.dll\")) | .browser_download_url")
 
 curl -L -s $AUTOORGURL > Emby.addic7ed.dll	
 
