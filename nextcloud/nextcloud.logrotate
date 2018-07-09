@@ -5,5 +5,5 @@
 	notifempty
 	compress
 	delaycompress
-	create 640 82 82
+	create 640 nextcloud nextcloud
 }

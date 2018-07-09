@@ -16,10 +16,14 @@ sudo cp -f complete.sh /datas/downloads/aria2/datas/
 sudo mkdir -p /srv/confs/aria2/
 sudo cp -f docker-compose.yml /srv/confs/aria2/
 
-sudo useradd -m download
+if id "download" >/dev/null 2>&1; then
+        echo "user exists"
+else
+        sudo useradd -m download
+		sudo id download
+fi
+
 sudo chown -R download:download /datas/downloads/aria2/
 
 sudo setfacl -d -R -m g:domain_media:rwX /datas/downloads/aria2/
 sudo setfacl -R -m g:domain_media:rwX /datas/downloads/aria2/
-
-sudo id download

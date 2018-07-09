@@ -89,6 +89,21 @@ services:
       options:
         max-size: "50m"
         max-file: "7"
+        
+  pdns-cleaner :
+    image: poppypop/go-pdns-cleaner   
+    env_file:
+      - env/pdns-api.env
+    environment:
+      - PDNS_DOMAIN=mo-ot.fr
+      - PDNS_API_SERVER=http://pdns:8080
+    depends_on:
+      - pdns
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
       
   pdns-admin-uwsgi:
     image: poppypop/docker-pdns-admin-uwsgi
