@@ -1,0 +1,118 @@
+#!/usr/bin/perl -w
+
+=pod
+
+Your documentation here... Copy from tv_grab_cz for example.
+
+=cut
+
+use strict;
+use XMLTV::Options qw/ParseOptions/;
+
+SetSupplementRoot( 'http://racacaxtv.ga/' );
+
+my( $opt, $conf ) = ParseOptions( { 
+     grabber_name => "tv_grab_racacax",
+     capabilities => [qw/baseline manualconfig apiconfig/],
+     stage_sub => \&config_stage,
+     listchannels_sub => \&list_channels,
+     version => '$Id: Racacax grabber,v 1.0 2018/07/10 17:38:45 Steve Holweg Exp ed $',
+     description => "Racacax grabber",
+} );
+
+# Get the actual data and print it to stdout.
+
+my $is_success=1;
+
+my $epgsource;
+my $epgsourcegz;
+
+if (not defined( $conf->{'root-url'} )) {
+	$epgsourcegz = GetSupplement( undef, 'xmltv/xmltv.xml.gz' );
+
+	gunzip \$epgsourcegz => \$epgsource;
+} else {
+	$epgsourcegz = GetSupplement( undef, 'alacarte/xmlgz.php?key=' . $conf->{'user-key'}->[0]);
+
+    gunzip \$epgsourcegz => \$epgsource;
+}
+
+
+my $parser=XML::LibXML->new();
+    my $input=$parser->parse_string( $xml )->getDocumentElement();
+
+    my $output=XML::LibXML::Document->new( '1.0', 'utf-8' );
+    my $root=XML::LibXML::Element->new( 'tv' );
+    $output->setDocumentElement( $root );
+
+    foreach my $channel( $input->getElementsByTagName( 'channel') ) {
+        $root->appendChild( $channel );
+    }
+
+
+
+
+if( $is_success ) {
+     exit 0;
+}
+else {
+     exit 1;
+}
+
+sub config_stage
+{
+     my( $stage, $conf ) = @_;
+
+     # Sample stage_sub that only needs a single stage.
+
+     die "Unknown stage $stage" if $stage ne "start";
+
+     my $result;
+     my $writer = new XMLTV::Configure::Writer( OUTPUT => \$result,
+                                                              encoding => 'iso-8859-1' );
+     $writer->start( { grabber => 'tv_grab_racacax' } );
+     $writer->write_string( {
+          id => 'user-key', 
+          title => [ [ 'User key for alacarte', 'en' ] ],
+          description => [ 
+            [ 'The user key. ', 'en' ] ],
+          default => $default_root_url,
+      } );
+
+     $writer->end( 'select-channels' );
+
+     return $result;
+}
+
+sub list_channels
+{
+    my( $conf, $opt ) = @_;
+
+    # Return a string containing an xmltv-document with <channel>-elements
+    # for all available channels.
+
+	my $channellist;
+    my $xml;
+	if (not defined( $conf->{'root-url'} )) {
+		$channellist = GetSupplement( undef, 'xmltv/xmltv.xml.gz' );
+
+		gunzip \$channellist => \$xml;
+	} else {
+		$channellist = GetSupplement( undef, 'alacarte/xmlgz.php?key=' . $conf->{'user-key'}->[0]);
+
+		gunzip \$channellist => \$xml;
+	}
+	 
+    my $parser=XML::LibXML->new();
+    my $input=$parser->parse_string( $xml )->getDocumentElement();
+
+    my $output=XML::LibXML::Document->new( '1.0', 'utf-8' );
+    my $root=XML::LibXML::Element->new( 'tv' );
+    $output->setDocumentElement( $root );
+
+    foreach my $channel( $input->getElementsByTagName( 'channel') ) {
+        $root->appendChild( $channel );
+    }
+
+    return $output->toString();
+}

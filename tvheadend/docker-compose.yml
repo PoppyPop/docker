@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  tvheadend:
+    image: linuxserver/tvheadend
+    #restart: always
+    #env_file:
+    #  - env/db.env
+    environment:
+      #- VIRTUAL_HOST=dvb.mo-ot.fr
+      #- VIRTUAL_PORT=8096
+      #- PUBLISH_DNS=1
+      #- PUBLISH_DNS_TXT=1
+      - PUID=999
+      - PGID=44
+      - RUN_OPTS=-s
+      - TZ=Europe/Paris
+    ports:
+      - 9981:9981
+      - 9982:9982
+    volumes:
+      - tvheadend-datas:/recordings
+      - tvheadend-config:/config
+      - ${PWD}/addons:/addons
+    devices:
+      - "/dev/dri/renderD128:/dev/dri/renderD128"
+      - "/dev/dvb/:/dev/dvb/"
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
+  cron-epg:
+    image: xordiv/docker-alpine-cron
+    #restart: always
+    environment:
+      - "CRON_STRINGS=* * * * * root curl -sL http://racacaxtv.ga/alacarte/xmlgz.php?key=3db857d80f8206c655779b51b4f5dc35 | gunzip -c > /config/data/xmltv.xml"
+    volumes:
+      - tvheadend-config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+      
+volumes:
+  tvheadend-datas:
+  tvheadend-config:
+
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
