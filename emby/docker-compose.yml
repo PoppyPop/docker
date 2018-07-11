@@ -17,7 +17,6 @@ services:
       - emby-local-datas:/datas
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"
-      - "/dev/dvb/:/dev/dvb/"
     networks:
       - proxy-net
       - default
