@@ -14,3 +14,6 @@ sudo chmod a-rwx,u+r /etc/sssd/sssd.conf
 # Add to /etc/ssh/sshd_config
 # AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys
 # AuthorizedKeysCommandUser root
+
+#Remove offending key
+#ssh-keygen -f "/home/poppy/.ssh/known_hosts" -R games.mo-ot.fr
