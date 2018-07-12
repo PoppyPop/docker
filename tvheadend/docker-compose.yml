@@ -31,13 +31,11 @@ services:
         max-size: "50m"
         max-file: "7"
         
-  cron-epg:
-    image: xordiv/docker-alpine-cron
-    #restart: always
-    environment:
-      - "CRON_STRINGS=* * * * * root curl -sL http://racacaxtv.ga/alacarte/xmlgz.php?key=3db857d80f8206c655779b51b4f5dc35 | gunzip -c > /config/data/xmltv.xml"
+  cron:
+    image: alpine
     volumes:
       - tvheadend-config:/config
+    entrypoint: "/config/cron.sh"
     logging:
       driver: json-file
       options:
@@ -46,8 +44,9 @@ services:
       
 volumes:
   tvheadend-datas:
+    external: true
   tvheadend-config:
-
+    external: true
 
 networks:
   default:
