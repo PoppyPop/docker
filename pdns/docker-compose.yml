@@ -145,6 +145,7 @@ volumes:
   pdns-admin-upload:
     external: true
   pdns-admin-db:
+    external: true
   pdns-lua-conf:
     external: true
 
