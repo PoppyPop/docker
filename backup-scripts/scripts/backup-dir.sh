@@ -37,7 +37,9 @@ else
 	dest="$3"
 fi
 
-retention=8
+retentionday=8
+retentionweek=4
+retentionmonth=2
 ext="tar.bz2"
 
 # Setup variables for the archive filename.
@@ -71,7 +73,7 @@ fi
 backup $backup_files $dest/daily/$day_file 
 
 # Clean old backup
-ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
-ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
-ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retention | xargs -I {} rm -- {}
+ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionday | xargs -I {} rm -- {}
+ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionweek | xargs -I {} rm -- {}
+ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionmonth | xargs -I {} rm -- {}
 

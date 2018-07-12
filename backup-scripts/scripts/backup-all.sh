@@ -4,8 +4,8 @@
 src=${BASH_SOURCE%/*}
 
 # BDD
-echo "Backup Bdd"
-${src}/mariadb/backup-mariadb.sh
+# echo "Backup Bdd"
+# ${src}/mariadb/backup-mariadb.sh
 
 # Elastic
 echo "Backup Elastic"
