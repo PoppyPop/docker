@@ -1,0 +1,26 @@
+version: '3'
+
+networks:
+  proxy-net:
+    external: true
+
+volumes:
+  trakt-datas:
+    external: true
+    
+services:
+  trakt-web:
+    image: poppypop/trakt-web
+    volumes:
+      - trakt-datas:/datas
+    environment:
+      - VIRTUAL_HOST=trakt.mo-ot.fr
+      - VIRTUAL_PORT=80
+    networks:
+      - proxy-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
