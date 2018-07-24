@@ -7,6 +7,8 @@ services:
     labels:
       nginx_proxy_companion.nginx_proxy: ""
       fluentd-tag: nginx
+#    environment:
+#      - TZ=Europe/Paris
     ports:
       - "80:80"
       - "443:443"
