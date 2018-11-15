@@ -25,7 +25,7 @@ services:
         max-file: "7" 
         
   postgres:
-    image: postgres:alpine
+    image: postgres:10-alpine
     #restart: always
     env_file:
       - env/db.env
