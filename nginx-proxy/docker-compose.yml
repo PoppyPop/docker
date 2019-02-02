@@ -15,7 +15,7 @@ services:
     volumes:
       - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
-      - vhost.d:/etc/nginx/vhost.d
+      - ngproxy-vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
     networks:
       - proxy-net
@@ -33,7 +33,7 @@ services:
     volumes:
       - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
-      - vhost.d:/etc/nginx/vhost.d
+      - ngproxy-vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
       - ngproxy-tmpl:/etc/docker-gen/templates
@@ -95,7 +95,8 @@ volumes:
   ngproxy-tmpl:
     external: true
   conf.d:
-  vhost.d:
+  ngproxy-vhost:
+    external: true
   html:
 
 networks:

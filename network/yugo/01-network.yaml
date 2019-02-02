@@ -1,0 +1,17 @@
+network:
+  ethernets:
+    enp2s0:
+      addresses:
+        - 10.0.1.10/20
+      gateway4: 10.0.1.1
+      dhcp4: off
+      mtu: 9000
+      nameservers:
+        search: 
+          - mo-ot.fr
+        addresses: 
+          - 127.0.0.1
+          - 172.17.0.1
+#          - 1.1.1.1
+      optional: true
+  version: 2

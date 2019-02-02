@@ -1,0 +1,25 @@
+network:
+  wifis:
+    wlp3s0:
+      access-points:
+        "MootCity-5G":
+          password: "EAdYGW81CskIXGzSYJBzdj5eeeUVdXT1JNeZj6GLeZ"
+        "MootCity-2G":
+          password: "EAdYGW81CskIXGzSYJBzdj5eeeUVdXT1JNeZj6GLeZ"
+      addresses:
+        - 10.0.1.15/20
+      gateway4: 10.0.1.1
+      dhcp4: off
+      nameservers:
+        search: 
+          - mo-ot.fr
+        addresses: 
+          - 127.0.0.1
+          - 172.17.0.1
+#          - 1.1.1.1
+      routes:
+        - to: 0.0.0.0/0
+          via: 10.0.1.1
+          metric: 500
+      optional: true
+  version: 2
