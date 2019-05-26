@@ -79,9 +79,9 @@ services:
       - fluentd-conf:/fluentd/etc/:ro
       - /var/lib/docker/containers/:/docker/containers/:ro
       - fluentd-logpos:/fluentd/logpos/
-    environment:
-      - FLUENTD_CONF=fluentd.conf
-      - FLUENT_UID=0
+    #environment:
+    #  - FLUENTD_CONF=fluentd.conf
+    #  - FLUENT_UID=0
     networks:
       - efk-net
     logging:
