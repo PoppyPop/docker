@@ -1,7 +1,7 @@
 version: '3'
 services:
   elastic1:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
     environment:
       - cluster.name=docker-cluster
       - path.repo=/backup
@@ -38,7 +38,7 @@ services:
         max-file: "7"
 
   elastic2:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.7.1
     environment:
       - cluster.name=docker-cluster
       - path.repo=/backup
@@ -103,7 +103,7 @@ services:
         max-file: "7"
         
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.2.4
+    image: docker.elastic.co/kibana/kibana:6.7.1
     environment:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - VIRTUAL_HOST=kibana.mo-ot.fr
