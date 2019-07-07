@@ -86,9 +86,31 @@ services:
       options:
         max-size: "50m"
         max-file: "7"
+    
+  certbot-companion:
+    image: poppypop/docker-certbot-nginx-proxy-companion
+    command: -notify /certbot/notify.sh -notify-output -notify-sighup nginx-proxy -interval 86400 -wait 300s:500s -watch /certbot/certbot.sh.tmpl /certbot/certbot.sh
+    environment:
+      - "CERTBOT_ACCOUNT=skytep@gmail.com"
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - alpine-certs:/etc/ssl/certs:ro
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    depends_on:
+      - nginx
+    networks:
+      - proxy-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"    
+ 
 
 volumes:
   certs:
+    external: true
+  letsencrypt:
     external: true
   alpine-certs:
     external: true
