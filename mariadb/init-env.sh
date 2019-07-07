@@ -1,6 +1,6 @@
 #!/bin/bash
 #
 
-# sudo cp -Rf env/ /srv/confs/kea/
+sudo cp -Rf env/ /srv/confs/mariadb/
 
 
