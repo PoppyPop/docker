@@ -13,6 +13,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - letsencrypt:/etc/letsencrypt:ro
       - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
       - ngproxy-vhost:/etc/nginx/vhost.d
@@ -31,6 +32,7 @@ services:
     labels:
       nginx_proxy_companion.docker_gen: ""
     volumes:
+      - letsencrypt:/etc/letsencrypt:ro
       - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
       - ngproxy-vhost:/etc/nginx/vhost.d
@@ -89,7 +91,7 @@ services:
     
   certbot-companion:
     image: poppypop/docker-certbot-nginx-proxy-companion
-    command: -notify /certbot/notify.sh -notify-output -notify-sighup nginx-proxy -interval 86400 -wait 300s:500s -watch /certbot/certbot.sh.tmpl /certbot/certbot.sh
+    command: -notify /certbot/notify.sh -notify-output -notify-sighup nginx-proxy -interval 86400 -wait 300s:500s -watch /certbot/certbot-san.sh.tmpl /certbot/certbot.sh
     environment:
       - "CERTBOT_ACCOUNT=skytep@gmail.com"
     volumes:
