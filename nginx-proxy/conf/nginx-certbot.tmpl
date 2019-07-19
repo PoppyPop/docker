@@ -154,7 +154,7 @@ server {
 	return 503;
 }
 
-{{ if (and (exists "/etc/letsencrypt/links/default/chain.pem") (exists "/etc/letsencrypt/links/default/privkey.pem")) }}
+{{ if (and (exists "/etc/letsencrypt/links/default/fullchain.pem") (exists "/etc/letsencrypt/links/default/privkey.pem")) }}
 server {
 	server_name _; # This is just an invalid value which will never trigger on a real hostname.
 	listen 443 ssl http2;
@@ -165,7 +165,7 @@ server {
 	return 503;
 
 	ssl_session_tickets off;
-	ssl_certificate /etc/letsencrypt/links/default/chain.pem;
+	ssl_certificate /etc/letsencrypt/links/default/fullchain.pem;
 	ssl_certificate_key /etc/letsencrypt/links/default/privkey.pem;
 }
 {{ end }}
@@ -241,7 +241,7 @@ upstream {{ $upstream_name }} {
 {{/* Use the cert specified on the container or fallback to the best vhost match */}}
 {{ $cert := (coalesce $certName $vhostCert) }}
 
-{{ $is_https := (and (ne $https_method "nohttps") (ne $cert "") (exists (printf "/etc/letsencrypt/links/%s/chain.pem" $cert)) (exists (printf "/etc/letsencrypt/links/%s/privkey.pem" $cert))) }}
+{{ $is_https := (and (ne $https_method "nohttps") (ne $cert "") (exists (printf "/etc/letsencrypt/links/%s/fullchain.pem" $cert)) (exists (printf "/etc/letsencrypt/links/%s/privkey.pem" $cert))) }}
 
 {{ if $is_https }}
 
@@ -304,17 +304,17 @@ server {
 	ssl_session_cache shared:SSL:50m;
 	ssl_session_tickets off;
 
-	sl_certificate {{ printf "/etc/letsencrypt/links/%s/chain.pem" $cert }};
+	ssl_certificate {{ printf "/etc/letsencrypt/links/%s/fullchain.pem" $cert }};
 	ssl_certificate_key {{ printf "/etc/letsencrypt/links/%s/privkey.pem" $cert }};	
 
 	{{ if (exists (printf "/etc/letsencrypt/links/%s/dhparam.pem" $cert)) }}
 	ssl_dhparam {{ printf "/etc/letsencrypt/links/%s/dhparam.pem" $cert }};
 	{{ end }}
 
-	{{ if (exists (printf "/etc/letsencrypt/links/%s/fullchain.pem" $cert)) }}
+	{{ if (exists (printf "/etc/letsencrypt/links/%s/chain.pem" $cert)) }}
 	ssl_stapling on;
 	ssl_stapling_verify on;
-	ssl_trusted_certificate {{ printf "/etc/letsencrypt/links/%s/fullchain.pem" $cert }};
+	ssl_trusted_certificate {{ printf "/etc/letsencrypt/links/%s/chain.pem" $cert }};
 	{{ end }}
 
 	{{ if (and (ne $https_method "noredirect") (ne $hsts "off")) }}
@@ -444,7 +444,7 @@ server {
 	}
 }
 
-{{ if (and (not $is_https) (exists "/etc/letsencrypt/links/default/chain.pem") (exists "/etc/letsencrypt/links/default/privkey.pem")) }}
+{{ if (and (not $is_https) (exists "/etc/letsencrypt/links/default/fullchain.pem") (exists "/etc/letsencrypt/links/default/privkey.pem")) }}
 server {
 	server_name {{ $host }};
 	listen 443 ssl http2 {{ $default_server }};
@@ -454,7 +454,7 @@ server {
 	access_log /var/log/nginx/access.log vhost;
 	return 500;
 
-	ssl_certificate /etc/letsencrypt/links/default/chain.pem;
+	ssl_certificate /etc/letsencrypt/links/default/fullchain.pem;
 	ssl_certificate_key /etc/letsencrypt/links/default/privkey.pem;
 }
 {{ end }}
