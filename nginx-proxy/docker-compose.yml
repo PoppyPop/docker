@@ -14,7 +14,6 @@ services:
       - "443:443"
     volumes:
       - letsencrypt:/etc/letsencrypt:ro
-      - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
       - ngproxy-vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
@@ -33,7 +32,6 @@ services:
       nginx_proxy_companion.docker_gen: ""
     volumes:
       - letsencrypt:/etc/letsencrypt:ro
-      - certs:/etc/nginx/certs:ro
       - conf.d:/etc/nginx/conf.d
       - ngproxy-vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
@@ -68,26 +66,6 @@ services:
       options:
         max-size: "50m"
         max-file: "7"
-        
-  ssl-companion:
-    image: poppypop/docker-ssl-nginx-proxy-companion
-    command: -notify /notify.sh -notify-output -interval 86400 -watch /cfssl/tmpl/cfssl_service_data.tmpl /cfssl/cfssl_service_data
-    environment:
-      - "CERT_SERVER=http://yugo.mo-ot.fr:8888"
-    volumes:
-      - certs:/certs
-      - alpine-certs:/etc/ssl/certs:ro
-      - "/var/run/docker.sock:/tmp/docker.sock:ro"
-      - ngproxy-tmpl:/cfssl/tmpl
-    depends_on:
-      - nginx
-    networks:
-      - proxy-net
-    logging:
-      driver: json-file
-      options:
-        max-size: "50m"
-        max-file: "7"
     
   certbot-companion:
     image: poppypop/docker-certbot-nginx-proxy-companion
@@ -110,8 +88,6 @@ services:
  
 
 volumes:
-  certs:
-    external: true
   letsencrypt:
     external: true
   alpine-certs:
