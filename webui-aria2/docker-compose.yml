@@ -3,7 +3,7 @@ version: '3'
 volumes:
   aria-datas:
     external: true
-  certs:
+  letsencrypt:
     external: true
   alpine-certs:
     external: true
@@ -18,14 +18,14 @@ services:
       - DOWNLOAD_DIR=/datas/Downloads
       - SESSION_FILE=/datas/aria2.session
       - RPC_SECURE=true
-      - RPC_CERT=/certs/aria.mo-ot.fr.crt
-      - RPC_PRIV_KEY=/certs/aria.mo-ot.fr.key
+      - RPC_CERT=/etc/letsencrypt/links/aria.mo-ot.fr/fullchain.pem
+      - RPC_PRIV_KEY=/etc/letsencrypt/links/aria.mo-ot.fr/privkey.pem
       - RPC_SECRET=5up5YSxf74AVE4w
+      - COMPLETE_HOOK=/datas/complete.sh
+      - "CHOWN_DATAS=1001:1001"
     volumes:
       - aria-datas:/datas
-      - certs:/certs
-      - alpine-certs:/etc/ssl/certs:ro
-    user: 1001:1001
+      - letsencrypt:/etc/letsencrypt:ro
     networks:
       default:
         aliases:
@@ -59,7 +59,6 @@ services:
     command: ["/app/go-automate-ended", "-addr", "aria.mo-ot.fr:6800", "-token", "5up5YSxf74AVE4w"]
     volumes:
       - aria-datas:/datas 
-      - alpine-certs:/etc/ssl/certs:ro
     user: 1001:1001
     logging:
       driver: json-file
