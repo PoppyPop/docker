@@ -44,6 +44,7 @@ services:
       webbackend:
         aliases:
           - mariadb
+    command: [ "--wait_timeout=28800" ]
     logging:
       driver: json-file
       options:

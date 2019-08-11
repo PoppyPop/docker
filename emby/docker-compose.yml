@@ -8,13 +8,19 @@ services:
       - VIRTUAL_PORT=8096
       - PUBLISH_DNS=1
       - PUBLISH_DNS_TXT=1
-      - HTTPS_METHOD=noredirect
       - UID=11001
       - GID=11002
       - GIDLIST=513,44
     volumes:
       - emby-datas:/config
       - emby-local-datas:/datas
+    ports:
+      - 7359:7359 # Discover
+      - 7359:7359/udp # Discover
+      - 1900:1900 # DLNA
+      - 1900:1900/udp # DLNA
+      #- 8096:8096
+      #- 8920:8920
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"
     networks:
@@ -25,7 +31,6 @@ services:
       options:
         max-size: "50m"
         max-file: "7"
-
 
 volumes:
   emby-datas:
