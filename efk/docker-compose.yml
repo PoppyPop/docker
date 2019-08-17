@@ -1,14 +1,24 @@
 version: '3'
 services:
   elastic1:
-    image: amazon/opendistro-for-elasticsearch:0.9.0
+    #image: amazon/opendistro-for-elasticsearch:0.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    env_file:
+      - env/elastic.env
     environment:
-      - cluster.name=docker-cluster
-      - path.repo=/backup
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
-      - "discovery.zen.minimum_master_nodes=2"
       - node.name=elastic1
+      - discovery.seed_hosts=elastic2
+      - cluster.initial_master_nodes=elastic1,elastic2
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - path.repo=/backup
+      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
+      - xpack.security.http.ssl.key=$CERTS_DIR/elastic1/elastic1.key
+      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.http.ssl.certificate=$CERTS_DIR/elastic1/elastic1.crt
+      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.transport.ssl.certificate=$CERTS_DIR/elastic1/elastic1.crt
+      - xpack.security.transport.ssl.key=$CERTS_DIR/elastic1/elastic1.key
     ulimits:
       memlock:
         soft: -1
@@ -16,15 +26,13 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 6g
     cap_add:
       - IPC_LOCK
     volumes:
       - elastic1-datas:/usr/share/elasticsearch/data
       - elastic-backup:/backup
+      - es-certs:$CERTS_DIR
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - 9200:9200
       - 9600:9600
@@ -39,14 +47,23 @@ services:
         max-file: "7"
 
   elastic2:
-    image: amazon/opendistro-for-elasticsearch:0.9.0
+    #image: amazon/opendistro-for-elasticsearch:0.10.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    env_file:
+      - env/elastic.env
     environment:
-      - cluster.name=docker-cluster
-      - path.repo=/backup
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
-      - "discovery.zen.ping.unicast.hosts=elastic1"
       - node.name=elastic2
+      - discovery.seed_hosts=elastic1
+      - cluster.initial_master_nodes=elastic1,elastic2
+      - bootstrap.memory_lock=true
+      - path.repo=/backup
+      - "ES_JAVA_OPTS=-Xms3072m -Xmx3072m"
+      - xpack.security.http.ssl.key=$CERTS_DIR/elastic2/elastic2.key
+      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.http.ssl.certificate=$CERTS_DIR/elastic2/elastic2.crt
+      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
+      - xpack.security.transport.ssl.certificate=$CERTS_DIR/elastic2/elastic2.crt
+      - xpack.security.transport.ssl.key=$CERTS_DIR/elastic2/elastic2.key
     ulimits:
       memlock:
         soft: -1
@@ -54,10 +71,6 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    deploy:
-      resources:
-        limits:
-          memory: 6g
     cap_add:
       - IPC_LOCK
     networks:
@@ -65,6 +78,8 @@ services:
     volumes:
       - elastic2-datas:/usr/share/elasticsearch/data
       - elastic-backup:/backup
+      - es-certs:$CERTS_DIR
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     logging:
       driver: json-file
       options:
@@ -80,6 +95,7 @@ services:
       - fluentd-conf:/fluentd/etc/:ro
       - /var/lib/docker/containers/:/docker/containers/:ro
       - fluentd-logpos:/fluentd/logpos/
+      - es-certs:$CERTS_DIR
     environment:
     #  - FLUENTD_CONF=fluentd.conf
       - FLUENT_UID=0
@@ -104,9 +120,14 @@ services:
         max-file: "7"
         
   kibana:
-    image: amazon/opendistro-for-elasticsearch-kibana:0.9.0
+    #image: amazon/opendistro-for-elasticsearch-kibana:0.10.0
+    image: docker.elastic.co/kibana/kibana:7.3.0
     environment:
-      - ELASTICSEARCH_URL=https://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana
+      - ELASTICSEARCH_PASSWORD=wvx89D8ZJuo13QccxC7i
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=$CERTS_DIR/ca/ca.crt
+      - ELASTICSEARCH_SSL_VERIFICATIONMODE=certificate
       - VIRTUAL_HOST=kibana.mo-ot.fr
       - VIRTUAL_PORT=5601
       - PUBLISH_DNS=1
@@ -117,6 +138,8 @@ services:
     networks:
       - proxy-net
       - efk-net
+    volumes:
+      - es-certs:$CERTS_DIR
     expose:
       - 5601
     logging:
@@ -139,6 +162,8 @@ volumes:
   elastic-backup:
     external: true
   fluentd-conf:
+    external: true
+  es-certs:
     external: true
   fluentd-logpos:
     

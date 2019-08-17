@@ -1,0 +1,14 @@
+instances:
+  - name: elastic1
+    dns:
+      - elastic1 
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: elastic2
+    dns:
+      - elastic2
+      - localhost
+    ip:
+      - 127.0.0.1

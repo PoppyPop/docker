@@ -1,6 +1,6 @@
 {  
    "mappings":{  
-      "_default_":{  
+      "_doc":{  
          "properties":{  
             "device_id":{  
                "type":"long"

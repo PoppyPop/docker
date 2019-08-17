@@ -7,3 +7,6 @@ docker volume create elastic1-datas
 docker volume create elastic2-datas
 
 docker volume create fluentd-conf
+
+
+docker volume create es-certs --label backup=no
