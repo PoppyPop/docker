@@ -6,17 +6,19 @@ client:
     - 127.0.0.1
   port: 9200
   url_prefix:
-  use_ssl: False
+  use_ssl: True
   certificate:
   client_cert:
   client_key:
-  ssl_no_validate: False
-  http_auth:
+  ssl_no_validate: True
+  http_auth: 'elastic:6S5wf2htSBUdnoJQZyxk'
   timeout: 30
   master_only: False
 
 logging:
   loglevel: INFO
+  #loglevel: DEBUG
   logfile:
   logformat: default
   blacklist: ['elasticsearch', 'urllib3']
+  #blacklist: []
