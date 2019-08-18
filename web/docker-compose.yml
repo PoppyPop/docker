@@ -33,6 +33,11 @@ services:
     image: nginx:alpine 
     labels:
       fluentd-tag: nginx
+      co.elastic.logs/module: nginx 
+      co.elastic.logs/fileset.stdout: access
+      co.elastic.logs/fileset.stderr: error
+      co.elastic.metrics/module: nginx
+      co.elastic.metrics/hosts: "${data.host}:${data.port}"
     volumes:
       - web-conf:/etc/nginx/conf.d:ro
       - web-datas:/usr/share/nginx/html:ro

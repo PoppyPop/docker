@@ -40,6 +40,11 @@ services:
       efk-net:
         aliases:
           - elasticsearch
+    healthcheck:
+      test: curl --cacert $CERTS_DIR/ca/ca.crt -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
     logging:
       driver: json-file
       options:
@@ -80,6 +85,11 @@ services:
       - elastic-backup:/backup
       - es-certs:$CERTS_DIR
       - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    healthcheck:
+      test: curl --cacert $CERTS_DIR/ca/ca.crt -s https://localhost:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
     logging:
       driver: json-file
       options:

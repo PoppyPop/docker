@@ -7,6 +7,11 @@ services:
     labels:
       nginx_proxy_companion.nginx_proxy: ""
       fluentd-tag: nginx
+      co.elastic.logs/module: nginx 
+      co.elastic.logs/fileset.stdout: access
+      co.elastic.logs/fileset.stderr: error
+      co.elastic.metrics/module: nginx
+      co.elastic.metrics/hosts: "${data.host}:${data.port}"
 #    environment:
 #      - TZ=Europe/Paris
     ports:

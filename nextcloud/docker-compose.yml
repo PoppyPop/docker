@@ -37,6 +37,11 @@ services:
     image: nginx:alpine
     labels:
       fluentd-tag: nginx
+      co.elastic.logs/module: nginx 
+      co.elastic.logs/fileset.stdout: access
+      co.elastic.logs/fileset.stderr: error
+      co.elastic.metrics/module: nginx
+      co.elastic.metrics/hosts: "${data.host}:${data.port}"
     volumes:
       - nextcloud-base:/var/www/html:ro
       - nextcloud-nginx:/etc/nginx/conf.d:ro
