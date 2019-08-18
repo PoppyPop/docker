@@ -3,6 +3,8 @@ services:
   elastic1:
     #image: amazon/opendistro-for-elasticsearch:0.10.0
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    labels:
+      co.elastic.logs/module: elasticsearch 
     env_file:
       - env/elastic.env
     environment:
@@ -19,6 +21,7 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/elastic1/elastic1.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/elastic1/elastic1.key
+      - xpack.security.audit.enabled=true
     ulimits:
       memlock:
         soft: -1
@@ -54,6 +57,8 @@ services:
   elastic2:
     #image: amazon/opendistro-for-elasticsearch:0.10.0
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.0
+    labels:
+      co.elastic.logs/module: elasticsearch
     env_file:
       - env/elastic.env
     environment:
@@ -69,6 +74,7 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/elastic2/elastic2.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/elastic2/elastic2.key
+      - xpack.security.audit.enabled=true
     ulimits:
       memlock:
         soft: -1
@@ -132,6 +138,9 @@ services:
   kibana:
     #image: amazon/opendistro-for-elasticsearch-kibana:0.10.0
     image: docker.elastic.co/kibana/kibana:7.3.0
+    labels:
+      co.elastic.logs/module: kibana
+      co.elastic.logs/fileset: log
     environment:
       - ELASTICSEARCH_HOSTS=https://elasticsearch:9200
       - ELASTICSEARCH_USERNAME=kibana
@@ -152,6 +161,27 @@ services:
       - es-certs:$CERTS_DIR
     expose:
       - 5601
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
+  filebeat:
+    #image: amazon/opendistro-for-elasticsearch-kibana:0.10.0
+    image: docker.elastic.co/beats/filebeat:7.3.0
+    depends_on:
+      - elastic1
+      - elastic2
+    networks:
+      - efk-net
+    volumes:
+      - es-certs:/certs
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+    command: 'filebeat -e -strict.perms=false -E output.elasticsearch.hosts=["elastic1:9200"] -E output.elasticsearch.protocol=https -E output.elasticsearch.username="Filebeat" -E output.elasticsearch.password="Pk7r2TP5p7owA3" -E output.elasticsearch.ssl.certificate_authorities=["/certs/ca/ca.crt"]'
+    user: root
     logging:
       driver: json-file
       options:
