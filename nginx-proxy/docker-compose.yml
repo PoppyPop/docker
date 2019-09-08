@@ -80,6 +80,7 @@ services:
       - "CERTBOT_ACCOUNT=skytep@gmail.com"
     volumes:
       - letsencrypt:/etc/letsencrypt
+      - letsencrypt-lib:/var/lib/letsencrypt
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
     depends_on:
       - nginx
@@ -101,6 +102,7 @@ volumes:
   ngproxy-vhost:
     external: true
   html:
+  letsencrypt-lib:
 
 networks:
   default:
