@@ -78,8 +78,3 @@ ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((rete
 ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((retentionweek+1)) | xargs -I {} rm -- {}
 ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((retentionmonth+1)) | xargs -I {} rm -- {}
 
-
-# Clean orphans
-#find "$dest/daily/" -type f -mtime +$((retentionday*retentionfactor)) -exec rm -rf {} \;
-#find "$dest/weekly/" -type f -mtime +$((retentionweek*7*retentionfactor)) -exec rm -rf {} \;
-#find "$dest/monthly/" -type f -mtime +$((retentionmonth*30*retentionfactor)) -exec rm -rf {} \;

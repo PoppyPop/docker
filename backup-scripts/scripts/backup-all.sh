@@ -23,6 +23,10 @@ ${src}/sensitiveconf/backup-sensitive.sh
 echo "Docker"
 ${src}/docker/backup-docker-volumes.sh
 
+# Docker
+echo "Clean"
+${src}/backup-clean.sh
+
 # End : Sync to gdrive
 echo "GSync"
 ${src}/gdrive-sync.sh
