@@ -57,7 +57,6 @@ services:
   pdns-companion:
     image: poppypop/docker-pdns-nginx-proxy-companion
     volumes:
-      - alpine-certs:/etc/ssl/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy-net
@@ -81,7 +80,6 @@ services:
       - "CERTBOT_ACCOUNT=skytep@gmail.com"
     volumes:
       - letsencrypt:/etc/letsencrypt
-      - alpine-certs:/etc/ssl/certs:ro
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
     depends_on:
       - nginx
@@ -96,8 +94,6 @@ services:
 
 volumes:
   letsencrypt:
-    external: true
-  alpine-certs:
     external: true
   ngproxy-tmpl:
     external: true

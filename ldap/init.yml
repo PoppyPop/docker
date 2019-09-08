@@ -4,14 +4,13 @@ services:
   openldap:
     image: poppypop/docker-openldap
     env_file:
-      - openldap/slapd.env
+      #- openldap/slapd.env
       - openldap/slapd.ssl.env
-    environment:
-      - SLAPCONFIG=/etc/openldap/config.ldif
+    #environment:
+      #- SLAPCONFIG=/etc/openldap/config.ldif
       #- DEBUG=1
     volumes:
-      - alpine-certs:/etc/ssl/certs:ro
-      - openldap-certs:/etc/ssl/ldap:ro
+      - letsencrypt:/etc/letsencrypt:ro
       - openldap-data:/var/lib/openldap/openldap-data
       - openldap-config:/etc/openldap/slapd.d
       - ${PWD}/openldap/config.ldif:/etc/openldap/config.ldif:ro
@@ -21,7 +20,5 @@ volumes:
     external: true
   openldap-config:
     external: true
-  openldap-certs:
-    external: true  
-  alpine-certs:
-    external: true 
+  letsencrypt:
+    external: true

@@ -1,9 +1,0 @@
-{{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
-  {{ range $index, $container := $containers }}
-    
-      {{ $container.Env.VIRTUAL_HOST }}
-	  {{ $genSSL := $container.Env.GEN_SSL }}
-    {{ if $genSSL }}
-	{{ end }}
-  {{ end }}
-{{ end }}

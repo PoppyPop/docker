@@ -40,7 +40,6 @@ services:
       - env/kea.env
     volumes:
       - kea-socket:/run/kea/sockets/
-      - alpine-certs:/etc/ssl/certs:ro
       - kea-conf:/etc/kea/
     network_mode: "host"
     environment:
@@ -77,8 +76,6 @@ services:
 
 volumes:
   kea-pgsql:
-    external: true
-  alpine-certs:
     external: true
   kea-socket:
   kea-conf:

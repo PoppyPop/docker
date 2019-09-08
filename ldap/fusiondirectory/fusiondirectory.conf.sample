@@ -18,7 +18,7 @@
     <!-- Location definition -->
     <location name="default"
     >
-        <referral URI="ldaps://openldap:636/{SUFFIX}"
+        <referral URI="ldaps://ldap.mo-ot.fr:636/{SUFFIX}"
                         adminDn="{ROOTDN}"
                         adminPassword="{ROOTPW}" />
     </location>
