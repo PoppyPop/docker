@@ -37,9 +37,10 @@ else
 	dest="$3"
 fi
 
-retentionday=8
+retentionday=7
 retentionweek=4
 retentionmonth=2
+retentionfactor=2
 ext="tar.bz2"
 
 # Setup variables for the archive filename.
@@ -73,7 +74,12 @@ fi
 backup $backup_files $dest/daily/$day_file 
 
 # Clean old backup
-ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionday | xargs -I {} rm -- {}
-ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionweek | xargs -I {} rm -- {}
-ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$retentionmonth | xargs -I {} rm -- {}
+ls -tp "$dest/daily/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((retentionday+1)) | xargs -I {} rm -- {}
+ls -tp "$dest/weekly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((retentionweek+1)) | xargs -I {} rm -- {}
+ls -tp "$dest/monthly/$backup_name"* 2>/dev/null | grep -v '/$' | tail -n +$((retentionmonth+1)) | xargs -I {} rm -- {}
 
+
+# Clean orphans
+#find "$dest/daily/" -type f -mtime +$((retentionday*retentionfactor)) -exec rm -rf {} \;
+#find "$dest/weekly/" -type f -mtime +$((retentionweek*7*retentionfactor)) -exec rm -rf {} \;
+#find "$dest/monthly/" -type f -mtime +$((retentionmonth*30*retentionfactor)) -exec rm -rf {} \;

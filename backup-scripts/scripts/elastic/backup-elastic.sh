@@ -3,9 +3,7 @@
 
 src=${BASH_SOURCE%/*}
 
-curator --config ${src}/config.yml ${src}/backup.yml
-
-backupsrc=/srv/backs/efk
+backupsrc=/srv/datas/efk
 backupdir=/srv/backs
 
 # Test Folder
@@ -13,13 +11,13 @@ if [ ! -d "$backupdir" ]; then
   mkdir -p $backupdir
 fi
 
+curator --config ${src}/config.yml ${src}/backup.yml
+
 # Add New Backup
 /srv/scripts/backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then
-	rm -rf $backupsrc/*
-
 	echo "Elastic: Ok"
 else
     echo "Elastic: Fail"  

@@ -7,10 +7,10 @@ sudo docker network create --opt com.docker.network.driver.mtu=9000 efk-net
 sudo mkdir -p /srv/confs/efk
 
 # Backup
-sudo mkdir -p /srv/backs/efk
+sudo mkdir -p /srv/datas/efk
 
-sudo setfacl -R -m u:1000:rwX /srv/backs/efk
-sudo setfacl -R -m mask:rwX /srv/backs/efk
+sudo setfacl -R -m u:1000:rwX /srv/datas/efk
+sudo setfacl -R -m mask:rwX /srv/datas/efk
 
 sudo cp -f docker-compose.yml /srv/confs/efk/
 sudo cp -f .env /srv/confs/efk/
