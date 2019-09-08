@@ -15,6 +15,10 @@ ${src}/elastic/backup-elastic.sh
 echo "Web"
 ${src}/web/backup-web.sh
 
+# Sensitive
+echo "Sensitive"
+${src}/sensitiveconf/backup-sensitive.sh
+
 # Docker
 echo "Docker"
 ${src}/docker/backup-docker-volumes.sh
