@@ -5,8 +5,6 @@ volumes:
     external: true
   letsencrypt:
     external: true
-  alpine-certs:
-    external: true
 
 services:
   aria2:
