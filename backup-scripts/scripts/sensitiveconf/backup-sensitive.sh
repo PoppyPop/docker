@@ -3,7 +3,7 @@
 
 backupdir=/srv/backs
 backupsrc=/srv/datas/sensitive
-configdir=/home/poppy/git/docker
+configdir=/opt/poppypop/docker
 
 mkdir -p "$backupsrc"
 
