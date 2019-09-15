@@ -7,7 +7,9 @@ configdir=/opt/poppypop/docker
 
 mkdir -p "$backupsrc"
 
-find "$configdir" -name "*.env" -not -path "*sample*" -exec cp {} "$backupsrc"  \;
+#find "$configdir" -name "*.env" -not -path "*sample*" -exec cp --parents \{\} "$backupsrc"  \;
+
+rsync -am --include '*.env' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
 
 # Add New Backup
 /srv/scripts/backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"
