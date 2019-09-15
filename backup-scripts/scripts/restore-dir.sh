@@ -9,9 +9,15 @@ getLatestFile () {
 	local suffix=$2
 	
 	local latest
-	
+	unset -v latest
+		
 	for file in "$dir/$suffix"*; do
-		[[ $file -nt $latest ]] && latest=$file
+		if [ -z "$latest" ]; then
+			latest=$file
+		fi
+		if [ $file -nt $latest ]]; then
+			latest=$file
+		fi
 	done
 	echo "$latest"
 }
@@ -39,6 +45,7 @@ else
 fi
 
 archive=$( getLatestFile $restore_src $archive_name )
+#getLatestFile $restore_src $archive_name
 
 if [ ! -z ${archive+x} ]; then
 	tar -C "$restore_dest" --keep-newer-files -xjf "$archive"

@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+src=${BASH_SOURCE%/*}
+
 backupdir=/srv/backs
 backupsrc=/srv/datas/sensitive
 configdir=/opt/poppypop/docker
@@ -12,7 +14,7 @@ mkdir -p "$backupsrc"
 rsync -am --include '*.env' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
 
 # Add New Backup
-/srv/scripts/backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"
+$src/../backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then
