@@ -25,7 +25,7 @@ ${src}/elastic/restore-elastic.sh $backupDir
 # Web
 # Need config restore before
 echo "Web"
-# ${src}/web/restore-web.sh $backupDir
+${src}/web/restore-web.sh $backupDir
 
 # Docker
 # Need config restore before
