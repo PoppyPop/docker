@@ -14,7 +14,7 @@ fi
 curator --config ${src}/config.yml ${src}/backup.yml
 
 # Add New Backup
-/srv/scripts/backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
+$src/../backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then

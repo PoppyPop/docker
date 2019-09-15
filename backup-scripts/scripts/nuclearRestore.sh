@@ -18,13 +18,16 @@ echo "Sensitive"
 ${src}/sensitiveconf/restore-sensitive.sh $backupDir
 
 # Elastic
+# Need config restore before
 echo "Elastic"
-# ${src}/elastic/restore-elastic.sh $backupDir
+${src}/elastic/restore-elastic.sh $backupDir
 
 # Web
+# Need config restore before
 echo "Web"
 # ${src}/web/restore-web.sh $backupDir
 
 # Docker
+# Need config restore before
 echo "Web"
 # ${src}/docker/restore-docker.sh $backupDir
