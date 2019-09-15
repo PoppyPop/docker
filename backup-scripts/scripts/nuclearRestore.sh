@@ -17,6 +17,10 @@ read -p "Start restore ? (Ctrl-C to stop)"
 echo "Sensitive"
 ${src}/sensitiveconf/restore-sensitive.sh $backupDir
 
+# Restore Docker config (/srv/conf + ...)
+echo "Docker Config"
+#${src}/docker-config/restore-docker-config.sh $backupDir
+
 # Elastic
 # Need config restore before
 echo "Elastic"
@@ -29,5 +33,5 @@ ${src}/web/restore-web.sh $backupDir
 
 # Docker
 # Need config restore before
-echo "Web"
-# ${src}/docker/restore-docker.sh $backupDir
+echo "Docker Volume"
+${src}/docker/restore-docker-volumes.sh $backupDir

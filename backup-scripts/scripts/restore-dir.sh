@@ -9,15 +9,11 @@ getLatestFile () {
 	local suffix=$2
 	
 	local latest
-	unset -v latest
 		
 	for file in "$dir/$suffix"*; do
-		if [ -z "$latest" ]; then
-			latest=$file
-		fi
-		if [ $file -nt $latest ]]; then
-			latest=$file
-		fi
+		if [ ! -e "$file" ]; then continue; fi
+		if [ -z "$latest" ]; then latest=$file; fi
+		if [ $file -nt $latest ]; then latest=$file; fi
 	done
 	echo "$latest"
 }
@@ -47,8 +43,9 @@ fi
 archive=$( getLatestFile $restore_src $archive_name )
 #getLatestFile $restore_src $archive_name
 
-if [ ! -z ${archive+x} ]; then
-	tar -C "$restore_dest" --keep-newer-files -xjf "$archive"
+if [ ! -z "$archive" ]; then
+	# --keep-newer-files (remplace -k mais pas compatible busybox)
+	tar -C "$restore_dest" -k -xj -f "$archive"
 else
 	echo "Restore $archive_name Failed : No archive matching"
 	exit 1
