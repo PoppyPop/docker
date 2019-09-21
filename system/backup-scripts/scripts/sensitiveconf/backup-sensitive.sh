@@ -11,7 +11,7 @@ mkdir -p "$backupsrc"
 
 #find "$configdir" -name "*.env" -not -path "*sample*" -exec cp --parents \{\} "$backupsrc"  \;
 
-rsync -am --include '*.env' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
+rsync -am --include '*.env' --include '*.conf' --include '*.db' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
 
 # Add New Backup
 $src/../backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"

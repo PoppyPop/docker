@@ -9,4 +9,6 @@ backupDir=$1
 if [ ! -d "$backupDir" ]; then
 	mkdir "$backupDir"
 	rclone copy --max-age 1d  gdsecret:/$(hostname -f)/daily/ "$backupDir"
+else
+	echo "Directory already exist, restore already in progress"
 fi
