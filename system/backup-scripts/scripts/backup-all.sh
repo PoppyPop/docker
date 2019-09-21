@@ -27,6 +27,6 @@ ${src}/docker/backup-docker-volumes.sh
 echo "Clean"
 ${src}/backup-clean.sh
 
-# End : Sync to gdrive
-echo "GSync"
-${src}/gdrive-sync.sh
+# End : Sync to remote
+echo "Sync"
+${src}/backup-sync.sh

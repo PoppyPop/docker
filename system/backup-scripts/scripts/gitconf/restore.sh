@@ -1,7 +1,6 @@
 #!/bin/bash
 #
 
-
 # Restore volume
 find /opt/poppypop/docker/ -name 'volumes.sh' -exec sh {} \;
 

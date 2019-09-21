@@ -5,33 +5,31 @@ src=${BASH_SOURCE%/*}
 
 backupDir=~/restorefile
 
-# Restore Baskup file
-if [ ! -d "$backupDir" ]; then
-	mkdir "$backupDir"
-	rclone copy --max-age 1d  gdsecret:/$(hostname -f)/daily/ "$backupDir"
-fi
+# Restore backup files
+echo "Restore backup files"
+${src}/restore-downloadBackup.sh $backupDir
 
 read -p "Start restore ? (Ctrl-C to stop)"
 
 # Sensitive
-echo "Sensitive"
+read -p  "Sensitive (Press to start)"
 ${src}/sensitiveconf/restore-sensitive.sh $backupDir
 
-# Restore Docker config (/srv/conf + ...)
-echo "Docker Config"
-#${src}/docker-config/restore-docker-config.sh $backupDir
+# gitConf
+read -p  "Git Conf (Press to start)"
+${src}/gitconf/restore.sh
 
 # Elastic
 # Need config restore before
-echo "Elastic"
+read -p  "Elastic (Press to start)"
 ${src}/elastic/restore-elastic.sh $backupDir
 
 # Web
 # Need config restore before
-echo "Web"
+read -p  "Web (Press to start)"
 ${src}/web/restore-web.sh $backupDir
 
 # Docker
 # Need config restore before
-echo "Docker Volume"
+read -p  "Docker Volume (Press to start)"
 ${src}/docker/restore-docker-volumes.sh $backupDir
