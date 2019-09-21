@@ -7,7 +7,7 @@ backupdir=/srv/backs
 backupsrc=/srv/datas/web
 
 # Add New Backup
-$src/../backup-dir.sh "local-web" "$backupsrc" "$backupdir"
+sudo $src/../backup-dir.sh "local-web" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then

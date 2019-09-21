@@ -8,13 +8,13 @@ backupdir=/srv/backs
 
 # Test Folder
 if [ ! -d "$backupdir" ]; then
-  mkdir -p $backupdir
+  sudo mkdir -p $backupdir
 fi
 
 curator --config ${src}/config.yml ${src}/backup.yml
 
 # Add New Backup
-$src/../backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
+sudo $src/../backup-dir.sh "local-elastic" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then

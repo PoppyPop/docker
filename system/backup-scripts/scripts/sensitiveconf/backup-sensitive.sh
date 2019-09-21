@@ -7,14 +7,14 @@ backupdir=/srv/backs
 backupsrc=/srv/datas/sensitive
 configdir=/opt/poppypop/docker
 
-mkdir -p "$backupsrc"
+sudo mkdir -p "$backupsrc"
 
 #find "$configdir" -name "*.env" -not -path "*sample*" -exec cp --parents \{\} "$backupsrc"  \;
 
-rsync -am --include '*.env' --include '*.conf' --include '*.db' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
+sudo rsync -am --include '*.env' --include '*.conf' --include '*.db' --exclude '*sample*' --include='*/' --exclude '*' "$configdir" "$backupsrc"
 
 # Add New Backup
-$src/../backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"
+sudo $src/../backup-dir.sh "local-sensitive" "$backupsrc" "$backupdir"
 
 if [ $? -eq 0 ]
 then
