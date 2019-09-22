@@ -10,7 +10,10 @@ processors:
 - add_cloud_metadata:
 
 output.elasticsearch:
-  hosts: ['yugo.mo-ot.fr:9200']
+  hosts: ['https://yugo.mo-ot.fr:9200']
+  ssl.verification_mode: "none"
+  username: "beats_system"
+  password: "XCKR8gqzbVTxwLRUTLAa"
   
 setup.kibana:
   host: "kibana.mo-ot.fr:443"
