@@ -7,7 +7,7 @@ restore_src=$1
 archive_name="local-sensitive"
 restore_dest=/opt/poppypop/
 
-$src/../restore-dir.sh $archive_name "$restore_src" "$restore_dest"
+sudo $src/../restore-dir.sh $archive_name "$restore_src" "$restore_dest"
 
 if [ $? -eq 0 ]
 then
@@ -21,5 +21,5 @@ read -p "Change owner to: [empty does nothing] " newowner
 
 if [ ! -z "$newowner" ]; then
 	echo "Changing to $newowner"
-	chown -R $newowner:$newowner "$restore_dest"
+	sudo chown -R $newowner:$newowner "$restore_dest"
 fi

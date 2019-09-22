@@ -16,6 +16,5 @@ setup.kibana:
   host: "kibana.mo-ot.fr:443"
   protocol: "https"
   ssl.enabled: true
-  ssl.certificate_authorities: ["/etc/pki/root/ca.pem", "/etc/pki/root/int.pem"]
   
 setup.dashboards.enabled: true

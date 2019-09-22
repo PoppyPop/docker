@@ -8,8 +8,6 @@ services:
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
       - /:/hostfs:ro
       - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
-      - ./ca.pem:/etc/pki/root/ca.pem
-      - ./int.pem:/etc/pki/root/int.pem
     network_mode: "host"
     logging:
       driver: json-file

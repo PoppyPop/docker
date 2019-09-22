@@ -4,6 +4,9 @@
 # Fail on error
 set -e
 
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
 getLatestFile () {
 	local dir=$1
 	local suffix=$2
@@ -19,7 +22,7 @@ getLatestFile () {
 }
 
 if [ -z "$1" ]; then
-	echo "Archive is mandatory"
+	echo -e "${RED}Archive is mandatory${NC}"
 	exit 1
 fi
 
@@ -47,7 +50,7 @@ if [ ! -z "$archive" ]; then
 	# --keep-newer-files (remplace -k mais pas compatible busybox)
 	tar -C "$restore_dest" -k -xj -f "$archive"
 else
-	echo "Restore $archive_name Failed : No archive matching"
+	echo -e "${RED}Restore $archive_name Failed : No archive matching${NC}"
 	exit 1
 fi
 

@@ -8,8 +8,6 @@ services:
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
       - /:/hostfs:ro
       - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
-      - ./ca.pem:/etc/pki/root/ca.pem:ro
-      - ./int.pem:/etc/pki/root/int.pem:ro
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     user: root
     network_mode: "host"
