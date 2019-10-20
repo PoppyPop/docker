@@ -33,6 +33,9 @@ services:
       - TZ=Europe/Paris
       - IPAM_DATABASE_HOST=mariadb
       - SCAN_INTERVAL=1h
+    networks:
+      - default
+      - webbackend    
     restart: unless-stopped
 
 volumes:
