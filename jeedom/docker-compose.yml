@@ -25,6 +25,7 @@ services:
       - jeedom-datas:/var/www/html
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/ttyACM0:/dev/ttyACM0
 #    ports:
 #      - 9022:22
     networks:
