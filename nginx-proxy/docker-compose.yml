@@ -72,7 +72,28 @@ services:
       options:
         max-size: "50m"
         max-file: "7"
-    
+
+  nsupdate-companion:
+    image: poppypop/docker-gen-nsupdate
+    command: -watch -notify /nsupdate/nsupdate.sh /nsupdate/nsupdate.tmpl /tmp/nsupdate.raw
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - nsupdate-tmpl:/nsupdate:ro
+    networks:
+      - proxy-net
+    depends_on:
+      - nginx
+    environment:
+      - "ENDPOINT=10.0.2.2"
+      - "HOST_IP=10.0.1.10"
+    env_file:
+      - /srv/confs/nginx-proxy/env/nsupdate.env
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+        
   certbot-companion:
     image: poppypop/docker-certbot-nginx-proxy-companion
     command: -notify /certbot/notify.sh -notify-output -notify-sighup nginx-proxy -interval 86400 -wait 300s:500s -watch /certbot/certbot-san.sh.tmpl /certbot/certbot.sh
@@ -103,7 +124,9 @@ volumes:
     external: true
   html:
   letsencrypt-lib:
-
+  nsupdate-tmpl:
+    external: true  
+  
 networks:
   default:
     driver_opts:

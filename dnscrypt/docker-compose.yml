@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  dnscrypt:
+    image: atemu12/dnscrypt-proxy-2
+    volumes:
+      - dnscrypt-datas:/config
+    ports:
+      - 53:53
+      - 53:53/udp
+    networks:
+      - proxy-net
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "7"
+
+volumes:
+  dnscrypt-datas:
+    external: true
+
+networks:
+  proxy-net:
+    external: true

@@ -1,0 +1,21 @@
+server ${ENDPOINT}
+{{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
+  {{ range $index, $value := $containers }}
+  {{ $publishDns := $value.Env.PUBLISH_DNS }}
+  {{ if $publishDns }}
+    
+    update delete {{ $value.Env.VIRTUAL_HOST }} A
+    update add {{ $value.Env.VIRTUAL_HOST }} 86400 A ${HOST_IP}
+    
+    {{ $publishDnsTxt := $value.Env.PUBLISH_DNS_TXT }}
+    {{ if $publishDnsTxt }}
+    
+      update delete {{ $value.Env.VIRTUAL_HOST }} TXT
+      update add {{ $value.Env.VIRTUAL_HOST }} 86400 TXT "NG {{ $value.Name }} ${TS}"
+        
+    {{ end }}
+
+  {{ end }}
+  {{ end }}
+{{ end }}
+send
