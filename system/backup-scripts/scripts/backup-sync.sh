@@ -6,7 +6,7 @@
 
 # --drive-use-trash=false
 
-sudo rclone sync /srv/backs/ gdsecret:$(hostname -f)
+sudo rclone sync --drive-use-trash=false /srv/backs/ gdsecret:$(hostname -f)
 
 if [ $? -eq 0 ] 
 then
