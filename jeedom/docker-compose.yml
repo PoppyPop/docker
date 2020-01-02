@@ -26,6 +26,7 @@ services:
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/ttyACM0:/dev/ttyACM0
+#      - /dev/ttyACM1:/dev/ttyACM1
 #    ports:
 #      - 9022:22
     networks:

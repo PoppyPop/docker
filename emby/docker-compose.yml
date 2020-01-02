@@ -19,7 +19,7 @@ services:
       - 7359:7359/udp # Discover
       - 1900:1900 # DLNA
       - 1900:1900/udp # DLNA
-      #- 8096:8096
+      - 8096:8096
       #- 8920:8920
     devices:
       - "/dev/dri/renderD128:/dev/dri/renderD128"

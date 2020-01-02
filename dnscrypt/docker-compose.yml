@@ -5,11 +5,12 @@ services:
     image: atemu12/dnscrypt-proxy-2
     volumes:
       - dnscrypt-datas:/config
-    ports:
-      - 53:53
-      - 53:53/udp
-    networks:
-      - proxy-net
+    #ports:
+    #  - 53:53
+    #  - 53:53/udp
+    network_mode: "host"
+    #networks:
+    #  - proxy-net
     logging:
       driver: json-file
       options:
@@ -20,6 +21,6 @@ volumes:
   dnscrypt-datas:
     external: true
 
-networks:
-  proxy-net:
-    external: true
+#networks:
+#  proxy-net:
+#    external: true
