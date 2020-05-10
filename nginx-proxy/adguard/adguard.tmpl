@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+
+{{ range $host, $containers := groupByMulti $ "Env.VIRTUAL_HOST" "," }}
+  {{ range $index, $value := $containers }}
+  {{ $publishDns := $value.Env.PUBLISH_DNS }}
+  {{ if $publishDns }}
+    
+    curl -L -s -X POST --connect-timeout 2 -m 5 --data "{\"domain\":\"{{ $value.Env.VIRTUAL_HOST }}\",\"answer\":\"${HOST_DEST}\"}" -H "Authorization: Basic ${BEARER}" ${ENDPOINT}/control/rewrite/delete
+    curl -L -s -X POST --connect-timeout 2 -m 5 --data "{\"domain\":\"{{ $value.Env.VIRTUAL_HOST }}\",\"answer\":\"${HOST_DEST}\"}" -H "Authorization: Basic ${BEARER}" ${ENDPOINT}/control/rewrite/add
+    echo
+
+  {{ end }}
+  {{ end }}
+{{ end }}

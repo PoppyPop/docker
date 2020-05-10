@@ -54,19 +54,40 @@ services:
         max-size: "50m"
         max-file: "7"
 
-  pdns-companion:
-    image: poppypop/docker-pdns-nginx-proxy-companion
+#  pdns-companion:
+#    image: poppypop/docker-pdns-nginx-proxy-companion
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    networks:
+#      - proxy-net
+#    depends_on:
+#      - nginx
+#    environment:
+#      - "ENDPOINT=https://dns-api.mo-ot.fr"
+#      - "HOST_IP=10.0.1.10"
+#    env_file:
+#      - /srv/confs/pdns/env/pdns-api.env
+#    logging:
+#      driver: json-file
+#      options:
+#        max-size: "50m"
+#        max-file: "7"
+
+  adguard-companion:
+    image: poppypop/docker-gen-nsupdate
+    command: -watch -notify /adguard/adguard.sh /adguard/adguard.tmpl /tmp/adguard.sh
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - adguard-tmpl:/adguard:ro
     networks:
       - proxy-net
     depends_on:
       - nginx
     environment:
-      - "ENDPOINT=https://dns-api.mo-ot.fr"
-      - "HOST_IP=10.0.1.10"
+      - "ENDPOINT=https://hass.mo-ot.fr:8053"
+      - "HOST_DEST=yugo.mo-ot.fr"
     env_file:
-      - /srv/confs/pdns/env/pdns-api.env
+      - /srv/confs/nginx-proxy/env/adguard.env
     logging:
       driver: json-file
       options:
@@ -125,7 +146,9 @@ volumes:
   html:
   letsencrypt-lib:
   nsupdate-tmpl:
-    external: true  
+    external: true 
+  adguard-tmpl:
+    external: true 
   
 networks:
   default:
